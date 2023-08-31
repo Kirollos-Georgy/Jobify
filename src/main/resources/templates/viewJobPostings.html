@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Jobify</title>
+  <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Jobify</h1>
+    <nav>
+      <ul>
+        <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
+        <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
+        <li><a href="">Applications</a></li>
+        <li><a href="">Interviews</a></li>
+        <li><a href="">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section id="search">
+  <div class="container">
+    <h2>Find your dream job today</h2>
+    <form th:action="@{/{email}/admin/students}" method="post">
+      <input type="text" placeholder="Search by job title" name="search">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</section>
+
+<section id="jobs">
+  <div class="container">
+    <h2>Featured Jobs</h2>
+  </div>
+</section>
+
+<section th:each="jobPosting : ${jobPosting}" class="job-box">
+  <h2><a th:href="@{/{email}/student/{id}(email=${email}, id=${jobPosting.getId()})}" th:text="${jobPosting.title}"></a></h2>
+  <p><strong>Company:</strong> <span th:text="${jobPosting.company}"></span></p>
+  <p><strong>Status:</strong> <span th:text="${jobPosting.status}"></span></p>
+  <p><strong>Location:</strong> <span th:text="${jobPosting.jobLocation}"></span></p>
+  <p><strong>Salary:</strong> <span th:text="${jobPosting.salary}"></span></p>
+  <p><strong>Deadline to apply:</strong> <span th:text="${jobPosting.deadline}"></span></p>
+  <p><span th:text="${jobPosting.description}"></span></p>
+</section>
+
+</body>
+</html>

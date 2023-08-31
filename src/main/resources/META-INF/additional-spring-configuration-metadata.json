@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "pring.datasource.url",
+      "type": "java.lang.String",
+      "description": "Description for pring.datasource.url."
+    },
+    {
+      "name": "spring.mvc.static-locations",
+      "type": "java.lang.String",
+      "description": "Description for spring.mvc.static-locations."
+    }
+  ] }

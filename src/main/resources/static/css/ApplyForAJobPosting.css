@@ -1,0 +1,170 @@
+/* Reset all margins, paddings, and box-sizing */
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Set the default background color, font-family, and font-size for the whole page */
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+/* Style the header */
+header {
+    background-color: #1845ad;
+    color: #fff;
+    padding: 20px 0;
+}
+
+/* Remove the bullets from the nav ul */
+nav ul {
+    list-style: none;
+}
+
+/* Display the nav items horizontally */
+nav ul li {
+    display: inline-block;
+}
+
+/* Style the nav links */
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+/* Add hover effect to the nav links */
+nav ul li a:hover {
+    background-color: #555;
+}
+
+/* Style the background shape */
+.background {
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%, 5 50%);
+    left: 50%;
+    top: 50%;
+}
+
+.background .shape {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+/* Style the first background shape */
+.shape:first-child {
+    background: linear-gradient(
+            #1845ad,
+            #23a2f6
+    );
+    left: -300px;
+    top: -290px;
+}
+
+/* Style the second background shape */
+.shape:last-child {
+    background: linear-gradient(
+            to right,
+            #ff512f,
+            #f09819
+    );
+    right: 150px;
+    bottom: 50px;
+}
+
+/* Style the form */
+form {
+    height: 580px;
+    width: 400px;
+    background-color: rgba(255, 255, 255, 0.13);
+    position: absolute;
+    transform: translate(-50%, -35%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 50px 35px;
+}
+
+/* Apply font, color, letter-spacing, outline and border to all form elements */
+form * {
+    font-family: 'Poppins', sans-serif;
+    color: black;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+/* Set max width and margin for container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Style the label element */
+label {
+    display: block;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin: 15px;
+}
+
+/* Style the h3 element inside the container */
+.container h3 {
+    color: orange;
+    text-align: center;
+    line-height: 1.5;
+    margin: 20px;
+}
+
+/* Style the submit button */
+.submit-btn {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    margin: 20px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+/* Styles for the header */
+header {
+    background-color: #1845ad;
+    color: #fff;
+    padding: 20px 0;
+}
+
+/* Styles for the navigation list */
+nav ul {
+    list-style: none;
+}
+
+/* Styles for each list item in the navigation */
+nav ul li {
+    display: inline-block;
+}
+
+/* Styles for each link in the navigation */
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+/* Styles for each link in the navigation when hovered over */
+nav ul li a:hover {
+    background-color: #555;
+}

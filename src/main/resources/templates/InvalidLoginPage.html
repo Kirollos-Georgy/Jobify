@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Error: Incorrect credentials</title>
+    <link href="/css/Index.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+
+    <style media="screen">
+
+    </style>
+    <link href="/css/CreatingUserProfile.css" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<form th:action="@{/login}" method="post">
+
+
+    <h3 style="color:orange;">Login</h3>
+
+
+    <br/>
+    <form th:action="@{/login}" method="post">
+        <table>
+            <tr>
+                <div class="form-group">
+                    <td>Email:</td>
+                    <td><input name="email"/></td>
+                </div>
+            </tr>
+            <tr>
+                <div class="form-group">
+                    <td>Password:</td>
+                    <td><input name="password" type="password"/></td>
+                </div>
+            </tr>
+            <tr>
+                <td/>
+                <button class="submit-btn" type="submit">Login</button>
+
+        </table>
+        <h2 style="color:red">Invalid email or password!</h2>
+
+    </form>
+
+
+</form>
+</body>
+</html>

@@ -1,0 +1,162 @@
+/*
+Setting padding and margin to 50 for all elements and their pseudo-elements.
+*/
+*, *:before, *:after {
+    padding: 50;
+    margin: 50;
+}
+
+/*
+Setting the background color of the body to white.
+*/
+body {
+    background-color: #ffffff;
+}
+
+/*
+Styling the background element with a width of 450px, height of 530px, and centered in the middle of the screen.
+*/
+.background {
+    width: 450px;
+    height: 530px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+
+/*
+Styling the shapes inside the background. The first shape is positioned at the top left with a gradient background, and the second shape is positioned at the bottom right with a different gradient background.
+*/
+.background .shape {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 100%;
+}
+
+.shape:first-child {
+    background: linear-gradient(#1845ad, #23a2f6);
+    left: -230px;
+    top: -130px;
+}
+
+.shape:last-child {
+    background: linear-gradient(to right, #ff512f, #f09819);
+    right: -230px;
+    bottom: -600px;
+}
+
+/*
+Styling the form element with a height of 1000px, width of 600px, and centered in the middle of the screen with a blurred background and a border. Padding is added to the top and left.
+*/
+form {
+    height: 1000px;
+    width: 600px;
+    background-color: rgba(255, 255, 255, 0.13);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 80%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(128, 128, 128, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 50px 35px;
+}
+
+/*
+Styling all elements within the form, setting their font family, color, and removing their outline and border.
+*/
+form * {
+    font-family: 'Poppins', sans-serif;
+    color: grey;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+/*
+Styling the form's header element with a font size of 32px, font weight of 500, line height of 42px, and centered text align.
+*/
+form h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+/*
+Styling the form labels with a font size of 16px, font weight of 500, and black color.
+*/
+label {
+    display: block;
+    color: black;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Styling for input fields */
+input {
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.05);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+/*  Styling for input placeholders*/
+::placeholder {
+    color: black;
+}
+
+/* Styling for submit button */
+button {
+    margin-top: 50px;
+    width: 100%;
+    background-color: green;
+    color: white;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Styling for social media icons */
+.social {
+    margin-top: 30px;
+    display: flex;
+}
+
+.social div {
+    background: red;
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 10px 10px 5px;
+    background-color: rgba(255, 255, 255, 0.27);
+    color: #eaf0fb;
+    text-align: center;
+}
+
+.social div:hover {
+    background-color: rgba(255, 255, 255, 0.47);
+}
+
+.social .fb {
+    margin-left: 25px;
+}
+
+.social i {
+    margin-right: 4px;
+}
+
+/* Styling for title element */
+title {
+    color: green;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Profile page </title>
+  <link rel="stylesheet" type="text/css" href="/css/EmployerHomePage.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Jobify</h1>
+    <nav>
+      <ul>
+        <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
+        <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
+        <li><a href="viewApplicationsServlet">Applications</a></li>
+        <li><a href="viewInterviewsServlet">Interviews</a></li>
+        <li><a href="AboutPage.jsp?account=student">About</a></li>
+
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<head>
+  <title>Profile page</title>
+  <link rel="stylesheet" type="text/css" href="/css/StudentHomePage.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <!--Stylesheet-->
+  <style media="screen">
+
+  </style>
+
+</head>
+
+<div class="background">
+  <div class="shape"></div>
+  <div class="shape"></div>
+</div>
+<form th:action="@{/{email}/student/profile(email=${email})}" method="post" enctype="multipart/form-data">
+
+
+  <h3 style="color:orange;"> User Profile </h3>
+
+  <div class="container">
+    <br/>
+    <form method="get" th:action="@{/{email}/student/profile(email=${email})}">
+      <div class="form-group">
+        <img th:src="'data:image/jpeg;base64,' + ${studentInformation.getProfilePictureBase64()}"
+             alt="Student profile picture" width="180" height="180"><br>
+        <h4>First Name: <span th:text="${studentInformation.getFirstName()}"></span></h4>
+        <h4>Last Name: <span th:text="${studentInformation.getLastName()}"></span></h4>
+        <h4>Email: <span th:text="${studentInformation.getEmail()}"></span></h4>
+        <h4>Engineering field of study: <span th:text="${studentInformation.getFieldOfStudy()}"></span></h4>
+        <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getResumeBase64()}"
+           target="_blank">Resume</a><br>
+        <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}"
+           target="_blank">Cover Letter</a><br>
+        <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}"
+           target="_blank">Transcript</a><br>
+        <button><a style="color:white;" th:href="@{/student/profile/edit}">Edit Profile Information<br></a></button>
+      </div>
+    </form>
+  </div>
+</form>
+</body>
+</html>

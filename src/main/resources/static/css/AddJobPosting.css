@@ -1,0 +1,357 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* body */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background-color: #1845ad;
+    color: #fff;
+    padding: 20px 0;
+}
+
+/* Navigation */
+nav ul {
+    list-style: none;
+}
+
+/* Styling for the navigation menu */
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+/* Styling for the search section */
+section#search {
+    background-color: #f5f5f5;
+    padding: 50px 0;
+}
+
+section#search h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+section#search form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styling for the search input */
+section#search input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    flex-grow: 1;
+}
+
+/* Styling for the search button */
+section#search button[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+/* Styling for the jobs section */
+section#jobs {
+    padding: 50px 0;
+}
+
+section#jobs h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+section#jobs .job {
+    background-color: #f5f5f5;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+section#jobs .job h3 {
+    margin-bottom: 10px;
+}
+
+section#jobs .job p {
+    margin-bottom: 20px;
+}
+
+section#jobs .job a {
+    background-color: green;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+section#jobs .job a:hover {
+    background-color: #555;
+}
+
+/* Styling for the employers section */
+section#employers {
+    background-color: #f5f5f5;
+    padding: 50px 0;
+}
+
+section#employers h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+section#employers p {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+section#employers a {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+section#employers a:hover {
+    background-color: #555;
+}
+
+/* Styling for the footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer p {
+    margin-bottom: 0;
+}
+
+/* Styling for the job details section */
+section#job-details {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    height: 100%;
+    width: 500px;
+    background-color: #f5f5f5;
+    padding: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: right 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.job-details-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.job-details {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+/* Reset default padding and margin for all elements */
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white; /* Sets the background color of the page to white */
+}
+
+.background {
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%, -50%); /* Centers the .background div */
+    left: 50%;
+    top: 50%;
+}
+
+.background .shape {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%; /* Sets the border-radius of the shapes to make them round */
+
+}
+
+.shape:first-child { /* Selects the first shape */
+    background: linear-gradient(
+            #1845ad, /* Starting color for the gradient */ #23a2f6 /* Ending color for the gradient */
+    );
+    left: -100px; /* Sets the position of the shape */
+    top: -30px;
+}
+
+.shape:last-child { /* Selects the last shape */
+    background: linear-gradient(
+            to right, /* Direction of the gradient */ #ff512f, /* Starting color for the gradient */ #f09819 /* Ending color for the gradient */
+    );
+    right: -90px; /* Sets the position of the shape */
+    bottom: -520px;
+}
+
+form {
+    height: 900px;
+    width: 400px;
+    background-color: rgba(255, 255, 255, 0.13); /* Sets the background color and opacity of the form */
+    position: absolute;
+    transform: translate(-50%, -30%); /* Centers the form */
+    top: 60%;
+    left: 50%;
+    border-radius: 10px; /* Sets the border-radius of the form to make it round */
+    backdrop-filter: blur(10px); /* Adds a blur effect to the background of the form */
+    border: 2px solid rgba(255, 255, 255, 0.1); /* Sets the border properties of the form */
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6); /* Adds a shadow effect to the form */
+    padding: 50px 35px; /* Sets the padding of the form */
+}
+
+form * {
+    font-family: 'Poppins', sans-serif; /* Sets the font-family of all the elements inside the form */
+    color: black; /* Sets the font color of all the elements inside the form */
+    letter-spacing: 0.5px; /* Sets the letter-spacing of all the elements inside the form */
+    outline: none; /* Removes the outline of all the elements inside the form */
+    border: none; /* Removes the border of all the elements inside the form */
+}
+
+form h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center; /* Centers the text of the h3 element */
+}
+
+label {
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+textarea {
+    display: block;
+    height: 100px;
+    width: 100%;
+    background-color: #e2e4e9;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+input {
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: #e2e4e9;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+::placeholder {
+    color: black;
+}
+
+button {
+    margin-top: 50px;
+    width: 100%;
+    background-color: green;
+    color: white;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* This section styles the social media icons */
+.social {
+    margin-top: 30px;
+    display: flex;
+}
+
+.social div {
+    background: red;
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 10px 10px 5px;
+    background-color: rgba(255, 255, 255, 0.27);
+    color: #eaf0fb;
+    text-align: center;
+}
+
+.social div:hover {
+    background-color: rgba(255, 255, 255, 0.47);
+}
+
+.social .fb {
+    margin-left: 25px;
+}
+
+.social i {
+    margin-right: 4px;
+}
+
+/* This section styles the title */
+title {
+    color: green;
+}
+
+/* This section styles the address form fields */
+#inputStreet {
+    width: 100%;
+}
+
+#inputCity {
+    width: 50%;
+}
+
+#inputState {
+    width: 30%;
+}
+
+#inputZip {
+    width: 28%;
+}

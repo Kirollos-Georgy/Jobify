@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create employer account</title>
+    <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<head>
+
+
+    <head>
+        <title>Create employer account</title>
+
+        <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.gstatic.com" rel="preconnect">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+        <!--Stylesheet-->
+        <style media="screen">
+
+        </style>
+
+
+    </head>
+
+
+<body>
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<form th:action="@{/signUp/{email}/employer(email=${email})}" method="post">
+
+
+    <h3 style="color:black;">Employer Profile</h3>
+
+    <p style="color:#FF8C00;">Please fill out the form below</p>
+
+
+    <div class="container">
+        <br/>
+        <form th:action="@{/signUp/{email}/employer(email=${email})}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input id="firstName" name="firstName" required type="text">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input id="lastName" name="lastName" required type="text">
+            </div>
+            <div class="form-group">
+                <label for="company">Company:</label>
+                <input id="company" name="company" required type="text">
+            </div>
+            <button class="submit-btn" type="submit">Submit</button>
+
+    </div>
+    <script src="script.js"></script>
+</form>
+
+</div>
+
+</body>
+</html>
