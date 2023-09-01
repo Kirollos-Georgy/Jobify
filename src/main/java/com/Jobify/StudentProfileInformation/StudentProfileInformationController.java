@@ -32,7 +32,6 @@ public class StudentProfileInformationController {
         modelMap.addAttribute("studentInformation", student);
         String email1 = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email1);
-        System.out.println(email1);
         return "StudentHomePage";
     }
 
