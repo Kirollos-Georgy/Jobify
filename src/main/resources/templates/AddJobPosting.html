@@ -13,8 +13,8 @@
         <nav>
             <ul>
                 <!-- Adding a blue bar on top in our website page that will include Home, Profile, Add jobs, Interviews and About buttons -->
-                <li><a href="viewCreatedJobPostingsServlet?interview=false">Home</a></li>
-                <li><a href="viewEmployerProfileServlet">Profile</a></li>
+                <li><a th:href="@{/{email}/employer(email=${email})}">Home</a></li>
+                <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
                 <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
                 <li><a href="viewCreatedJobPostingsServlet?interview=true">Interviews</a></li>
                 <li><a href="../../webapp/AboutPage.jsp?account=employer">About</a></li>
