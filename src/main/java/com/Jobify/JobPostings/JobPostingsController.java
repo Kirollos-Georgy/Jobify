@@ -36,7 +36,6 @@ public class JobPostingsController {
         modelMap.addAttribute("jobPosting", jobPostings);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        System.out.println(email);
         return "viewJobPostings";
     }
 
@@ -64,7 +63,7 @@ public class JobPostingsController {
         return jobPostingsService.getAllJobPostingsByEmployerAndStatus(email, status);
     }
 
-    @RequestMapping("/{email}/student/{id}")
+    @RequestMapping("/{email}/student/job-postings/{id}")
     public String getJobPostingForStudent(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
         JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());

@@ -33,15 +33,20 @@ public class ApplicationsController {
         return applicationsService.getAllApplications();
     }
 
-    @RequestMapping("/{email}/student/applications")
-    public String getAllApplicationsByStudentEmail(ModelMap modelMap, HttpServletRequest request) {
+    @RequestMapping("/{email}/student/{status}")
+    public String getAllApplicationsByStudentEmail(ModelMap modelMap, HttpServletRequest request, @PathVariable String status) {
         String email = (String) request.getSession().getAttribute("email");
-        List<Applications> applications = applicationsService.getAllApplicationsByStudentEmail(email);
+
+        if (status.equals("applications")) {
+            status = "Applied";
+        } else if (status.equals("interviews")) {
+            status = "Selected for interview";
+        }
+        List<Applications> applications = applicationsService.getAllApplicationsByStudentEmailAndStatus(email, status);
         List<JobPostings> jobPostings = new ArrayList<>();
         for (Applications application : applications) {
             jobPostings.add(jobPostingsService.getJobPosting(application.getJobPostingsID()));
         }
-        System.out.println(jobPostings.get(0).getEmail());
         modelMap.addAttribute("jobPosting", jobPostings);
         modelMap.addAttribute("email", email);
         return "viewJobPostings";
@@ -60,12 +65,6 @@ public class ApplicationsController {
     @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview")
     public List<Applications> getAllApplicationsByJobPostingIdAndStatus(@PathVariable long jobPostingId, @PathVariable String status) {
         return applicationsService.getAllApplicationsByJobPostingIdAndStatus(jobPostingId, status);
-    }
-
-    @RequestMapping("/{email}/student/interviews/selected-for-interview")
-    public List<Applications> getAllApplicationsByStudentEmailAndStatus(@PathVariable String email) {
-        return applicationsService.getAllApplicationsByStudentEmailAndStatus(email, "selected-for-interview");
-        //go to view job postings /jobify/{email}/student/{jobPostingsID}
     }
 
     @RequestMapping("/{email}/student/applications/{id}")
