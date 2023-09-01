@@ -1,28 +1,53 @@
 package com.Jobify.Applications;
 
+import com.Jobify.JobPostings.JobPostings;
+import com.Jobify.JobPostings.JobPostingsService;
+import com.Jobify.StudentProfileInformation.StudentProfileInformation;
+import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 public class ApplicationsController {
 
     @Autowired
     private ApplicationsService applicationsService;
+    @Autowired
+    private JobPostingsService jobPostingsService;
+    @Autowired
+    private StudentProfileInformationService studentProfileInformationService;
 
-    @RequestMapping("/jobify/{email}/admin/applications")
+    @RequestMapping("/{email}/admin/applications")
     public List<Applications> getAllApplications() {
         return applicationsService.getAllApplications();
     }
 
-    @RequestMapping("/jobify/{email}/student/applications")
-    public List<Applications> getAllApplicationsByStudentEmail(@PathVariable String email) {
-        return applicationsService.getAllApplicationsByStudentEmail(email);
-        //go to view job postings /jobify/{email}/student/{jobPostingsID}
+    @RequestMapping("/{email}/student/applications")
+    public String getAllApplicationsByStudentEmail(ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        List<Applications> applications = applicationsService.getAllApplicationsByStudentEmail(email);
+        List<JobPostings> jobPostings = new ArrayList<>();
+        for (Applications application : applications) {
+            jobPostings.add(jobPostingsService.getJobPosting(application.getJobPostingsID()));
+        }
+        System.out.println(jobPostings.get(0).getEmail());
+        modelMap.addAttribute("jobPosting", jobPostings);
+        modelMap.addAttribute("email", email);
+        return "viewJobPostings";
     }
 
-    @RequestMapping("/jobify/{email}/employer/{jobPostingId}/applications")
+    @RequestMapping("/{email}/employer/{jobPostingId}/applications")
     public List<Applications> getAllApplicationsByJobPostingId(@PathVariable long jobPostingId) {
         return applicationsService.getAllApplicationsByJobPostingId(jobPostingId);
     }
@@ -32,53 +57,113 @@ public class ApplicationsController {
         return applicationsService.getAllApplicationsByStatus(status);
     }*/
 
-    @RequestMapping("/jobify/{email}/employer/{jobPostingId}/applications/selected-for-interview")
+    @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview")
     public List<Applications> getAllApplicationsByJobPostingIdAndStatus(@PathVariable long jobPostingId, @PathVariable String status) {
         return applicationsService.getAllApplicationsByJobPostingIdAndStatus(jobPostingId, status);
     }
 
-    @RequestMapping("/jobify/{email}/student/interviews/selected-for-interview")
+    @RequestMapping("/{email}/student/interviews/selected-for-interview")
     public List<Applications> getAllApplicationsByStudentEmailAndStatus(@PathVariable String email) {
         return applicationsService.getAllApplicationsByStudentEmailAndStatus(email, "selected-for-interview");
         //go to view job postings /jobify/{email}/student/{jobPostingsID}
     }
 
-    @RequestMapping("/jobify/{email}/student/applications/{id}")
+    @RequestMapping("/{email}/student/applications/{id}")
     public Applications getApplicationStudent(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/jobify/{email}/student/applications/{status}/{id}")
+    @RequestMapping("/{email}/student/applications/{status}/{id}")
     public Applications getApplicationStudentWithStatus(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/jobify/{email}/employer/{jobPostingId}/applications/{id}")
+    @RequestMapping("/{email}/employer/{jobPostingId}/applications/{id}")
     public Applications getApplicationEmployer(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/jobify/{email}/employer/{jobPostingId}/applications/selected-for-interview/{id}")
+    @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview/{id}")
     public Applications getApplicationEmployerWithStatus(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/jobify/{email}/admin/applications/{id}")
+    @RequestMapping("/{email}/admin/applications/{id}")
     public Applications getApplicationForAdmin(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/jobify/{email}/student/{jobPostingId}/apply")
-    public void addApplication(@RequestBody Applications application) {
-        applicationsService.addApplication(application);
+    @RequestMapping("/{email}/student/{id}/apply")
+    public String applyForJobPostingForm(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
+        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        return "ApplyForAJobPosting";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/jobify/{email}/student/applications/{jobPostingId}/{id}/edit")
+    @RequestMapping(method=RequestMethod.POST, value="/{email}/student/{id}/apply")
+    public String applyForJobPosting(HttpServletRequest request, @PathVariable long id, ModelMap modelMap, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("default") String[] defaultInformation) {
+        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+        String email = (String) request.getSession().getAttribute("email");
+        StudentProfileInformation studentProfileInformation = studentProfileInformationService.getStudent(email);
+        Applications application = new Applications();
+
+        boolean defaultResume = false;
+        boolean defaultCoverLetter = false;
+        boolean defaultTranscript = false;
+
+        for (String s : defaultInformation) {
+            switch (s) {
+                case "defaultResume" -> defaultResume = true;
+                case "defaultCoverLetter" -> defaultCoverLetter = true;
+                case "defaultTranscript" -> defaultTranscript = true;
+            }
+        }
+        try {
+            if(!defaultResume) {
+                byte[] resumeBytes = resumeFile.getBytes();
+                Blob resumeBlob = new SerialBlob(resumeBytes);
+                application.setResume(resumeBlob);
+            }
+            else {
+                application.setResume(studentProfileInformation.getResume());
+            }
+            if (!defaultCoverLetter) {
+                byte[] coverLetterBytes = coverLetterFile.getBytes();
+                Blob coverLetterBlob = new SerialBlob(coverLetterBytes);
+                application.setCoverLetter(coverLetterBlob);
+            }
+            else {
+                application.setCoverLetter(studentProfileInformation.getCoverLetter());
+            }
+            if (!defaultTranscript) {
+                byte[] unofficialTranscriptBytes = unofficialTranscriptFile.getBytes();
+                Blob unofficialTranscriptBlob = new SerialBlob(unofficialTranscriptBytes);
+                application.setUnofficialTranscript(unofficialTranscriptBlob);
+            }
+            else {
+                application.setUnofficialTranscript(studentProfileInformation.getUnofficialTranscript());
+            }
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        application.setJobPostingsID(jobPosting.getId());
+        application.setStatus("Applied");
+        application.setStudentEmail(email);
+
+        applicationsService.addApplication(application);
+
+        return "redirect:/" + email + "/student";
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/student/applications/{jobPostingId}/{id}/edit")
     public void updateApplication(@RequestBody Applications application) {
         applicationsService.updateApplication(application);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/jobify/{email}/student/applications/{jobPostingId}/{id}/delete")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/student/applications/{jobPostingId}/{id}/delete")
     public void deleteApplication(@PathVariable long id) {
         applicationsService.deleteApplication(id);
     }
