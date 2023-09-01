@@ -28,10 +28,6 @@ public class JobPostingsController {
     private JobPostingsService jobPostingsService;
     @Autowired
     private EmployerProfileInformationService employerProfileInformationService;
-    @Autowired
-    private StudentProfileInformationService studentProfileInformationService;
-    @Autowired
-    private ApplicationsService applicationsService;
 
     //Works - not tested with multiple job postings
     @RequestMapping("/{email}/student")
@@ -77,71 +73,6 @@ public class JobPostingsController {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
         return "ViewAJobPosting";
-    }
-
-    @RequestMapping("/{email}/student/{id}/apply")
-    public String applyForJobPostingForm(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
-        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
-        modelMap.addAttribute("jobPosting", jobPosting);
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
-        return "ApplyForAJobPosting";
-    }
-
-    @RequestMapping(method=RequestMethod.POST, value="/{email}/student/{id}/apply")
-    public String applyForJobPosting(HttpServletRequest request, @PathVariable long id, ModelMap modelMap, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("default") String[] defaultInformation) {
-        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
-        String email = (String) request.getSession().getAttribute("email");
-        StudentProfileInformation studentProfileInformation = studentProfileInformationService.getStudent(email);
-        Applications application = new Applications();
-
-        boolean defaultResume = false;
-        boolean defaultCoverLetter = false;
-        boolean defaultTranscript = false;
-
-        for (String s : defaultInformation) {
-            switch (s) {
-                case "defaultResume" -> defaultResume = true;
-                case "defaultCoverLetter" -> defaultCoverLetter = true;
-                case "defaultTranscript" -> defaultTranscript = true;
-            }
-        }
-        try {
-            if(!defaultResume) {
-                byte[] resumeBytes = resumeFile.getBytes();
-                Blob resumeBlob = new SerialBlob(resumeBytes);
-                application.setResume(resumeBlob);
-            }
-            else {
-                application.setResume(studentProfileInformation.getResume());
-            }
-            if (!defaultCoverLetter) {
-                byte[] coverLetterBytes = coverLetterFile.getBytes();
-                Blob coverLetterBlob = new SerialBlob(coverLetterBytes);
-                application.setCoverLetter(coverLetterBlob);
-            }
-            else {
-                application.setCoverLetter(studentProfileInformation.getCoverLetter());
-            }
-            if (!defaultTranscript) {
-                byte[] unofficialTranscriptBytes = unofficialTranscriptFile.getBytes();
-                Blob unofficialTranscriptBlob = new SerialBlob(unofficialTranscriptBytes);
-                application.setUnofficialTranscript(unofficialTranscriptBlob);
-            }
-            else {
-                application.setUnofficialTranscript(studentProfileInformation.getUnofficialTranscript());
-            }
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        application.setJobPostingsID(jobPosting.getId());
-        application.setStatus("Applied");
-        application.setStudentEmail(email);
-
-        applicationsService.addApplication(application);
-
-        return "redirect:/" + email + "/student";
     }
 
     @RequestMapping("/{email}/employer/{id}")
