@@ -90,7 +90,6 @@ public class StudentProfileInformationController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{email}/student/profile/edit")
     public String updateStudent(HttpServletRequest request, StudentProfileInformation studentProfileInformation, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
-        System.out.println("It works till here");
         String email = (String) request.getSession().getAttribute("email");
         studentProfileInformation.setEmail(email);
         StudentProfileInformation studentProfileInformation1 = studentProfileInformationService.getStudent(email);
@@ -131,7 +130,6 @@ public class StudentProfileInformationController {
             throw new RuntimeException(e);
         }
 
-        System.out.println("It works till here");
         studentProfileInformationService.updateStudent(studentProfileInformation);
         return "redirect:/" + email + "/student/profile";
     }

@@ -61,9 +61,22 @@ public class EmployerProfileInformationController {
         return "redirect:/" + email + "/employer";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/employer/profile/edit")
-    public void updateEmployer(@RequestBody EmployerProfileInformation employerProfileInformation) {
+    @RequestMapping("/employer/profile/edit")
+    public String updateEmployeFormr(HttpServletRequest request, ModelMap modelMap) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        EmployerProfileInformation employer = employerProfileInformationService.getEmployer(email);
+        modelMap.addAttribute("employerInformation", employer);
+        return "EditingEmployerProfile";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{email}/employer/profile/edit")
+    public String updateEmployer(EmployerProfileInformation employerProfileInformation, @PathVariable String email, ModelMap modelMap, HttpServletRequest request) {
+        employerProfileInformation.setEmail(email);
+        String email1 = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email1);
         employerProfileInformationService.updateEmployer(employerProfileInformation);
+        return "redirect:/" + email + "/employer/profile";
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{email}/admin/view-employers/{employerEmail}/edit")

@@ -51,7 +51,7 @@
         <label style="color:black;">Last Name: <span th:text="${employerInformation.getLastName()}"></span></label>
         <label style="color:black;">Email: <span th:text="${employerInformation.getEmail()}"></span></label>
         <label style="color:black;">Company: <span th:text="${employerInformation.getCompany()}"></span></label>
-        <label><a style="color:blue;" href="editEmployerProfileServlet">Edit Profile Information<br></a></label>
+        <button><a style="color:white;" th:href="@{/employer/profile/edit}">Edit Profile Information<br></a></button>
     </div>
 </form>
 
