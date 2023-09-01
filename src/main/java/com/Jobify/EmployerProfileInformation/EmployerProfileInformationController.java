@@ -26,8 +26,12 @@ public class EmployerProfileInformationController {
     }
 
     @RequestMapping("/{email}/employer/profile")
-    public EmployerProfileInformation getEmployer(@PathVariable String email) {
-        return employerProfileInformationService.getEmployer(email);
+    public String getEmployer(@PathVariable String email, ModelMap modelMap, HttpServletRequest request) {
+        EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(email);
+        modelMap.addAttribute("employerInformation", employerProfileInformation);
+        String email1 = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email1);
+        return "EmployerHomePage";
     }
 
     @RequestMapping("/{email}/admin/view-employers/{employerEmail}")
