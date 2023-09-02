@@ -9,6 +9,7 @@ import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -74,9 +75,15 @@ public class JobPostingsController {
         return "ViewAJobPosting";
     }
 
-    @RequestMapping("/{email}/employer/{id}")
-    public JobPostings getJobPostingForEmployer(@PathVariable long id) {
-        return jobPostingsService.getJobPosting(id);
+    @RequestMapping("/{email}/employer/job-postings/{id}")
+    public String getJobPostingForEmployer(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
+        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+        EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("employer", employerProfileInformation);
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        return "ViewCreatedJobPosting";
     }
 
     @RequestMapping("/{email}/admin/job-postings/{id}")
