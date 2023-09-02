@@ -61,8 +61,7 @@
     <!-- button for editing job posting  -->
 
 
-    <button><a style="color:white;" href="editJobPostingServlet?jobPostingID=${id}&interview=${interview}">Edit Job
-        Posting<br></a></button>
+    <button><a style="color:white;" th:href="@{/employer/{id}/edit(id=${jobPosting.getId()})}">Edit Job Posting<br></a></button>
 
     <!-- button for removing job posting  -->
 
