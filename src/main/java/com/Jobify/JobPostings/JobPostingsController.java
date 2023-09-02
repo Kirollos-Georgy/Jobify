@@ -113,6 +113,27 @@ public class JobPostingsController {
     public void updateJobPosting(@RequestBody JobPostings jobPostings) {
         jobPostingsService.updateJobPosting(jobPostings);
     }
+    @RequestMapping("/employer/{id}/edit")
+    public String updateJobPostingForm(HttpServletRequest request, ModelMap modelMap, @PathVariable int id) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        return "EditJobPosting";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{email}/employer/{id}/edit")
+    public String updateJobPosting(JobPostings jobPosting, ModelMap modelMap, HttpServletRequest request, @PathVariable long id) {
+        String email = (String) request.getSession().getAttribute("email");
+        JobPostings jobPostingOld = jobPostingsService.getJobPosting(id);
+        jobPosting.setId(id);
+        jobPosting.setEmail(email);
+        jobPosting.setCompany(jobPostingOld.getCompany());
+        jobPosting.setStatus(jobPostingOld.getStatus());
+        modelMap.addAttribute("email", email);
+        jobPostingsService.updateJobPosting(jobPosting);
+        return "redirect:/" + email + "/employer/job-postings/" + jobPosting.getId();
+    }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{email}/admin/job-postings/{id}/edit")
     public void updateJobPostingFromAdmin(@RequestBody JobPostings jobPostings) {
