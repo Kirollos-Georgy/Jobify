@@ -62,7 +62,7 @@ public class EmployerProfileInformationController {
     }
 
     @RequestMapping("/employer/profile/edit")
-    public String updateEmployeFormr(HttpServletRequest request, ModelMap modelMap) {
+    public String updateEmployerForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
         EmployerProfileInformation employer = employerProfileInformationService.getEmployer(email);
