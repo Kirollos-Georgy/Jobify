@@ -55,8 +55,7 @@
     </div>
     <!-- button for View student applications  -->
 
-    <button><a style="color:white;" href="viewStudentApplicationsServlet?jobPostingID=${id}&interview=${interview}">View
-        student applications<br></a></button>
+    <button><a style="color:white;" th:href="@{/{email}/employer/{id}/applications(email=${email}, id=${jobPosting.getId()})}">View student applications<br></a></button>
 
     <!-- button for editing job posting  -->
 
