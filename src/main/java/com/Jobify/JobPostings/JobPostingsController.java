@@ -109,10 +109,6 @@ public class JobPostingsController {
         return "viewCreatedJobPostings";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/employer/{id}/edit")
-    public void updateJobPosting(@RequestBody JobPostings jobPostings) {
-        jobPostingsService.updateJobPosting(jobPostings);
-    }
     @RequestMapping("/employer/{id}/edit")
     public String updateJobPostingForm(HttpServletRequest request, ModelMap modelMap, @PathVariable int id) {
         String email = (String) request.getSession().getAttribute("email");
