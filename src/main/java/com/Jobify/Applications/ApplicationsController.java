@@ -6,6 +6,7 @@ import com.Jobify.StudentProfileInformation.StudentProfileInformation;
 import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -57,11 +58,14 @@ public class ApplicationsController {
         List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(jobPostingId);
         List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
         String email = (String) request.getSession().getAttribute("email");
+        JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
         for (Applications application : applications) {
             studentProfileInformation.add(studentProfileInformationService.getStudent(application.getStudentEmail()));
         }
         modelMap.addAttribute("email", email);
         modelMap.addAttribute("studentInformation", studentProfileInformation);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("applications", applications);
         return "ViewStudentApplications";
     }
 
@@ -86,8 +90,16 @@ public class ApplicationsController {
     }
 
     @RequestMapping("/{email}/employer/{jobPostingId}/applications/{id}")
-    public Applications getApplicationEmployer(@PathVariable long id) {
-        return applicationsService.getApplication(id);
+    public String getApplicationEmployer(@PathVariable long id, ModelMap modelMap, HttpServletRequest request, @PathVariable long jobPostingId) {
+        Applications application = applicationsService.getApplication(id);
+        String email = (String) request.getSession().getAttribute("email");
+        JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
+        StudentProfileInformation student = studentProfileInformationService.getStudent(application.getStudentEmail());
+        modelMap.addAttribute("email", email);
+        modelMap.addAttribute("application", application);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("studentInformation", student);
+        return "ViewAStudentInformation";
     }
 
     @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview/{id}")
