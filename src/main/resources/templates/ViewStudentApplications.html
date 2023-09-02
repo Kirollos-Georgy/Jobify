@@ -44,14 +44,12 @@
 </head>
 <!--  -->
 <body>
-    <div th:each="studentInformation : ${studentInformation}" class="job-box">
+    <div th:each="studentInformation, index : ${studentInformation}" class="job-box">
         <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ${studentInformation.getLastName()}"></span></p>
         <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
         <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
         <br>
-        <label><a
-                href="viewAStudentInformationServlet?studentEmail=<%=studentInformation.getEmail()%>&jobPostingID=${jobPostingID}">View
-            student full information<br></a></label><br>
+        <label><a th:href="@{/{email}/employer/{id}/applications/{applicationId}(email=${email}, id=${jobPosting.getId()}, applicationId=${applications[index.index].getId()})}">View student full information<br></a></label><br>
     </div>
 </body>
 </html>
