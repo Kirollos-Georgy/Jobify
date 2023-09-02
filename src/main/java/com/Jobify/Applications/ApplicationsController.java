@@ -53,8 +53,16 @@ public class ApplicationsController {
     }
 
     @RequestMapping("/{email}/employer/{jobPostingId}/applications")
-    public List<Applications> getAllApplicationsByJobPostingId(@PathVariable long jobPostingId) {
-        return applicationsService.getAllApplicationsByJobPostingId(jobPostingId);
+    public String getAllApplicationsByJobPostingId(@PathVariable long jobPostingId, ModelMap modelMap, HttpServletRequest request) {
+        List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(jobPostingId);
+        List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
+        String email = (String) request.getSession().getAttribute("email");
+        for (Applications application : applications) {
+            studentProfileInformation.add(studentProfileInformationService.getStudent(application.getStudentEmail()));
+        }
+        modelMap.addAttribute("email", email);
+        modelMap.addAttribute("studentInformation", studentProfileInformation);
+        return "ViewStudentApplications";
     }
 
    /* @RequestMapping("/jobify/student/applications/{status}")
