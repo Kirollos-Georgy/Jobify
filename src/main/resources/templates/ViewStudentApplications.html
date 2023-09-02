@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Jobify </title>
+    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/{email}/employer(email=${email})}">Home</a></li>
+                <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
+                <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
+                <li><a href="viewCreatedJobPostingsServlet?interview=true">Interviews</a></li>
+                <li><a href="../../webapp/AboutPage.jsp?account=employer">About</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section id="search">
+    <div class="container">
+        <h2>Find your dream job today</h2>
+
+    </div>
+</section>
+
+<section id="jobs">
+    <div class="container">
+        <h2>Applicants List</h2>
+    </div>
+</section>
+
+<title>Job Postings</title>
+<style>
+    .job-box {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<!--  -->
+<body>
+    <div th:each="studentInformation : ${studentInformation}" class="job-box">
+        <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ${studentInformation.getLastName()}"></span></p>
+        <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
+        <br>
+        <label><a
+                href="viewAStudentInformationServlet?studentEmail=<%=studentInformation.getEmail()%>&jobPostingID=${jobPostingID}">View
+            student full information<br></a></label><br>
+    </div>
+</body>
+</html>
+
+</body>
+</html>
