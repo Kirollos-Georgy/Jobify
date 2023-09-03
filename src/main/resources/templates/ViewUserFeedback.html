@@ -11,7 +11,7 @@
         <nav>
             <ul> <!-- Change the pages -->
                 <li><a href="viewAdminProfileServlet">Profile</a></li>
-                <li><a href="viewCurrentUsersServlet">Current Users </a></li>
+                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
                 <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
                 <li><a href="viewJobPostingsAdminServlet">Job Postings</a></li>
             </ul>
