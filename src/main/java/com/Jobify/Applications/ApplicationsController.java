@@ -96,10 +96,30 @@ public class ApplicationsController {
         JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
         StudentProfileInformation student = studentProfileInformationService.getStudent(application.getStudentEmail());
         modelMap.addAttribute("email", email);
-        modelMap.addAttribute("application", application);
+        modelMap.addAttribute("applications", application);
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("studentInformation", student);
         return "ViewAStudentInformation";
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value="/{email}/employer/{jobPostingId}/applications/{id}")
+    public String selectStudentForInterview(@PathVariable long id, ModelMap modelMap, HttpServletRequest request, @PathVariable long jobPostingId) {
+        Applications application1 = applicationsService.getApplication(id);
+        application1.setStatus("Selected for interview");
+        applicationsService.updateApplication(application1);
+
+        String email = (String) request.getSession().getAttribute("email");
+        List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(jobPostingId);
+        List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
+        JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
+        for (Applications application : applications) {
+            studentProfileInformation.add(studentProfileInformationService.getStudent(application.getStudentEmail()));
+        }
+        modelMap.addAttribute("email", email);
+        modelMap.addAttribute("studentInformation", studentProfileInformation);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("applications", applications);
+        return "ViewStudentApplications";
     }
 
     @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview/{id}")
