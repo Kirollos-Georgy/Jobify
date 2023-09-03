@@ -64,7 +64,7 @@
 
     <!-- button for removing job posting  -->
 
-    <button><a style="color:white;" href="removeJobPostingServlet?jobPostingID=${id}&userType=employer">Remove Job
+    <button><a style="color:white;" th:href="@{/{email}/employer/{id}/delete(email=${email}, id=${jobPosting.getId()})}">Remove Job
         Posting<br></a></button>
 
 
