@@ -38,12 +38,15 @@ public class ApplicationsController {
     public String getAllApplicationsByStudentEmail(ModelMap modelMap, HttpServletRequest request, @PathVariable String status) {
         String email = (String) request.getSession().getAttribute("email");
 
+        List<Applications> applications = new ArrayList<>();
+
         if (status.equals("applications")) {
             status = "Applied";
+            applications = applicationsService.getAllApplicationsByStudentEmail(email);
         } else if (status.equals("interviews")) {
             status = "Selected for interview";
+            applications = applicationsService.getAllApplicationsByStudentEmailAndStatus(email, status);
         }
-        List<Applications> applications = applicationsService.getAllApplicationsByStudentEmailAndStatus(email, status);
         List<JobPostings> jobPostings = new ArrayList<>();
         for (Applications application : applications) {
             jobPostings.add(jobPostingsService.getJobPosting(application.getJobPostingsID()));
