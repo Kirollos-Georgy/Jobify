@@ -46,11 +46,14 @@ public class LoginInformationController {
 
     //Works
     @RequestMapping(method = RequestMethod.POST, value = "/signUp")
-    public String addUser(LoginInformation loginInformation, ModelMap modelMap, HttpServletRequest request) {
+    public String addUser(LoginInformation loginInformation, ModelMap modelMap, HttpServletRequest request, @RequestParam String adminCode) {
         if (loginInformationService.emailUsed(loginInformation.getEmail())) {
             return "InvalidCreatingUser"; //Tested
         }
         else {
+            if (loginInformation.getUserType().equals("admin") && !adminCode.equals("QWERTY")) {
+                return "InvalidCreatingUser";
+            }
             loginInformationService.addUser(loginInformation);
             request.getSession().setAttribute("email", loginInformation.getEmail());
             return "redirect:/signUp/" /*+ loginInformation.getEmail() + "/"*/ + loginInformation.getUserType();
