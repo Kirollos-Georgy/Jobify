@@ -77,9 +77,20 @@ public class ApplicationsController {
         return applicationsService.getAllApplicationsByStatus(status);
     }*/
 
-    @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview")
-    public List<Applications> getAllApplicationsByJobPostingIdAndStatus(@PathVariable long jobPostingId, @PathVariable String status) {
-        return applicationsService.getAllApplicationsByJobPostingIdAndStatus(jobPostingId, status);
+    @RequestMapping("/{email}/employer/{jobPostingId}/interview/applications")
+    public String getAllApplicationsByJobPostingIdAndStatus(@PathVariable long jobPostingId, ModelMap modelMap, HttpServletRequest request) {
+        List<Applications> applications = applicationsService.getAllApplicationsByJobPostingIdAndStatus(jobPostingId, "Selected for interview");
+        List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
+        String email = (String) request.getSession().getAttribute("email");
+        JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
+        for (Applications application : applications) {
+            studentProfileInformation.add(studentProfileInformationService.getStudent(application.getStudentEmail()));
+        }
+        modelMap.addAttribute("email", email);
+        modelMap.addAttribute("studentInformation", studentProfileInformation);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("applications", applications);
+        return "ViewStudentApplications";
     }
 
     @RequestMapping("/{email}/student/applications/{id}")
