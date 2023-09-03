@@ -72,6 +72,9 @@ public class LoginInformationController {
         if (loginInformationService.validLoginInformation(loginInformation)) {
             LoginInformation loginInformation1 = loginInformationService.getUser(loginInformation.getEmail());
             request.getSession().setAttribute("email", loginInformation.getEmail());
+            if (loginInformation1.getUserType().equals("admin")) {
+                return "redirect:/" + loginInformation.getEmail() + "/" + loginInformation1.getUserType() + "/feedbacks";
+            }
             return "redirect:/" + loginInformation.getEmail() + "/" + loginInformation1.getUserType();
         }
         else {
