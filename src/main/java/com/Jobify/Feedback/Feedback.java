@@ -1,5 +1,6 @@
 package com.Jobify.Feedback;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -7,6 +8,8 @@ import jakarta.persistence.Id;
 public class Feedback {
     @Id
     private String email;
+
+    @Column(columnDefinition = "TEXT")
     private String subject;
     private int rating;
 
