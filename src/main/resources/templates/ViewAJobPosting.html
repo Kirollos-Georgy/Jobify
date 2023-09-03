@@ -15,7 +15,7 @@
         <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
         <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a></li>
         <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
-        <li><a href="AboutPage.jsp?account=student">About</a></li>
+        <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
       </ul>
     </nav>
   </div>

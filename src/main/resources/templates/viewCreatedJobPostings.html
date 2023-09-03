@@ -14,7 +14,7 @@
         <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
         <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
         <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
-        <li><a href="AboutPage.jsp?account=employer">About</a></li>
+        <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
       </ul>
     </nav>
   </div>
