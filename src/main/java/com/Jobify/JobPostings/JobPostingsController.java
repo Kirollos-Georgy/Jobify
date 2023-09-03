@@ -29,6 +29,8 @@ public class JobPostingsController {
     private JobPostingsService jobPostingsService;
     @Autowired
     private EmployerProfileInformationService employerProfileInformationService;
+    @Autowired
+    private ApplicationsService applicationsService;
 
     //Works - not tested with multiple job postings
     @RequestMapping("/{email}/student")
@@ -152,9 +154,17 @@ public class JobPostingsController {
         jobPostingsService.updateJobPosting(jobPostings);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/employer/{id}/delete")
-    public void deleteJobPosting(@PathVariable long id) {
+    @RequestMapping(value = "/{email}/employer/{id}/delete")
+    public String deleteJobPosting(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(id);
+        for (Applications application : applications) {
+            applicationsService.deleteApplication(application.getId());
+        }
         jobPostingsService.deleteJobPosting(id);
+        List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(email);
+        modelMap.addAttribute("jobPostings", jobPostings);
+        return "viewCreatedJobPostings";
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/admin/job-postings/{id}/delete")
