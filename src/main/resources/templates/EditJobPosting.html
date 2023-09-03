@@ -13,7 +13,7 @@
                 <li><a th:href="@{/{email}/employer(email=${email})}">Home</a></li>
                 <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
                 <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
-                <li><a href="viewCreatedJobPostingsServlet?interview=true">Interviews</a></li>
+                <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
                 <li><a href="../../webapp/AboutPage.jsp?account=employer">About</a></li>
 
             </ul>
