@@ -53,6 +53,12 @@ public class JobPostingsController {
         modelMap.addAttribute("jobPostings", jobPostings);
         return "viewCreatedJobPostings";
     }
+    @RequestMapping("/{email}/employer/interview")
+    public String getAllJobPostingsByEmployerInterview(@PathVariable String email, ModelMap modelMap) {
+        List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(email);
+        modelMap.addAttribute("jobPostings", jobPostings);
+        return "viewCreatedJobPostingsInterview";
+    }
 
     /*@RequestMapping("/jobify/{email}/employer/home-page/{status}")
     public List<JobPostings> getAllJobPostingsByStatus(@PathVariable String status) {
@@ -84,6 +90,16 @@ public class JobPostingsController {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
         return "ViewCreatedJobPosting";
+    }
+    @RequestMapping("/{email}/employer/job-postings/{id}/interview")
+    public String getJobPostingForEmployerInterview(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
+        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+        EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("employer", employerProfileInformation);
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        return "ViewCreatedJobPostingInterview";
     }
 
     @RequestMapping("/{email}/admin/job-postings/{id}")
