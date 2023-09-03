@@ -42,11 +42,7 @@
                target="_blank">Cover Letter</a><br>
             <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}"
                target="_blank">Transcript</a><br>
-            <form action="selectStudentForInterviewServlet?jobPostingID=${jobPostingID}&studentEmail=${studentInformation.getEmail()}"
-                  method="post">
-                <input type="submit" value="Select for an interview">
-            </form>
-            <form th:action="@{/{email}/employer/{id}/applications/{applicationId}(email=${email}, id=${jobPosting.getId()}, applicationsId=${application.getId()})}">
+            <form method="post" th:action="@{/{email}/employer/{id}/applications/{applicationId}(email=${email}, id=${jobPosting.getId()}, applicationId=${applications.getId})}">
                 <input type="submit" value="Select for an interview">
             </form>
         </div>
