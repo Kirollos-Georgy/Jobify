@@ -19,8 +19,12 @@ public class FeedbackController {
     private LoginInformationService loginInformationService;
 
     @RequestMapping("/{email}/admin/feedbacks")
-    public List<Feedback> getAllFeedbacks() {
-        return feedbackService.getAllFeedbacks();
+    public String getAllFeedbacks(HttpServletRequest request, ModelMap modelMap) {
+        String email = (String) request.getSession().getAttribute("email");
+        List<Feedback> feedbacks = feedbackService.getAllFeedbacks();
+        modelMap.addAttribute("feedbacks", feedbacks);
+        modelMap.addAttribute("email", email);
+        return "ViewUserFeedback";
     }
 
     @GetMapping("/{accountType}/feedback")
