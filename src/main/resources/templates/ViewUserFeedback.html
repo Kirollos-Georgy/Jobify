@@ -1,12 +1,8 @@
-<%@ page import="com.example.useraccount.FeedbackForm" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title> Jobify </title>
-    <link rel="stylesheet" type="text/css" href="viewJobPostings.css">
+    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
 </head>
 <body>
 <header>
@@ -16,7 +12,7 @@
             <ul> <!-- Change the pages -->
                 <li><a href="viewAdminProfileServlet">Profile</a></li>
                 <li><a href="viewCurrentUsersServlet">Current Users </a></li>
-                <li><a href="viewUserFeedbackServlet">User Feedback</a></li>
+                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
                 <li><a href="viewJobPostingsAdminServlet">Job Postings</a></li>
             </ul>
         </nav>
@@ -53,20 +49,12 @@
     <div class="shape"></div>
 </div>
 
-<%
-    ArrayList<FeedbackForm> std = (ArrayList<FeedbackForm>) request.getAttribute("feedbackForms");
-    for (FeedbackForm feedbackForms : std) {%>
-
-<div class="job-box">
+<div class="job-box" th:each="feedback : ${feedbacks}">
     <p><strong>Feedback</strong></p><br/>
-    <p><%=feedbackForms.getSubject()%>
-    </p><br/>
-    <p><strong>Rating:</strong> <%=feedbackForms.getRating()%>/5</p>
-    <p><strong>Email:</strong> <%=feedbackForms.getEmail()%>
-    </p>
-    <br>
+    <p><span th:text="${feedback.getSubject()}"></span></p><br/>
+    <p><strong>Rating:</strong> <span th:text="${feedback.getRating()}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${feedback.getEmail()}"></span></p><br>
 </div>
-<%}%>
 
 </body>
 </html>
