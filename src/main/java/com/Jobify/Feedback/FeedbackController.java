@@ -24,7 +24,7 @@ public class FeedbackController {
         List<Feedback> feedbacks = feedbackService.getAllFeedbacks();
         modelMap.addAttribute("feedbacks", feedbacks);
         modelMap.addAttribute("email", email);
-        return "ViewUserFeedback";
+        return "/Admin/ViewUserFeedback";
     }
 
     @GetMapping("/{accountType}/feedback")

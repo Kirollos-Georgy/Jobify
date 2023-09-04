@@ -32,7 +32,7 @@ public class AdminProfileInformationController {
         modelMap.addAttribute("adminInformation", adminProfileInformation);
         String email1 = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email1);
-        return "AdminHomePage";
+        return "/Admin/AdminHomePage";
     }
 
     @RequestMapping("/{email}/admin/all-users/admin/{adminEmail}")
@@ -41,14 +41,14 @@ public class AdminProfileInformationController {
         modelMap.addAttribute("email", email);
         AdminProfileInformation admin = adminProfileInformationService.getAdmin(adminEmail);
         modelMap.addAttribute("adminInformation", admin);
-        return "ViewAdminUserProfile";
+        return "/Admin/ViewAdminUserProfile";
     }
 
     @RequestMapping("/signUp/admin")
     public String adminCreationForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "CreatingAdminProfile";
+        return "/Creating account/CreatingAdminProfile";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/signUp/{email}/admin")
@@ -65,7 +65,7 @@ public class AdminProfileInformationController {
         modelMap.addAttribute("email", email);
         AdminProfileInformation admin = adminProfileInformationService.getAdmin(email);
         modelMap.addAttribute("adminInformation", admin);
-        return "EditingAdminProfile";
+        return "/Admin/EditingAdminProfile";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/profile/edit")

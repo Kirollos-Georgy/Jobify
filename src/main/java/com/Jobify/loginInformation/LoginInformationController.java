@@ -52,7 +52,7 @@ public class LoginInformationController {
         modelMap.addAttribute("studentInformation", studentProfileInformation);
         modelMap.addAttribute("employerInformation", employerProfileInformation);
         modelMap.addAttribute("adminInformation", adminProfileInformation);
-        return "ViewCurrentUsers";
+        return "/Admin/ViewCurrentUsers";
     }
 
    /* @RequestMapping("/signUp/{email}")
@@ -69,18 +69,18 @@ public class LoginInformationController {
     //Works
     @RequestMapping(method = RequestMethod.GET, value = "/signUp")
     public String showCreateUserForm() {
-        return "CreateUser";
+        return "/Creating account/CreateUser";
     }
 
     //Works
     @RequestMapping(method = RequestMethod.POST, value = "/signUp")
     public String addUser(LoginInformation loginInformation, ModelMap modelMap, HttpServletRequest request, @RequestParam String adminCode) {
         if (loginInformationService.emailUsed(loginInformation.getEmail())) {
-            return "InvalidCreatingUser"; //Tested
+            return "/Creating account/InvalidCreatingUser"; //Tested
         }
         else {
             if (loginInformation.getUserType().equals("admin") && !adminCode.equals("QWERTY")) {
-                return "InvalidCreatingUser";
+                return "/Creating account/InvalidCreatingUser";
             }
             loginInformationService.addUser(loginInformation);
             request.getSession().setAttribute("email", loginInformation.getEmail());
@@ -91,7 +91,7 @@ public class LoginInformationController {
     //Works
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String showLoginPage() {
-        return "LoginPage";
+        return "/Login/LoginPage";
     }
 
     //Works
@@ -106,7 +106,7 @@ public class LoginInformationController {
             return "redirect:/" + loginInformation.getEmail() + "/" + loginInformation1.getUserType();
         }
         else {
-            return "InvalidLoginPage"; //Tested
+            return "/Login/InvalidLoginPage"; //Tested
         }
     }
 

@@ -33,7 +33,7 @@ public class StudentProfileInformationController {
     public String getAllStudents(ModelMap modelMap) {
         List<StudentProfileInformation> students = studentProfileInformationService.getAllStudents();
         modelMap.addAttribute("students", students);
-        return "ViewAllStudents";
+        return "/Admin/ViewAllStudents";
     }
 
     @GetMapping("/{email}/student/profile")
@@ -42,7 +42,7 @@ public class StudentProfileInformationController {
         modelMap.addAttribute("studentInformation", student);
         String email1 = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email1);
-        return "StudentHomePage";
+        return "/Student/StudentHomePage";
     }
 
 
@@ -52,7 +52,7 @@ public class StudentProfileInformationController {
         modelMap.addAttribute("email", email);
         StudentProfileInformation student = studentProfileInformationService.getStudent(studentEmail);
         modelMap.addAttribute("studentInformation", student);
-        return "ViewStudentUserProfile";
+        return "/Admin/ViewStudentUserProfile";
     }
 
     //Works
@@ -60,7 +60,7 @@ public class StudentProfileInformationController {
     public String studentCreationForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "CreatingUserProfile";
+        return "/Creating account/CreatingUserProfile";
     }
 
     //Works
@@ -97,7 +97,7 @@ public class StudentProfileInformationController {
         modelMap.addAttribute("email", email);
         StudentProfileInformation student = studentProfileInformationService.getStudent(email);
         modelMap.addAttribute("studentInformation", student);
-        return "EditingUserProfile";
+        return "/Student/EditingUserProfile";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{email}/student/profile/edit")
