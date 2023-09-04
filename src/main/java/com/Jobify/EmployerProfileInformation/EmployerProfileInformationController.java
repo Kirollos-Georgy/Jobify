@@ -34,9 +34,13 @@ public class EmployerProfileInformationController {
         return "EmployerHomePage";
     }
 
-    @RequestMapping("/{email}/admin/view-employers/{employerEmail}")
-    public EmployerProfileInformation getEmployerForAdmin(@PathVariable String employerEmail) {
-        return employerProfileInformationService.getEmployer(employerEmail);
+    @RequestMapping("/{email}/admin/all-users/employer/{employerEmail}")
+    public String getEmployerForAdmin(@PathVariable String employerEmail, ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        EmployerProfileInformation employer = employerProfileInformationService.getEmployer(employerEmail);
+        modelMap.addAttribute("employerInformation", employer);
+        return "ViewEmployerUserProfile";
     }
 
     /*@RequestMapping(method = RequestMethod.POST, value = "/signUp/employer")
