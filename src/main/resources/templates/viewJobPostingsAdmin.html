@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Jobify</title>
+    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/{email}/admin/profile(email=${email})}">Profile</a></li>
+                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
+                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
+                <li><a th:href="@{/{email}/admin/job-postings(email=${email})}">Job Postings</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section id="search">
+    <div class="container">
+        <form method="post" th:action="@{/{email}/admin/job-postings(email=${email})}">
+            <input type="text" placeholder="Search by job title" name="search">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</section>
+
+<section id="jobs">
+    <div class="container">
+        <h2>Job Postings</h2>
+
+    </div>
+</section>
+
+
+<title>Job Postings</title>
+<style>
+    .job-box {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="job-box" th:each="jobPosting : ${jobPostings}">
+    <h2><a th:href="@{/{email}/admin/job-postings/{id}(email=${email}, id=${jobPosting.getId()})}"><span th:text="${jobPosting.getTitle()}"></span></a></h2>
+    <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span>
+    </p>
+    <p><strong>Status:</strong> <span th:text="${jobPosting.getStatus()}"></span>
+    </p>
+    <p><strong>Location:</strong> <span th:text="${jobPosting.getJobLocation()}"></span>
+    </p>
+    <p><strong>Salary:</strong> <span th:text="${jobPosting.getSalary()}"></span>
+    </p>
+    <p><strong>Deadline to apply:</strong> <span th:text="${jobPosting.getDeadline()}"></span></p>
+    <p><span th:text="${jobPosting.getDescription()}"></span></p>
+</div>
+</body>
+</html>
+
+</body>
+</html>
+
