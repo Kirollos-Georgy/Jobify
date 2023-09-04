@@ -109,8 +109,14 @@ public class JobPostingsController {
     }
 
     @RequestMapping("/{email}/admin/job-postings/{id}")
-    public JobPostings getJobPostingForAdmin(@PathVariable long id) {
-        return jobPostingsService.getJobPosting(id);
+    public String getJobPostingForAdmin(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
+        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+        EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("employer", employerProfileInformation);
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        return "ViewAJobPostingAdmin";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{email}/employer/add-job-posting")
