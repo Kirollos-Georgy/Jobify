@@ -36,11 +36,13 @@ public class StudentProfileInformationController {
     }
 
 
-    @RequestMapping("/{email}/admin/students/{studentEmail}")
-    public String getStudentForAdmin(@PathVariable String studentEmail, ModelMap modelMap) {
+    @RequestMapping("/{email}/admin/all-users/student/{studentEmail}")
+    public String getStudentForAdmin(@PathVariable String studentEmail, ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
         StudentProfileInformation student = studentProfileInformationService.getStudent(studentEmail);
-        modelMap.addAttribute("student", student);
-        return "ViewStudentInformation";
+        modelMap.addAttribute("studentInformation", student);
+        return "ViewStudentUserProfile";
     }
 
     //Works
