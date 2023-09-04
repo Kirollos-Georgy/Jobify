@@ -65,9 +65,22 @@ public class AdminProfileInformationController {
         return "redirect:/" + email + "/admin/feedbacks";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/admin/profile/edit")
-    public void updateAdmin(@RequestBody AdminProfileInformation adminProfileInformation) {
+    @RequestMapping("/admin/profile/edit")
+    public String updateAdminForm(HttpServletRequest request, ModelMap modelMap) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        AdminProfileInformation admin = adminProfileInformationService.getAdmin(email);
+        modelMap.addAttribute("adminInformation", admin);
+        return "EditingAdminProfile";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/profile/edit")
+    public String updateAdmin(AdminProfileInformation adminProfileInformation, @PathVariable String email, ModelMap modelMap, HttpServletRequest request) {
+        adminProfileInformation.setEmail(email);
+        String email1 = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email1);
         adminProfileInformationService.updateAdmin(adminProfileInformation);
+        return "redirect:/" + email + "/admin/profile";
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{email}/admin/view-admins/{adminEmail}/edit")

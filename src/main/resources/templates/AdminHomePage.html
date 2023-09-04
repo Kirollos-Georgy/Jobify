@@ -54,7 +54,7 @@
         <label style="color:black;">Last Name: <span th:text="${adminInformation.getLastName()}"></span></label>
         <label style="color:black;">Email: <span th:text="${adminInformation.getEmail()}"></span></label>
         <label style="color:black;">Role: <span th:text="${adminInformation.getAdminRole()}"></span></label>
-        <label><a style="color:blue;" href="editAdminProfileServlet">Edit Profile Information<br></a></label>
+        <label><a style="color:blue;" th:href="@{/admin/profile/edit}">Edit Profile Information<br></a></label>
     </div>
 </form>
 </body>
