@@ -30,7 +30,7 @@ public class JobPostingsController {
         modelMap.addAttribute("jobPosting", jobPostings);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "viewJobPostings";
+        return "/Student/viewJobPostings";
     }
 
 
@@ -40,7 +40,7 @@ public class JobPostingsController {
         modelMap.addAttribute("jobPostings", jobPostings);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "viewJobPostingsAdmin";
+        return "/Admin/viewJobPostingsAdmin";
     }
 
     //Works - not tested with multiple job postings
@@ -48,13 +48,13 @@ public class JobPostingsController {
     public String getAllJobPostingsByEmployer(@PathVariable String email, ModelMap modelMap) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(email);
         modelMap.addAttribute("jobPostings", jobPostings);
-        return "viewCreatedJobPostings";
+        return "/Employer/viewCreatedJobPostings";
     }
     @RequestMapping("/{email}/employer/interview")
     public String getAllJobPostingsByEmployerInterview(@PathVariable String email, ModelMap modelMap) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(email);
         modelMap.addAttribute("jobPostings", jobPostings);
-        return "viewCreatedJobPostingsInterview";
+        return "/Employer/viewCreatedJobPostingsInterview";
     }
 
     /*@RequestMapping("/jobify/{email}/employer/home-page/{status}")
@@ -75,7 +75,7 @@ public class JobPostingsController {
         modelMap.addAttribute("employer", employerProfileInformation);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "ViewAJobPosting";
+        return "/Student/ViewAJobPosting";
     }
 
     @RequestMapping("/{email}/employer/job-postings/{id}")
@@ -86,7 +86,7 @@ public class JobPostingsController {
         modelMap.addAttribute("employer", employerProfileInformation);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "ViewCreatedJobPosting";
+        return "/Employer/ViewCreatedJobPosting";
     }
     @RequestMapping("/{email}/employer/job-postings/{id}/interview")
     public String getJobPostingForEmployerInterview(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
@@ -96,7 +96,7 @@ public class JobPostingsController {
         modelMap.addAttribute("employer", employerProfileInformation);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "ViewCreatedJobPostingInterview";
+        return "/Employer/ViewCreatedJobPostingInterview";
     }
 
     @RequestMapping("/{email}/admin/job-postings/{id}")
@@ -107,14 +107,14 @@ public class JobPostingsController {
         modelMap.addAttribute("employer", employerProfileInformation);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "ViewAJobPostingAdmin";
+        return "/Admin/ViewAJobPostingAdmin";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{email}/employer/add-job-posting")
     public String showAddJobPostingForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "AddJobPosting";
+        return "/Employer/AddJobPosting";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{email}/employer/add-job-posting")
@@ -134,7 +134,7 @@ public class JobPostingsController {
         modelMap.addAttribute("email", email);
         JobPostings jobPosting = jobPostingsService.getJobPosting(id);
         modelMap.addAttribute("jobPosting", jobPosting);
-        return "EditJobPosting";
+        return "/Employer/EditJobPosting";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{email}/employer/{id}/edit")
@@ -165,7 +165,7 @@ public class JobPostingsController {
         jobPostingsService.deleteJobPosting(id);
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(email);
         modelMap.addAttribute("jobPostings", jobPostings);
-        return "viewCreatedJobPostings";
+        return "/Employer/viewCreatedJobPostings";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/job-postings/{id}/delete")

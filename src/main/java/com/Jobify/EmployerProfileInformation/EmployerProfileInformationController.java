@@ -39,7 +39,7 @@ public class EmployerProfileInformationController {
         modelMap.addAttribute("employerInformation", employerProfileInformation);
         String email1 = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email1);
-        return "EmployerHomePage";
+        return "/Employer/EmployerHomePage";
     }
 
     @RequestMapping("/{email}/admin/all-users/employer/{employerEmail}")
@@ -48,7 +48,7 @@ public class EmployerProfileInformationController {
         modelMap.addAttribute("email", email);
         EmployerProfileInformation employer = employerProfileInformationService.getEmployer(employerEmail);
         modelMap.addAttribute("employerInformation", employer);
-        return "ViewEmployerUserProfile";
+        return "/Admin/ViewEmployerUserProfile";
     }
 
     /*@RequestMapping(method = RequestMethod.POST, value = "/signUp/employer")
@@ -62,7 +62,7 @@ public class EmployerProfileInformationController {
     public String employerCreationForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "CreatingEmployerProfile";
+        return "/Creating account/CreatingEmployerProfile";
     }
 
     //Works
@@ -79,7 +79,7 @@ public class EmployerProfileInformationController {
         modelMap.addAttribute("email", email);
         EmployerProfileInformation employer = employerProfileInformationService.getEmployer(email);
         modelMap.addAttribute("employerInformation", employer);
-        return "EditingEmployerProfile";
+        return "/Employer/EditingEmployerProfile";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{email}/employer/profile/edit")

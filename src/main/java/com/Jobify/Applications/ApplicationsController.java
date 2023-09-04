@@ -52,7 +52,7 @@ public class ApplicationsController {
         }
         modelMap.addAttribute("jobPosting", jobPostings);
         modelMap.addAttribute("email", email);
-        return "viewJobPostings";
+        return "/Student/viewJobPostings";
     }
 
     @RequestMapping("/{email}/employer/{jobPostingId}/applications")
@@ -68,7 +68,7 @@ public class ApplicationsController {
         modelMap.addAttribute("studentInformation", studentProfileInformation);
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("applications", applications);
-        return "ViewStudentApplications";
+        return "/Employer/ViewStudentApplications";
     }
 
    /* @RequestMapping("/jobify/student/applications/{status}")
@@ -89,7 +89,7 @@ public class ApplicationsController {
         modelMap.addAttribute("studentInformation", studentProfileInformation);
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("applications", applications);
-        return "ViewStudentApplications";
+        return "/Employer/ViewStudentApplications";
     }
 
     @RequestMapping("/{email}/student/applications/{id}")
@@ -112,7 +112,7 @@ public class ApplicationsController {
         modelMap.addAttribute("applications", application);
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("studentInformation", student);
-        return "ViewAStudentInformation";
+        return "/Employer/ViewAStudentInformation";
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/{email}/employer/{jobPostingId}/applications/{id}")
@@ -132,7 +132,7 @@ public class ApplicationsController {
         modelMap.addAttribute("studentInformation", studentProfileInformation);
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("applications", applications);
-        return "ViewStudentApplications";
+        return "/Employer/ViewStudentApplications";
     }
 
     @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview/{id}")
@@ -151,7 +151,7 @@ public class ApplicationsController {
         modelMap.addAttribute("jobPosting", jobPosting);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
-        return "ApplyForAJobPosting";
+        return "/Student/ApplyForAJobPosting";
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/{email}/student/{id}/apply")
