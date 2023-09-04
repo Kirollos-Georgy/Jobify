@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title> Job Posting </title>
-    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
+    <link href="/css/StudentHomePage.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
 </head>
+
 <body>
 <header>
     <div class="container">
@@ -15,37 +24,22 @@
                 <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
                 <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
-
             </ul>
         </nav>
     </div>
 </header>
 
-<head>
-    <title> Job Posting </title>
-    <link rel="stylesheet" type="text/css" href="/css/StudentHomePage.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
-    <style media="screen">
-
-    </style>
-
-</head>
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
+
 <form>
-
-    <body>
-
     <div class="job-box">
         <!-- display information of the job that has been added -->
         <h3><span th:text="${jobPosting.getTitle()}"></span></h3>
         <h3></h3>
-        <p><strong>Employer:</strong> <span th:text="${employer.getFirstName()} + ${employer.getLastName()}"></span></p>
+        <p><strong>Employer:</strong> <span th:text="${employer.getFirstName()} + ' ' + ${employer.getLastName()}"></span></p>
         <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span></p>
         <p><strong>Status:</strong> <span th:text="${jobPosting.getStatus()}"></span></p>
         <p><strong>Location:</strong> <span th:text="${jobPosting.getJobLocation()}"></span></p>
@@ -54,21 +48,16 @@
         <p><span th:text="${jobPosting.getDescription()}"></span></p>
     </div>
     <!-- button for View student applications  -->
-
-    <button><a style="color:white;" th:href="@{/{email}/employer/{id}/applications(email=${email}, id=${jobPosting.getId()})}">View student applications<br></a></button>
-
+    <button><a style="color:white;"
+               th:href="@{/{email}/employer/{id}/applications(email=${email}, id=${jobPosting.getId()})}">View student
+        applications<br></a></button>
     <!-- button for editing job posting  -->
-
-
-    <button><a style="color:white;" th:href="@{/employer/{id}/edit(id=${jobPosting.getId()})}">Edit Job Posting<br></a></button>
-
+    <button><a style="color:white;" th:href="@{/employer/{id}/edit(id=${jobPosting.getId()})}">Edit Job Posting<br></a>
+    </button>
     <!-- button for removing job posting  -->
-
-    <button><a style="color:white;" th:href="@{/{email}/employer/{id}/delete(email=${email}, id=${jobPosting.getId()})}">Remove Job
+    <button><a style="color:white;"
+               th:href="@{/{email}/employer/{id}/delete(email=${email}, id=${jobPosting.getId()})}">Remove Job
         Posting<br></a></button>
-
-
-    </body>
 </form>
 </body>
 </html>

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
     <!--  the title of the website and the css for styling -->
     <title>Jobify</title>
-    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-<header>
 
+<body>
+
+<header>
     <!--  contains the website's name, home,profile,add jobs,interviews and About lists-->
     <div class="container">
         <h1>Jobify</h1>
@@ -29,19 +30,19 @@
     <div class="container">
         <h2>Student Information</h2>
         <div class="job-box">
-            <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
+            <p><strong>Name:</strong> <span
+                    th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span>
+            </p>
             <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
-            <form th:action="@{/{email}/admin/all-users/student/{studentEmail}/delete(email=${email}, studentEmail=${studentInformation.getEmail()})}" method="post">
+            <form method="post"
+                  th:action="@{/{email}/admin/all-users/student/{studentEmail}/delete(email=${email}, studentEmail=${studentInformation.getEmail()})}">
                 <input type="submit" value="Delete User">
             </form>
-
         </div>
     </div>
 </section>
 
-
-<title>Job Postings</title>
 <style>
     .job-box {
         border: 1px solid black;
@@ -59,12 +60,5 @@
         cursor: pointer;
     }
 </style>
-</head>
-<body>
-
-
-</body>
-</html>
-
 </body>
 </html>

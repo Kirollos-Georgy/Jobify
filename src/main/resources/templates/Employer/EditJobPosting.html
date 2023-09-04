@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Edit job posting</title>
-    <link rel="stylesheet" type="text/css" href="/css/AddJobPosting.css">
+    <link href="/css/AddJobPosting.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
 </head>
+
 <body>
 <header>
     <div class="container">
@@ -15,39 +23,24 @@
                 <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
                 <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
-
             </ul>
         </nav>
     </div>
 </header>
-<head>
-    <title>Edit job posting</title>
-    <link rel="stylesheet" type="text/css" href="/css/AddJobPosting.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
-    <style media="screen">
-
-    </style>
-
-</head>
-
-
-<body>
 
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form th:action="@{/{email}/employer/{id}/edit(email=${email}, id=${jobPosting.getId()})}" method="post">
+
+<form method="post" th:action="@{/{email}/employer/{id}/edit(email=${email}, id=${jobPosting.getId()})}">
     <table>
         <h3 style="color:black"> Edit Job Posting </h3>
         <tr>
             <td>
                 <div class="form-group">
                     <label for="title">Position title:</label>
-                    <input name="title" id="title" th:value="${jobPosting.getTitle()}"/>
+                    <input id="title" name="title" th:value="${jobPosting.getTitle()}"/>
                 </div>
             </td>
         </tr>
@@ -56,7 +49,8 @@
             <td>
                 <div class="form-group">
                     <label for="jobLocation">Job location:</label>
-                    <textarea rows="5" cols="60" name="jobLocation" th:field="${jobPosting.jobLocation}" id="jobLocation"></textarea>
+                    <textarea cols="60" id="jobLocation" name="jobLocation" rows="5"
+                              th:field="${jobPosting.jobLocation}"></textarea>
                 </div>
             </td>
         </tr>
@@ -65,7 +59,7 @@
             <td>
                 <div class="form-group">
                     <label for="salary">Salary:</label>
-                    <input name="salary" id="salary" th:value="${jobPosting.getSalary()}"/>
+                    <input id="salary" name="salary" th:value="${jobPosting.getSalary()}"/>
                 </div>
             </td>
         </tr>
@@ -73,7 +67,7 @@
             <td>
                 <div class="form-group">
                     <label for="deadline">Deadline to apply:</label>
-                    <input name="deadline" id="deadline" th:value="${jobPosting.getDeadline()}"/>
+                    <input id="deadline" name="deadline" th:value="${jobPosting.getDeadline()}"/>
                 </div>
             </td>
         </tr>
@@ -81,13 +75,15 @@
             <td>
                 <div class="form-group">
                     <label for="description">Job posting details:</label>
-                    <textarea rows="5" cols="60" name="description" th:field="${jobPosting.description}" id="description"></textarea>
+                    <textarea cols="60" id="description" name="description" rows="5"
+                              th:field="${jobPosting.description}"></textarea>
                 </div>
             </td>
         </tr>
-        <td>
-            <button type="submit" class="submit-btn">Save</button>
-        </td>
+        <tr>
+            <td>
+                <button class="submit-btn" type="submit">Save</button>
+            </td>
         </tr>
     </table>
 </form>

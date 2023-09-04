@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Add a job posting</title>
     <link href="/css/AddJobPosting.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
 </head>
+
 <body>
 <header>
     <div class="container">
         <!--Include the title of the website in the blue bar on the top  -->
-
         <h1>Jobify</h1>
         <nav>
             <ul>
@@ -18,36 +25,19 @@
                 <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
                 <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
-
             </ul>
         </nav>
     </div>
 </header>
-<head>
-    <title>Add a job posting</title>
-    <!-- add the white screen in the middle  -->
 
-    <link href="/css/AddJobPosting.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
-    <style media="screen">
-
-    </style>
-
-</head>
-
-
-<body>
 <!-- To add the shapes which are the two circles that surround the white screen that is in the middle of the website page -->
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
-
 </div>
+
 <!-- Include what will be in the body of the page and let the employer fill them out   -->
-<form th:action="@{/{email}/employer/add-job-posting(email=${email})}" method="post" enctype="multipart/form-data">
+<form enctype="multipart/form-data" method="post" th:action="@{/{email}/employer/add-job-posting(email=${email})}">
     <table>
         <h3 style="color:black"> Add Job Posting </h3>
         <tr>
@@ -64,9 +54,9 @@
             <td>
                 <div class="form-group">
                     <!-- let the employer add the location of the company   -->
-
                     <label for="jobLocation">Job location:</label>
                     <textarea cols="60" id="jobLocation" name="jobLocation" required rows="5"></textarea>
+                </div>
             </td>
         </tr>
         <tr>
@@ -74,7 +64,6 @@
             <td>
                 <div class="form-group">
                     <!-- let the employer add the salary for the job  -->
-
                     <label for="salary">Salary:</label>
                     <input id="salary" name="salary" required/>
                 </div>
@@ -84,7 +73,6 @@
             <td>
                 <div class="form-group">
                     <!-- let the employer set the deadline for applying for the job  -->
-
                     <label for="deadline">Deadline to apply:</label>
                     <input id="deadline" name="deadline" required/>
                 </div>
@@ -94,7 +82,6 @@
             <td>
                 <div class="form-group">
                     <!-- let the employer add the details of the job   -->
-
                     <label for="description">Job posting details:</label>
                     <textarea cols="60" id="description" name="description" required rows="5"></textarea>
                 </div>
@@ -102,12 +89,9 @@
         </tr>
         <td>
             <!-- Having a button for adding this job posting   -->
-
             <button class="submit-btn" type="submit">Add Job Posting</button>
         </td>
-        </tr>
     </table>
 </form>
 </body>
-
 </html>

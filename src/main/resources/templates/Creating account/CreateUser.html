@@ -1,80 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Creating account</title>
-
-  <link rel="stylesheet" type="text/css" href="/css/Index.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-  <!--Stylesheet-->
-  <style media="screen">
-
-  </style>
-
-  <script>
-    function on_change(select) {
-      var adminCodeInput = document.getElementById("adminCode");
-      if (select.value == "admin") {
-        adminCodeInput.style.display = "block";
-      } else {
-        adminCodeInput.style.display = "none";
-      }
-    }
-  </script>
-
+    <title>Creating account</title>
+    <link href="/css/Index.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
+    <script>
+        function on_change(select) {
+            const adminCodeInput = document.getElementById("adminCode");
+            if (select.value === "admin") {
+                adminCodeInput.style.display = "block";
+            } else {
+                adminCodeInput.style.display = "none";
+            }
+        }
+    </script>
 </head>
-
 
 <body>
 <div class="background">
-  <div class="shape"></div>
-  <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
 </div>
-<form th:action="@{/signUp}" method="post">
 
-  <h3 style="color:black;">Account Registration</h3>
-
-
-  <div class="container">
-    <br/>
-    <form th:action="@{/signUp}" method="post">
-      <table>
-        <tr>
-        </tr>
-        <tr>
-          <div class="form-group">
-            <label for="userType">Select user type:</label>
-            <select id="userType" name="userType" required onchange='on_change(this)'>
-              <option value="" selected disabled>Select User Type</option>
-              <option value="student">Student</option>
-              <option value="employer">Employer</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
-        <tr>
-          <div class="form-group">
-            <td>Email:</td>
-            <td><input name="email"/></td>
-          </div>
-        </tr>
-        <tr>
-          <div class="form-group">
-            <td>Password:</td>
-            <td><input name="password" type="password"/></td>
-          </div>
-        </tr>
-        <tr id="adminCode" style="display:none">
-          <div class="form-group">
-            <td>AAC:</td>
-            <td><input name="adminCode"/></td>
-          </div>
-        </tr>
-        <tr>
-          <td/>
-          <button type="submit" class="submit-btn">Create Account</button>
-      </table>
-    </form>
-  </div>
+<form method="post" th:action="@{/signUp}">
+    <h3 style="color:black;">Account Registration</h3>
+    <div class="container">
+        <br/>
+        <form method="post" th:action="@{/signUp}">
+            <table>
+                <tr>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        <label for="userType">Select user type:</label>
+                        <select id="userType" name="userType" onchange='on_change(this)' required>
+                            <option disabled selected value="">Select User Type</option>
+                            <option value="student">Student</option>
+                            <option value="employer">Employer</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                <tr>
+                    <div class="form-group">
+                        <td><label for="email">Email:</label></td>
+                        <td><input id="email" name="email"/></td>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        <td><label for="password">Password:</label></td>
+                        <td><input id="password" name="password" type="password"/></td>
+                    </div>
+                </tr>
+                <tr id="adminCode" style="display:none">
+                    <div class="form-group">
+                        <td><label for="adminCode1">ACC: </label></td>
+                        <td><input id="adminCode1" name="adminCode"/></td>
+                    </div>
+                </tr>
+                <tr>
+                  <td><button class="submit-btn" type="submit">Create Account</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</form>
 </body>
 </html>

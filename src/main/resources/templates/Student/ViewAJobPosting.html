@@ -1,82 +1,65 @@
 <!-- View all the job postings in order to apply for jobs. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Job Posting Website</title>
-  <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <title>Job Posting Website</title>
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <header>
-  <div class="container">
-    <h1>Jobify</h1>
-    <nav>
-      <ul>
-        <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
-        <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
-        <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a></li>
-        <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
-        <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
-      </ul>
-    </nav>
-  </div>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
+                <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
+                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a>
+                </li>
+                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
+                <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
+            </ul>
+        </nav>
+    </div>
 </header>
 
-<section id="search">
-  <div class="container">
-    <h2>Find your dream job today</h2>
-    <form>
-      <input type="text" placeholder="Search by keyword or location">
-      <button type="submit">Search</button>
-    </form>
-  </div>
-</section>
-
 <section id="jobs">
-  <div class="container">
-    <h2>Featured Jobs</h2>
-
-  </div>
+    <div class="container">
+        <h2>Featured Job</h2>
+    </div>
 </section>
 
-
-<title>Job Postings</title>
 <style>
-  .job-box {
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+    .job-box {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
 
-  input[type = submit] {
-    background-color: #333;
-    border: none;
-    text-decoration: none;
-    color: #fff;;
-    padding: 10px 20px;
-    margin: 20px 20px;
-    cursor: pointer;
-  }
+    input[type = submit] {
+        background-color: #333;
+        border: none;
+        text-decoration: none;
+        color: #fff;;
+        padding: 10px 20px;
+        margin: 20px 20px;
+        cursor: pointer;
+    }
 </style>
-</head>
-<body>
 
 <div class="job-box">
-  <h2><span th:text="${jobPosting.getTitle()}"></span></h2>
-  <p><strong>Employer:</strong> <span th:text="${employer.getFirstName()} + ${employer.getLastName()}"></span></p>
-  <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span></p>
-  <p><strong>Status:</strong> <span th:text="${jobPosting.getStatus()}"></span></p>
-  <p><strong>Location:</strong> <span th:text="${jobPosting.getJobLocation()}"></span></p>
-  <p><strong>Salary:</strong> <span th:text="${jobPosting.getSalary()}"></span></p>
-  <p><strong>Deadline to apply:</strong> <span th:text="${jobPosting.getDeadline()}"></span></p>
-  <p><span th:text="${jobPosting.getDescription()}"></span></p>
+    <h2><span th:text="${jobPosting.getTitle()}"></span></h2>
+    <p><strong>Employer:</strong> <span th:text="${employer.getFirstName()} + ' ' + ${employer.getLastName()}"></span></p>
+    <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${jobPosting.getStatus()}"></span></p>
+    <p><strong>Location:</strong> <span th:text="${jobPosting.getJobLocation()}"></span></p>
+    <p><strong>Salary:</strong> <span th:text="${jobPosting.getSalary()}"></span></p>
+    <p><strong>Deadline to apply:</strong> <span th:text="${jobPosting.getDeadline()}"></span></p>
+    <p><span th:text="${jobPosting.getDescription()}"></span></p>
 </div>
 
 <form th:action="@{/{email}/student/{id}/apply(email=${email}, id=${jobPosting.getId()})}">
-  <input type="submit" value="Apply">
+    <input type="submit" value="Apply">
 </form>
 </body>
 </html>
-
-</body>
-</html>
-

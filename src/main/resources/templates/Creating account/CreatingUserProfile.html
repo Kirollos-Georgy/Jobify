@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Create student account</title>
-
     <link href="/css/CreateUser2.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <!--Stylesheet-->
     <style media="screen">
-
     </style>
-
-
 </head>
 
-
 <body>
+
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form th:action="@{/signUp/{email}/student(email=${email})}" enctype="multipart/form-data" method="post">
 
-
+<form enctype="multipart/form-data" method="post" th:action="@{/signUp/{email}/student(email=${email})}">
     <h3 style="color:orange;">*User Profile*</h3>
-
-
     <div class="container">
         <br/>
-        <form th:action="@{/signUp/{email}/student(email=${email})}" method="post" enctype="multipart/form-data">
+        <form enctype="multipart/form-data" method="post" th:action="@{/signUp/{email}/student(email=${email})}">
             <table>
                 <div class="form-group">
                     <label for="profilePicture">Profile Picture:</label>
@@ -74,14 +68,9 @@
                     <input id="unofficialTranscript" name="unofficialTranscriptFile" type="file">
                 </div>
                 <button class="submit-btn" type="submit">Submit</button>
-
+            </table>
+        </form>
     </div>
-    <script src="script.js"></script>
 </form>
-
-
-</div>
-
-
 </body>
 </html>

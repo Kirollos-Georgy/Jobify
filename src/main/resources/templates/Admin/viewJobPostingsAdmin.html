@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Jobify</title>
-    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
+
 <header>
     <div class="container">
         <h1>Jobify</h1>
@@ -22,8 +25,10 @@
 <section id="search">
     <div class="container">
         <form method="post" th:action="@{/{email}/admin/job-postings(email=${email})}">
-            <input type="text" placeholder="Search by job title" name="search">
-            <button type="submit">Search</button>
+            <input id="search1" name="search" placeholder="Search by job title" type="text">
+            <label for="search1">
+                <button type="submit">Search</button>
+            </label>
         </form>
     </div>
 </section>
@@ -31,12 +36,9 @@
 <section id="jobs">
     <div class="container">
         <h2>Job Postings</h2>
-
     </div>
 </section>
 
-
-<title>Job Postings</title>
 <style>
     .job-box {
         border: 1px solid black;
@@ -44,11 +46,10 @@
         margin-bottom: 10px;
     }
 </style>
-</head>
-<body>
 
 <div class="job-box" th:each="jobPosting : ${jobPostings}">
-    <h2><a th:href="@{/{email}/admin/job-postings/{id}(email=${email}, id=${jobPosting.getId()})}"><span th:text="${jobPosting.getTitle()}"></span></a></h2>
+    <h2><a th:href="@{/{email}/admin/job-postings/{id}(email=${email}, id=${jobPosting.getId()})}"><span
+            th:text="${jobPosting.getTitle()}"></span></a></h2>
     <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span>
     </p>
     <p><strong>Status:</strong> <span th:text="${jobPosting.getStatus()}"></span>
@@ -62,7 +63,3 @@
 </div>
 </body>
 </html>
-
-</body>
-</html>
-

@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title> Profile page </title>
-    <link rel="stylesheet" type="text/css" href="/css/EmployerHomePage.css">
+    <link href="/css/EmployerHomePage.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
 </head>
+
 <body>
 <header>
     <div class="container">
@@ -20,40 +28,21 @@
     </div>
 </header>
 
-<head>
-    <title>Profile page</title>
-    <link rel="stylesheet" type="text/css" href="/css/EmployerHomePage.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
-    <style media="screen">
-
-    </style>
-
-
-</head>
-
-
-<body>
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form th:action="@{/{email}/employer/profile(email=${email})}" method="post">
 
+<form method="post" th:action="@{/{email}/employer/profile(email=${email})}">
     <h3 style="color:#f09819;">Welcome </h3>
-    <link rel="stylesheet" type="text/css" href="/css/Index.css">
-
-
+    <link href="/css/Index.css" rel="stylesheet" type="text/css">
     <div class="form-group">
-        <label style="color:black;">First Name: <span th:text="${employerInformation.getFirstName()}"></span></label>
-        <label style="color:black;">Last Name: <span th:text="${employerInformation.getLastName()}"></span></label>
-        <label style="color:black;">Email: <span th:text="${employerInformation.getEmail()}"></span></label>
-        <label style="color:black;">Company: <span th:text="${employerInformation.getCompany()}"></span></label>
+        <label style="color:black;"><strong>First Name: </strong><span th:text="${employerInformation.getFirstName()}"></span></label>
+        <label style="color:black;"><strong>Last Name: </strong><span th:text="${employerInformation.getLastName()}"></span></label>
+        <label style="color:black;"><strong>Email: </strong><span th:text="${employerInformation.getEmail()}"></span></label>
+        <label style="color:black;"><strong>Company: </strong><span th:text="${employerInformation.getCompany()}"></span></label>
         <button><a style="color:white;" th:href="@{/employer/profile/edit}">Edit Profile Information<br></a></button>
     </div>
 </form>
-
 </body>
 </html>

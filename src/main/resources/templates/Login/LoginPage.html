@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Login page</title>
     <link href="/css/Index.css" rel="stylesheet" type="text/css">
@@ -8,53 +9,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <!--Stylesheet-->
     <style media="screen">
-
     </style>
-
-
 </head>
-
 <!--background design colors and size -->
-
 <body>
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form th:action="@{/login}" method="post">
-
-
+<form method="post" th:action="@{/login}">
     <h3 style="color: black;">Login</h3>
-
-
     <div class="container">
         <br/>
-
-
         <!--  post method for adding the email, password & functional login button -->
-
-        <form th:action="@{/login}" method="post">
+        <form method="post" th:action="@{/login}">
             <table>
                 <tr>
                     <div class="form-group">
-                        <td>Email:</td>
-                        <td><input name="email"/></td>
+                        <td><label for="email">Email:</label></td>
+                        <td><input id="email" name="email"/></td>
                     </div>
                 </tr>
                 <tr>
                     <div class="form-group">
-                        <td>Password:</td>
-                        <td><input name="password" type="password"/></td>
+                        <td><label for="password">Password:</label></td>
+                        <td><input id="password" name="password" type="password"/></td>
                     </div>
                 </tr>
-                <tr>
-                    <td/>
+                <td>
                     <button class="submit-btn" type="submit">Login</button>
-
+                </td>
             </table>
         </form>
-
-
     </div>
 </form>
 </body>
