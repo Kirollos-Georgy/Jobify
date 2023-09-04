@@ -1,6 +1,9 @@
 package com.Jobify.AdminProfileInformation;
 
+import com.Jobify.Applications.Applications;
+import com.Jobify.JobPostings.JobPostings;
 import com.Jobify.StudentProfileInformation.StudentProfileInformation;
+import com.Jobify.loginInformation.LoginInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,8 @@ public class AdminProfileInformationController {
 
     @Autowired
     private AdminProfileInformationService adminProfileInformationService;
+    @Autowired
+    private LoginInformationService loginInformationService;
 
     @RequestMapping("/{email}/admin/view-admins")
     public List<AdminProfileInformation> getAllAdmins() {
@@ -69,8 +74,12 @@ public class AdminProfileInformationController {
         adminProfileInformationService.deleteAdmin(email);
     }*/
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/admin/view-admins/{adminEmail}/delete")
-    public void deleteAdminFromAdmin(@PathVariable String adminEmail) {
+    @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/all-users/admin/{adminEmail}/delete")
+    public String deleteAdminFromAdmin(@PathVariable String adminEmail, HttpServletRequest request, ModelMap modelMap ) {
+        String email = (String) request.getSession().getAttribute("email");
         adminProfileInformationService.deleteAdmin(adminEmail);
+        loginInformationService.deleteUser(adminEmail);
+        modelMap.addAttribute("email", email);
+        return "redirect:/" + email + "/admin/all-users";
     }
 }

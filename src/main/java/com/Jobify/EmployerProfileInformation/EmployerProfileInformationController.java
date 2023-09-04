@@ -1,6 +1,12 @@
 package com.Jobify.EmployerProfileInformation;
 
+import com.Jobify.Applications.Applications;
+import com.Jobify.Applications.ApplicationsService;
+import com.Jobify.Feedback.FeedbackService;
+import com.Jobify.JobPostings.JobPostings;
+import com.Jobify.JobPostings.JobPostingsService;
 import com.Jobify.StudentProfileInformation.StudentProfileInformation;
+import com.Jobify.loginInformation.LoginInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +25,14 @@ public class EmployerProfileInformationController {
 
     @Autowired
     private EmployerProfileInformationService employerProfileInformationService;
+    @Autowired
+    private LoginInformationService loginInformationService;
+    @Autowired
+    FeedbackService feedbackService;
+    @Autowired
+    JobPostingsService jobPostingsService;
+    @Autowired
+    ApplicationsService applicationsService;
 
     @RequestMapping("/{email}/admin/view-employers")
     public List<EmployerProfileInformation> getAllEmployers() {
@@ -93,8 +107,21 @@ public class EmployerProfileInformationController {
         employerProfileInformationService.deleteEmployer(email);
     }*/
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/admin/view-employers/{employerEmail}/delete")
-    public void deleteEmployerFromAdmin(@PathVariable String employerEmail) {
+    @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/all-users/employer/{employerEmail}/delete")
+    public String deleteEmployerFromAdmin(@PathVariable String employerEmail, HttpServletRequest request, ModelMap modelMap ) {
+        String email = (String) request.getSession().getAttribute("email");
+        List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(employerEmail);
+        for (JobPostings jobPosting : jobPostings) {
+            List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(jobPosting.getId());
+            for (Applications application : applications) {
+                applicationsService.deleteApplication(application.getId());
+            }
+            jobPostingsService.deleteJobPosting(jobPosting.getId());
+        }
+        feedbackService.deleteFeedback(employerEmail);
         employerProfileInformationService.deleteEmployer(employerEmail);
+        loginInformationService.deleteUser(employerEmail);
+        modelMap.addAttribute("email", email);
+        return "redirect:/" + email + "/admin/all-users";
     }
 }
