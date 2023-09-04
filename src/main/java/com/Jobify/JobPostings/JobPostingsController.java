@@ -134,7 +134,7 @@ public class JobPostingsController {
         jobPosting.setCompany(employer.getCompany());
         jobPosting.setStatus("Open");
         jobPostingsService.addJobPosting(jobPosting);
-        return "viewCreatedJobPostings";
+        return "redirect:/" + email + "/employer";
     }
 
     @RequestMapping("/employer/{id}/edit")
@@ -177,8 +177,14 @@ public class JobPostingsController {
         return "viewCreatedJobPostings";
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/admin/job-postings/{id}/delete")
-    public void deleteJobPostingFromAdmin(@PathVariable long id) {
+    @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/job-postings/{id}/delete")
+    public String deleteJobPostingFromAdmin(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(id);
+        for (Applications application : applications) {
+            applicationsService.deleteApplication(application.getId());
+        }
         jobPostingsService.deleteJobPosting(id);
+        return "redirect:/" + email + "/admin/job-postings";
     }
 }
