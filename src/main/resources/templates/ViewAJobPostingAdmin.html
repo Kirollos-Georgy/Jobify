@@ -66,8 +66,9 @@
     <p><strong>Salary:</strong> <span th:text="${jobPosting.getSalary()}"></span></p>
     <p><strong>Deadline to apply:</strong> <span th:text="${jobPosting.getDeadline()}"></span></p>
     <p> <span th:text="${jobPosting.getDescription()}"></span></p><br>
-    <button><a style="color:black;" th:href="@{/{email}/admin/job-postings/{id}/delete(email=${email}, id=${jobPosting.getId()})}">Remove Job Posting<br></a>
-    </button>
+    <form th:action="@{/{email}/admin/job-postings/{id}/delete(email=${email}, id=${jobPosting.getId()})}" method="post">
+        <input type="submit" value="Remove Job Posting">
+    </form>
 </div>
 </body>
 </html>
