@@ -44,8 +44,12 @@ public class JobPostingsController {
 
 
     @RequestMapping("/{email}/admin/job-postings")
-    public List<JobPostings> getAllJobPostingsForAdmin() {
-        return jobPostingsService.getAllJobPostings();
+    public String getAllJobPostingsForAdmin(ModelMap modelMap, HttpServletRequest request) {
+        List<JobPostings> jobPostings = jobPostingsService.getAllJobPostings();
+        modelMap.addAttribute("jobPostings", jobPostings);
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        return "viewJobPostingsAdmin";
     }
 
     //Works - not tested with multiple job postings
