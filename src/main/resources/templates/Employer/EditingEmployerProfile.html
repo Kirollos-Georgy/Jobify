@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Edit employer profile</title>
-    <link rel="stylesheet" type="text/css" href="/css/CreatingEmployerProfile.css">
-
+    <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
 </head>
+
 <body>
 <header>
     <div class="container">
@@ -20,52 +25,29 @@
         </nav>
     </div>
 </header>
-<head>
 
-
-    <head>
-        <title>Edit employer profile</title>
-        <link rel="stylesheet" type="text/css" href="/css/CreatingEmployerProfile.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-        <!--Stylesheet-->
-
-
-    </head>
-
-
-<body>
-<div class="background">
-
-
-</div>
-<form th:action="@{/{email}/employer/profile/edit(email=${email})}" method="post">
+<form method="post" th:action="@{/{email}/employer/profile/edit(email=${email})}">
     <h3 style="color:black;">Edit Employer Profile</h3>
     <div class="container">
         <br/>
-        <form th:action="@{/{email}/employer/profile/edit(email=${email})}" method="post">
+        <form method="post" th:action="@{/{email}/employer/profile/edit(email=${email})}">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" th:value="${employerInformation.getFirstName()}"
-                       required>
+                <input id="firstName" name="firstName" required th:value="${employerInformation.getFirstName()}"
+                       type="text">
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" th:value="${employerInformation.getLastName()}"
-                       required>
+                <input id="lastName" name="lastName" required th:value="${employerInformation.getLastName()}"
+                       type="text">
             </div>
             <div class="form-group">
                 <label for="company">Company:</label>
-                <input type="text" id="company" name="company" th:value="${employerInformation.getCompany()}" required>
+                <input id="company" name="company" required th:value="${employerInformation.getCompany()}" type="text">
             </div>
-            <button type="submit" class="submit-btn">Save</button>
-
+            <button class="submit-btn" type="submit">Save</button>
+        </form>
     </div>
-    <script src="script.js"></script>
 </form>
-
-</div>
-
 </body>
 </html>

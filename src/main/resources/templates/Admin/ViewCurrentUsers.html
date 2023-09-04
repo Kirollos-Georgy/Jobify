@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title> Jobify </title>
-    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
+
 <header>
     <div class="container">
         <h1>Jobify</h1>
@@ -25,6 +28,13 @@
     </div>
 </section>
 
+<style>
+    .job-box {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+</style>
 
 <style>
     .job-box {
@@ -34,47 +44,46 @@
     }
 </style>
 
-
-</head>
-<body>
-<style>
-    .job-box {
-        border: 1px solid black;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-</style>
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
 
-    <div th:each="studentInformation : ${studentInformation}" class="job-box">
-        <p><strong>Student</strong></p><br/>
-        <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
-        <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
-        <br>
-        <label><a th:href="@{/{email}/admin/all-users/student/{studentEmail}(email=${email}, studentEmail=${studentInformation.getEmail()})}">View Profile<br></a></label><br>
-    </div>
-
-    <div class="job-box" th:each="employerInformation : ${employerInformation}">
-        <p><strong>Employer</strong></p><br/>
-        <p><strong>Name:</strong> <span th:text="${employerInformation.getFirstName()} + ' ' + ${employerInformation.getLastName()}"></span></p>
-        <p><strong>Company:</strong> <span th:text="${employerInformation.getCompany()}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${employerInformation.getEmail()}"></span></p>
-        <br>
-        <label><a th:href="@{/{email}/admin/all-users/employer/{employerEmail}(email=${email}, employerEmail=${employerInformation.getEmail()})}">View Profile<br></a></label><br>
-    </div>
-
-    <div class="job-box" th:each="adminInformation : ${adminInformation}">
-        <p><strong>Admin</strong></p><br/>
-        <p><strong>Name:</strong> <span th:text="${adminInformation.getFirstName()} + ' ' + ${adminInformation.getLastName()}"></span></p>
-        <p><strong>Admin Role:</strong> <span th:text="${adminInformation.getAdminRole()}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${adminInformation.getEmail()}"></span></p>
-        <br>
-        <label><a th:href="@{/{email}/admin/all-users/admin/{adminEmail}(email=${email}, adminEmail=${adminInformation.getEmail()})}">View Profile<br></a></label><br>
-    </div>
+<div class="job-box" th:each="studentInformation : ${studentInformation}">
+    <p><strong>Student</strong></p><br/>
+    <p><strong>Name:</strong> <span
+            th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
+    <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
+    <br>
+    <label><a
+            th:href="@{/{email}/admin/all-users/student/{studentEmail}(email=${email}, studentEmail=${studentInformation.getEmail()})}">View
+        Profile<br></a></label><br>
 </div>
+
+<div class="job-box" th:each="employerInformation : ${employerInformation}">
+    <p><strong>Employer</strong></p><br/>
+    <p><strong>Name:</strong> <span
+            th:text="${employerInformation.getFirstName()} + ' ' + ${employerInformation.getLastName()}"></span></p>
+    <p><strong>Company:</strong> <span th:text="${employerInformation.getCompany()}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${employerInformation.getEmail()}"></span></p>
+    <br>
+    <label><a
+            th:href="@{/{email}/admin/all-users/employer/{employerEmail}(email=${email}, employerEmail=${employerInformation.getEmail()})}">View
+        Profile<br></a></label><br>
+</div>
+
+<div class="job-box" th:each="adminInformation : ${adminInformation}">
+    <p><strong>Admin</strong></p><br/>
+    <p><strong>Name:</strong> <span
+            th:text="${adminInformation.getFirstName()} + ' ' + ${adminInformation.getLastName()}"></span></p>
+    <p><strong>Admin Role:</strong> <span th:text="${adminInformation.getAdminRole()}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${adminInformation.getEmail()}"></span></p>
+    <br>
+    <label><a
+            th:href="@{/{email}/admin/all-users/admin/{adminEmail}(email=${email}, adminEmail=${adminInformation.getEmail()})}">View
+        Profile<br></a></label><br>
+</div>
+
 </body>
 </html>

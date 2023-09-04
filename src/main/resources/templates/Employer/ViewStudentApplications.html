@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title> Jobify </title>
-    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
 <header>
     <div class="container">
@@ -20,20 +22,12 @@
     </div>
 </header>
 
-<section id="search">
-    <div class="container">
-        <h2>Find your dream job today</h2>
-
-    </div>
-</section>
-
 <section id="jobs">
     <div class="container">
         <h2>Applicants List</h2>
     </div>
 </section>
 
-<title>Job Postings</title>
 <style>
     .job-box {
         border: 1px solid black;
@@ -41,18 +35,16 @@
         margin-bottom: 10px;
     }
 </style>
-</head>
 <!--  -->
-<body>
-    <div th:each="studentInformation, index : ${studentInformation}" class="job-box">
-        <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ${studentInformation.getLastName()}"></span></p>
-        <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
-        <br>
-        <label><a th:href="@{/{email}/employer/{id}/applications/{applicationId}(email=${email}, id=${jobPosting.getId()}, applicationId=${applications[index.index].getId()})}">View student full information<br></a></label><br>
-    </div>
-</body>
-</html>
-
+<div class="job-box" th:each="studentInformation, index : ${studentInformation}">
+    <p><strong>Name:</strong> <span
+            th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
+    <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
+    <br>
+    <label><a
+            th:href="@{/{email}/employer/{id}/applications/{applicationId}(email=${email}, id=${jobPosting.getId()}, applicationId=${applications[index.index].getId()})}">View
+        student full information<br></a></label><br>
+</div>
 </body>
 </html>

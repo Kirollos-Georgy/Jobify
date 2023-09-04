@@ -50,7 +50,7 @@ public class ApplicationsController {
         for (Applications application : applications) {
             jobPostings.add(jobPostingsService.getJobPosting(application.getJobPostingsID()));
         }
-        modelMap.addAttribute("jobPosting", jobPostings);
+        modelMap.addAttribute("jobPostings", jobPostings);
         modelMap.addAttribute("email", email);
         return "/Student/viewJobPostings";
     }

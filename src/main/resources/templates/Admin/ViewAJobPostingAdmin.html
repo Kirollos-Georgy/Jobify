@@ -1,11 +1,14 @@
 <!-- View all the job postings in order to apply for jobs. -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Jobify</title>
-    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
+
 <header>
     <div class="container">
         <h1>Jobify</h1>
@@ -20,24 +23,12 @@
     </div>
 </header>
 
-<section id="search">
-    <div class="container">
-        <form>
-            <input type="text" placeholder="Search by keyword or location">
-            <button type="submit">Search</button>
-        </form>
-    </div>
-</section>
-
 <section id="jobs">
     <div class="container">
         <h2>Job Posting</h2>
-
     </div>
 </section>
 
-
-<title>Job Postings</title>
 <style>
     .job-box {
         border: 1px solid black;
@@ -55,24 +46,21 @@
         cursor: pointer;
     }
 </style>
-</head>
-<body>
+
 <div class="job-box">
     <h2><span th:text="${jobPosting.getTitle()}"></span></h2>
-    <p><strong>Employer:</strong> <span th:text="${employer.getFirstName()} + ' ' + ${employer.getLastName()}"></span></p>
+    <p><strong>Employer:</strong> <span th:text="${employer.getFirstName()} + ' ' + ${employer.getLastName()}"></span>
+    </p>
     <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span></p>
     <p><strong>Status:</strong> <span th:text="${jobPosting.getStatus()}"></span></p>
     <p><strong>Location:</strong> <span th:text="${jobPosting.getJobLocation()}"></span></p>
     <p><strong>Salary:</strong> <span th:text="${jobPosting.getSalary()}"></span></p>
     <p><strong>Deadline to apply:</strong> <span th:text="${jobPosting.getDeadline()}"></span></p>
-    <p> <span th:text="${jobPosting.getDescription()}"></span></p><br>
-    <form th:action="@{/{email}/admin/job-postings/{id}/delete(email=${email}, id=${jobPosting.getId()})}" method="post">
+    <p><span th:text="${jobPosting.getDescription()}"></span></p><br>
+    <form method="post"
+          th:action="@{/{email}/admin/job-postings/{id}/delete(email=${email}, id=${jobPosting.getId()})}">
         <input type="submit" value="Remove Job Posting">
     </form>
 </div>
 </body>
 </html>
-
-</body>
-</html>
-

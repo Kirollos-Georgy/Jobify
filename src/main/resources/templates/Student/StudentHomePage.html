@@ -1,68 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title> Profile page </title>
-  <link rel="stylesheet" type="text/css" href="/css/EmployerHomePage.css">
+    <title> Profile page </title>
+    <link href="/css/EmployerHomePage.css" rel="stylesheet" type="text/css">
+    <link href="/css/StudentHomePage.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
 </head>
 <body>
 <header>
-  <div class="container">
-    <h1>Jobify</h1>
-    <nav>
-      <ul>
-        <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
-        <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
-        <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a></li>
-        <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
-        <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
-
-      </ul>
-    </nav>
-  </div>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
+                <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
+                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a>
+                </li>
+                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
+                <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
+            </ul>
+        </nav>
+    </div>
 </header>
 
-<head>
-  <title>Profile page</title>
-  <link rel="stylesheet" type="text/css" href="/css/StudentHomePage.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-  <!--Stylesheet-->
-  <style media="screen">
-
-  </style>
-
-</head>
-
 <div class="background">
-  <div class="shape"></div>
-  <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
 </div>
-<form th:action="@{/{email}/student/profile(email=${email})}" method="post" enctype="multipart/form-data">
+<form enctype="multipart/form-data" method="post" th:action="@{/{email}/student/profile(email=${email})}">
 
-
-  <h3 style="color:orange;"> User Profile </h3>
-
-  <div class="container">
-    <br/>
-    <form method="get" th:action="@{/{email}/student/profile(email=${email})}">
-      <div class="form-group">
-        <img th:src="'data:image/jpeg;base64,' + ${studentInformation.getProfilePictureBase64()}"
-             alt="Student profile picture" width="180" height="180"><br>
-        <h4>First Name: <span th:text="${studentInformation.getFirstName()}"></span></h4>
-        <h4>Last Name: <span th:text="${studentInformation.getLastName()}"></span></h4>
-        <h4>Email: <span th:text="${studentInformation.getEmail()}"></span></h4>
-        <h4>Engineering field of study: <span th:text="${studentInformation.getFieldOfStudy()}"></span></h4>
-        <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getResumeBase64()}"
-           target="_blank">Resume</a><br>
-        <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}"
-           target="_blank">Cover Letter</a><br>
-        <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}"
-           target="_blank">Transcript</a><br>
-        <button><a style="color:white;" th:href="@{/student/profile/edit}">Edit Profile Information<br></a></button>
-      </div>
-    </form>
-  </div>
+    <h3 style="color:orange;"> User Profile </h3>
+    <div class="container">
+        <br/>
+        <form method="get" th:action="@{/{email}/student/profile(email=${email})}">
+            <div class="form-group">
+                <img alt="Student profile picture"
+                     height="180" th:src="'data:image/jpeg;base64,' + ${studentInformation.getProfilePictureBase64()}" width="180"><br>
+                <h4>First Name: <span th:text="${studentInformation.getFirstName()}"></span></h4>
+                <h4>Last Name: <span th:text="${studentInformation.getLastName()}"></span></h4>
+                <h4>Email: <span th:text="${studentInformation.getEmail()}"></span></h4>
+                <h4>Engineering field of study: <span th:text="${studentInformation.getFieldOfStudy()}"></span></h4>
+                <a style="color:blue;"
+                   target="_blank"
+                   th:href="'data:application/pdf;base64,' + ${studentInformation.getResumeBase64()}">Resume</a><br>
+                <a style="color:blue;"
+                   target="_blank"
+                   th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}">Cover Letter</a><br>
+                <a style="color:blue;"
+                   target="_blank"
+                   th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}">Transcript</a><br>
+                <button><a style="color:white;" th:href="@{/student/profile/edit}">Edit Profile Information<br></a>
+                </button>
+            </div>
+        </form>
+    </div>
 </form>
 </body>
 </html>

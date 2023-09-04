@@ -27,7 +27,7 @@ public class JobPostingsController {
     @RequestMapping("/{email}/student")
     public String getAllJobPostingsForStudent(ModelMap modelMap, HttpServletRequest request) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostings();
-        modelMap.addAttribute("jobPosting", jobPostings);
+        modelMap.addAttribute("jobPostings", jobPostings);
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
         return "/Student/viewJobPostings";

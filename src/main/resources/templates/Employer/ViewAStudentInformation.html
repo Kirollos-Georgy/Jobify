@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-
-
     <!--the title of the website and the css for styling-->
-
     <title>Jobify</title>
-    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
 <header>
     <div class="container">
@@ -24,33 +23,34 @@
     </div>
 </header>
 
-
 <!--In job section there is applicant information which includes the name,field,email that is added and store in the backend
  Also with submit button when the student is selected for an interview-->
-
 <section id="jobs">
     <div class="container">
         <h2>Applicant Information</h2>
         <div class="job-box">
             <h2><span th:text="${jobPosting.getTitle()}"></span></h2>
-            <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ${studentInformation.getLastName()}"></span></p>
+            <p><strong>Name:</strong> <span
+                    th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
             <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
-            <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getResumeBase64()}"
-               target="_blank">Resume</a><br>
-            <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}"
-               target="_blank">Cover Letter</a><br>
-            <a style="color:blue;" th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}"
-               target="_blank">Transcript</a><br>
-            <form method="post" th:action="@{/{email}/employer/{id}/applications/{applicationId}(email=${email}, id=${jobPosting.getId()}, applicationId=${applications.getId})}">
+            <a style="color:blue;" target="_blank"
+               th:href="'data:application/pdf;base64,' + ${studentInformation.getResumeBase64()}">Resume</a><br>
+            <a style="color:blue;"
+               target="_blank"
+               th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}">Cover
+                Letter</a><br>
+            <a style="color:blue;"
+               target="_blank"
+               th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}">Transcript</a><br>
+            <form method="post"
+                  th:action="@{/{email}/employer/{id}/applications/{applicationId}(email=${email}, id=${jobPosting.getId()}, applicationId=${applications.getId})}">
                 <input type="submit" value="Select for an interview">
             </form>
         </div>
     </div>
 </section>
 
-
-<title>Job Postings</title>
 <style>
     .job-box {
         border: 1px solid black;
@@ -68,12 +68,5 @@
         cursor: pointer;
     }
 </style>
-</head>
-<body>
-
-
-</body>
-</html>
-
 </body>
 </html>

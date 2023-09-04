@@ -1,60 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Create admin account</title>
-    <link href="/css/CreatingEmployerProfile.css" rel="stylesheet"
-          type="text/css">
+    <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
+    <title>Create admin account</title>
+    <!-- adding the white screen in the middle  -->
+    <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
 </head>
-<body>
-<header>
-    <div class="container">
-        <h1>Jobify</h1>
-        <nav>
-            <ul>
-                <!-- In the blur bar we will have 3 buttons(profile, current users and user feedback) -->
-
-                <li><a href="viewAdminProfileServlet">Profile</a></li>
-                <li><a href="viewCurrentUsersServlet">Current Users </a></li>
-                <li><a href="viewUserFeedbackServlet">User Feedback</a></li>
-                <li><a href="viewJobPostingsAdminServlet">Job Postings</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<head>
-    <head>
-        <title>Create admin account</title>
-        <!-- adding the white screen in the middle  -->
-        <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.gstatic.com" rel="preconnect">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-        <!--Stylesheet-->
-        <style media="screen">
-        </style>
-
-
-    </head>
-
 
 <body>
+
 <!-- To add the shapes which are the two circles that surround the white screen that is in the middle of the website page -->
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form th:action="@{/signUp/{email}/admin(email=${email})}" method="post">
 
+<form method="post" th:action="@{/signUp/{email}/admin(email=${email})}">
     <!--  styling  -->
     <h3 style="color: black;">Administrator Profile</h3>
-
     <p style="color: #FF8C00;">Please fill out the form below</p>
-
-
     <!-- let the admin write his first and last name and chose their select Administrator Role -->
     <div class="container">
         <br/>
-        <form th:action="@{/signUp/{email}/employer(email=${email})}" method="post">
+        <form method="post" th:action="@{/signUp/{email}/employer(email=${email})}">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
                 <input id="firstName" name="firstName" required type="text">
@@ -73,11 +49,8 @@
             </select>
             </div>
             <button class="submit-btn" type="submit">Submit</button>
+        </form>
     </div>
-    <script src="script.js"></script>
 </form>
-
-</div>
-
 </body>
 </html>

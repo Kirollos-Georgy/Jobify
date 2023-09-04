@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Edit admin profile</title>
-    <link rel="stylesheet" type="text/css" href="/css/CreatingEmployerProfile.css">
-
+    <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
 </head>
+
 <body>
+
 <header>
     <div class="container">
         <h1>Jobify</h1>
@@ -20,58 +26,39 @@
     </div>
 </header>
 
-<head>
-
-
-    <head>
-        <title>Edit admin profile</title>
-
-        <link rel="stylesheet" type="text/css" href="/css/CreatingEmployerProfile.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-        <!--Stylesheet-->
-
-
-    </head>
-
-
-<body>
 <div class="background">
-
-
 </div>
-<form th:action="@{/{email}/admin/profile/edit(email=${email})}" method="post">
+
+<form method="post" th:action="@{/{email}/admin/profile/edit(email=${email})}">
     <h3 style="color:black;">Edit Admin Profile</h3>
     <p style="color:#FF8C00;">Please fill out the form below</p>
     <div class="container">
         <br/>
-        <form th:action="@{/{email}/admin/profile/edit(email=${email})}" method="post">
+        <form method="post" th:action="@{/{email}/admin/profile/edit(email=${email})}">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" th:value="${adminInformation.getFirstName()}">
+                <input id="firstName" name="firstName" th:value="${adminInformation.getFirstName()}" type="text">
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" th:value="${adminInformation.getLastName()}">
+                <input id="lastName" name="lastName" th:value="${adminInformation.getLastName()}" type="text">
             </div>
             <div class="form-group">
                 <label for="adminRole">Select Administrator Role:</label>
                 <select id="adminRole" name="adminRole">
-                    <option value="" th:selected="${adminInformation.getAdminRole().equals('Administrator')}" th:disabled="${adminInformation.getAdminRole().equals('Administrator')}">Select Administrator Role</option>
-                    <option value="Administrator" th:selected="${adminInformation.getAdminRole().equals('Administrator')}">
+                    <option th:disabled="${adminInformation.getAdminRole().equals('Administrator')}" th:selected="${adminInformation.getAdminRole().equals('Administrator')}"
+                            value="">Select
+                        Administrator Role
+                    </option>
+                    <option th:selected="${adminInformation.getAdminRole().equals('Administrator')}"
+                            value="Administrator">
                         Administrator
                     </option>
                 </select>
             </div>
-
-            <button type="submit" class="submit-btn">Submit</button>
-
+            <button class="submit-btn" type="submit">Submit</button>
+        </form>
     </div>
-    <script src="script.js"></script>
 </form>
-
-</div>
-
 </body>
 </html>
