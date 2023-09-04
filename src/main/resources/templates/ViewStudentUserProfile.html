@@ -1,13 +1,10 @@
-<%@ page import="com.example.useraccount.JobPostings" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
     <!--  the title of the website and the css for styling -->
     <title>Jobify</title>
-    <link rel="stylesheet" type="text/css" href="viewJobPostings.css">
+    <link rel="stylesheet" type="text/css" href="/css/viewJobPostings.css">
 </head>
 <body>
 <header>
@@ -18,8 +15,8 @@
         <nav>
             <ul>
                 <li><a href="viewAdminProfileServlet">Profile</a></li>
-                <li><a href="viewCurrentUsersServlet">Current Users </a></li>
-                <li><a href="viewUserFeedbackServlet">User Feedback</a></li>
+                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
+                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
                 <li><a href="viewJobPostingsAdminServlet">Job Postings</a></li>
             </ul>
         </nav>
@@ -32,9 +29,9 @@
     <div class="container">
         <h2>Student Information</h2>
         <div class="job-box">
-            <p><strong>Name:</strong> ${studentInformation.getFirstName()} ${studentInformation.getLastName()}</p>
-            <p><strong>Field of study:</strong> ${studentInformation.getFieldOfStudy()}</p>
-            <p><strong>Email:</strong> ${studentInformation.getEmail()}</p>
+            <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
+            <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
             <form action="deleteUserServlet?studentEmail=${studentInformation.getEmail()}" method="post">
                 <input type="submit" value="Delete User">
             </form>
@@ -65,9 +62,6 @@
 </head>
 <body>
 
-
-<%--String status = (String) request.getAttribute("status");
-if (status.equals("Applied to")) {--%>
 
 </body>
 </html>
