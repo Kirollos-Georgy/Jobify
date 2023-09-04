@@ -1,6 +1,5 @@
 package com.Jobify.Applications;
 
-import com.Jobify.AdminProfileInformation.AdminProfileInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

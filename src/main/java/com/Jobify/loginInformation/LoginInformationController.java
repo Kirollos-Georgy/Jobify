@@ -6,21 +6,14 @@ import com.Jobify.EmployerProfileInformation.EmployerProfileInformation;
 import com.Jobify.EmployerProfileInformation.EmployerProfileInformationService;
 import com.Jobify.StudentProfileInformation.StudentProfileInformation;
 import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
-import com.Jobify.loginInformation.LoginInformation;
-import com.Jobify.loginInformation.LoginInformationService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.hibernate.result.Output;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 //@RestController

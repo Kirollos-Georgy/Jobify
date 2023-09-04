@@ -1,8 +1,5 @@
 package com.Jobify.JobPostings;
 
-import com.Jobify.EmployerProfileInformation.EmployerProfileInformation;
-import com.Jobify.EmployerProfileInformation.EmployerProfileInformationRepository;
-import com.Jobify.EmployerProfileInformation.EmployerProfileInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

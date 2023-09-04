@@ -1,13 +1,7 @@
 package com.Jobify.EmployerProfileInformation;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-
-import javax.sql.rowset.serial.SerialBlob;
-import java.sql.Blob;
-import java.sql.SQLException;
 
 @Entity
 public class EmployerProfileInformation {
