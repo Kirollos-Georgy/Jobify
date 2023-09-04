@@ -4,21 +4,12 @@ import com.Jobify.Applications.Applications;
 import com.Jobify.Applications.ApplicationsService;
 import com.Jobify.EmployerProfileInformation.EmployerProfileInformation;
 import com.Jobify.EmployerProfileInformation.EmployerProfileInformationService;
-import com.Jobify.StudentProfileInformation.StudentProfileInformation;
-import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.sql.rowset.serial.SerialBlob;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller

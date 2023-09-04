@@ -1,6 +1,5 @@
 package com.Jobify.StudentProfileInformation;
 
-import com.Jobify.loginInformation.LoginInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

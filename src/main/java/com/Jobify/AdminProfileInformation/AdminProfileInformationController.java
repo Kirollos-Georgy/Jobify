@@ -1,21 +1,15 @@
 package com.Jobify.AdminProfileInformation;
 
-import com.Jobify.Applications.Applications;
-import com.Jobify.EmployerProfileInformation.EmployerProfileInformation;
-import com.Jobify.JobPostings.JobPostings;
-import com.Jobify.StudentProfileInformation.StudentProfileInformation;
 import com.Jobify.loginInformation.LoginInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.sql.rowset.serial.SerialBlob;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller

@@ -1,6 +1,5 @@
 package com.Jobify.JobPostings;
 
-import com.Jobify.Applications.Applications;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
