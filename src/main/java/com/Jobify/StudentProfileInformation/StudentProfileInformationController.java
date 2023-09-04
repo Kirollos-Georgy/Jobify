@@ -1,5 +1,9 @@
 package com.Jobify.StudentProfileInformation;
 
+import com.Jobify.Applications.Applications;
+import com.Jobify.Applications.ApplicationsService;
+import com.Jobify.Feedback.FeedbackService;
+import com.Jobify.loginInformation.LoginInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,12 @@ public class StudentProfileInformationController {
 
     @Autowired
     private StudentProfileInformationService studentProfileInformationService;
+    @Autowired
+    private ApplicationsService applicationsService;
+    @Autowired
+    private LoginInformationService loginInformationService;
+    @Autowired
+    FeedbackService feedbackService;
 
     @RequestMapping("/{email}/admin/students")
     public String getAllStudents(ModelMap modelMap) {
@@ -148,9 +158,17 @@ public class StudentProfileInformationController {
         studentProfileInformationService.deleteStudent(email);
     }*/
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/admin/students/{studentEmail}/delete")
-    public String deleteStudentFromAdmin(@PathVariable String studentEmail, @PathVariable String email) {
+    @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/all-users/student/{studentEmail}/delete")
+    public String deleteStudentFromAdmin(@PathVariable String studentEmail, HttpServletRequest request, ModelMap modelMap ) {
+        String email = (String) request.getSession().getAttribute("email");
+        List<Applications> applications = applicationsService.getAllApplicationsByStudentEmail(studentEmail);
+        for (Applications application : applications) {
+            applicationsService.deleteApplication(application.getId());
+        }
+        feedbackService.deleteFeedback(studentEmail);
         studentProfileInformationService.deleteStudent(studentEmail);
-        return "redirect:/" + email + "/admin/students/";
+        loginInformationService.deleteUser(studentEmail);
+        modelMap.addAttribute("email", email);
+        return "redirect:/" + email + "/admin/all-users";
     }
 }

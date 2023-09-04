@@ -32,7 +32,7 @@
             <p><strong>Name:</strong> <span th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
             <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
-            <form action="deleteUserServlet?studentEmail=${studentInformation.getEmail()}" method="post">
+            <form th:action="@{/{email}/admin/all-users/student/{studentEmail}/delete(email=${email}, studentEmail=${studentInformation.getEmail()})}" method="post">
                 <input type="submit" value="Delete User">
             </form>
 
