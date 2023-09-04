@@ -30,9 +30,13 @@ public class AdminProfileInformationController {
         return adminProfileInformationService.getAdmin(email);
     }
 
-    @RequestMapping("/{email}/admin/view-admins/{adminEmail}")
-    public AdminProfileInformation getAdminForAdmin(@PathVariable String adminEmail) {
-        return adminProfileInformationService.getAdmin(adminEmail);
+    @RequestMapping("/{email}/admin/all-users/admin/{adminEmail}")
+    public String getAdminForAdmin(@PathVariable String adminEmail, ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        AdminProfileInformation admin = adminProfileInformationService.getAdmin(adminEmail);
+        modelMap.addAttribute("adminInformation", admin);
+        return "ViewAdminUserProfile";
     }
 
     @RequestMapping("/signUp/admin")
