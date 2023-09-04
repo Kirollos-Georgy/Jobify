@@ -1,6 +1,7 @@
 package com.Jobify.AdminProfileInformation;
 
 import com.Jobify.Applications.Applications;
+import com.Jobify.EmployerProfileInformation.EmployerProfileInformation;
 import com.Jobify.JobPostings.JobPostings;
 import com.Jobify.StudentProfileInformation.StudentProfileInformation;
 import com.Jobify.loginInformation.LoginInformationService;
@@ -30,9 +31,14 @@ public class AdminProfileInformationController {
         return adminProfileInformationService.getAllAdmins();
     }
 
+
     @RequestMapping("/{email}/admin/profile")
-    public AdminProfileInformation getAdmin(@PathVariable String email) {
-        return adminProfileInformationService.getAdmin(email);
+    public String getAdmin(@PathVariable String email, ModelMap modelMap, HttpServletRequest request) {
+        AdminProfileInformation adminProfileInformation = adminProfileInformationService.getAdmin(email);
+        modelMap.addAttribute("adminInformation", adminProfileInformation);
+        String email1 = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email1);
+        return "AdminHomePage";
     }
 
     @RequestMapping("/{email}/admin/all-users/admin/{adminEmail}")
