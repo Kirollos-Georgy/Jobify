@@ -12,11 +12,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul>
-                <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
-                <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a>
-                </li>
-                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
+                <li><a th:href="@{/student}">Home</a></li>
+                <li><a th:href="@{/student/profile}">Profile</a></li>
+                <li><a th:href="@{/student/{status}(status='applications')}">Applications</a></li>
+                <li><a th:href="@{/student/{status}(status='interviews')}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
             </ul>
         </nav>
@@ -58,7 +57,7 @@
     <p><span th:text="${jobPosting.getDescription()}"></span></p>
 </div>
 
-<form th:action="@{/{email}/student/{id}/apply(email=${email}, id=${jobPosting.getId()})}">
+<form th:action="@{/student/{id}/apply(id=${jobPosting.getId()})}">
     <input type="submit" value="Apply">
 </form>
 </body>

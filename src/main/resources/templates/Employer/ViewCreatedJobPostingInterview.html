@@ -18,10 +18,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul>
-                <li><a th:href="@{/{email}/employer(email=${email})}">Home</a></li>
-                <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
-                <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
+                <li><a th:href="@{/employer}">Home</a></li>
+                <li><a th:href="@{/employer/profile}">Profile</a></li>
+                <li><a th:href="@{/employer/add-job-posting}">Add Jobs </a></li>
+                <li><a th:href="@{/employer/interview}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
             </ul>
         </nav>
@@ -48,7 +48,7 @@
     </div>
     <!-- button for View student applications  -->
     <button><a style="color:white;"
-               th:href="@{/{email}/employer/{id}/interview/applications(email=${email}, id=${jobPosting.getId()})}">View
+               th:href="@{/employer/{id}/interview/applications(id=${jobPosting.getId()})}">View
         student applications<br></a></button>
 </form>
 </body>

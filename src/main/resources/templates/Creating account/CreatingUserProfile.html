@@ -19,11 +19,11 @@
     <div class="shape"></div>
 </div>
 
-<form enctype="multipart/form-data" method="post" th:action="@{/signUp/{email}/student(email=${email})}">
+<form enctype="multipart/form-data" method="post" th:action="@{/signUp/student}">
     <h3 style="color:orange;">*User Profile*</h3>
     <div class="container">
         <br/>
-        <form enctype="multipart/form-data" method="post" th:action="@{/signUp/{email}/student(email=${email})}">
+        <form enctype="multipart/form-data" method="post" th:action="@{/signUp/student}">
             <table>
                 <div class="form-group">
                     <label for="profilePicture">Profile Picture:</label>

@@ -17,10 +17,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul> <!-- Change the pages -->
-                <li><a th:href="@{/{email}/admin/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
-                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
-                <li><a th:href="@{/{email}/admin/job-postings(email=${email})}">Job Postings</a></li>
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
             </ul>
         </nav>
     </div>
@@ -29,12 +29,12 @@
 <div class="background">
 </div>
 
-<form method="post" th:action="@{/{email}/admin/profile/edit(email=${email})}">
+<form method="post" th:action="@{/admin/profile/edit}">
     <h3 style="color:black;">Edit Admin Profile</h3>
     <p style="color:#FF8C00;">Please fill out the form below</p>
     <div class="container">
         <br/>
-        <form method="post" th:action="@{/{email}/admin/profile/edit(email=${email})}">
+        <form method="post" th:action="@{/admin/profile/edit}">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
                 <input id="firstName" name="firstName" th:value="${adminInformation.getFirstName()}" type="text">

@@ -13,10 +13,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul> <!-- Change the pages -->
-                <li><a th:href="@{/{email}/admin/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
-                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
-                <li><a th:href="@{/{email}/admin/job-postings(email=${email})}">Job Postings</a></li>
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
             </ul>
         </nav>
     </div>
@@ -57,7 +57,7 @@
     <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
     <br>
     <label><a
-            th:href="@{/{email}/admin/all-users/student/{studentEmail}(email=${email}, studentEmail=${studentInformation.getEmail()})}">View
+            th:href="@{/admin/all-users/student/{studentEmail}(studentEmail=${studentInformation.getEmail()})}">View
         Profile<br></a></label><br>
 </div>
 
@@ -69,7 +69,7 @@
     <p><strong>Email:</strong> <span th:text="${employerInformation.getEmail()}"></span></p>
     <br>
     <label><a
-            th:href="@{/{email}/admin/all-users/employer/{employerEmail}(email=${email}, employerEmail=${employerInformation.getEmail()})}">View
+            th:href="@{/admin/all-users/employer/{employerEmail}(employerEmail=${employerInformation.getEmail()})}">View
         Profile<br></a></label><br>
 </div>
 
@@ -81,7 +81,7 @@
     <p><strong>Email:</strong> <span th:text="${adminInformation.getEmail()}"></span></p>
     <br>
     <label><a
-            th:href="@{/{email}/admin/all-users/admin/{adminEmail}(email=${email}, adminEmail=${adminInformation.getEmail()})}">View
+            th:href="@{/admin/all-users/admin/{adminEmail}(adminEmail=${adminInformation.getEmail()})}">View
         Profile<br></a></label><br>
 </div>
 

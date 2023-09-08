@@ -28,7 +28,7 @@ public class LoginInformationController {
     @Autowired
     private AdminProfileInformationService adminProfileInformationService;
 
-    @RequestMapping("/{email}/admin/all-users")
+    @RequestMapping("/admin/all-users")
     public String getAllUsers(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         List<LoginInformation> loginInformation = loginInformationService.getAllUsers();
@@ -36,16 +36,13 @@ public class LoginInformationController {
         List<EmployerProfileInformation> employerProfileInformation = new ArrayList<>();
         List<AdminProfileInformation> adminProfileInformation = new ArrayList<>();
         String tempEmail = "";
-        for (int i = 0; i < loginInformation.size(); i++) {
-            tempEmail = loginInformation.get(i).getEmail();
-            if (loginInformation.get(i).getUserType().equals("student")) {
-                studentProfileInformation.add(studentProfileInformationService.getStudent(tempEmail));
-            }
-            else if (loginInformation.get(i).getUserType().equals("employer")) {
-                employerProfileInformation.add(employerProfileInformationService.getEmployer(tempEmail));
-            }
-            else if (loginInformation.get(i).getUserType().equals("admin")) {
-                adminProfileInformation.add(adminProfileInformationService.getAdmin(tempEmail));
+        for (LoginInformation information : loginInformation) {
+            tempEmail = information.getEmail();
+            switch (information.getUserType()) {
+                case "student" -> studentProfileInformation.add(studentProfileInformationService.getStudent(tempEmail));
+                case "employer" ->
+                        employerProfileInformation.add(employerProfileInformationService.getEmployer(tempEmail));
+                case "admin" -> adminProfileInformation.add(adminProfileInformationService.getAdmin(tempEmail));
             }
         }
         modelMap.addAttribute("email", email);
@@ -84,7 +81,7 @@ public class LoginInformationController {
             }
             loginInformationService.addUser(loginInformation);
             request.getSession().setAttribute("email", loginInformation.getEmail());
-            return "redirect:/signUp/" /*+ loginInformation.getEmail() + "/"*/ + loginInformation.getUserType();
+            return "redirect:/signUp/" + loginInformation.getUserType();
         }
     }
 
@@ -101,25 +98,27 @@ public class LoginInformationController {
             LoginInformation loginInformation1 = loginInformationService.getUser(loginInformation.getEmail());
             request.getSession().setAttribute("email", loginInformation.getEmail());
             if (loginInformation1.getUserType().equals("admin")) {
-                return "redirect:/" + loginInformation.getEmail() + "/" + loginInformation1.getUserType() + "/feedbacks";
+                return "redirect:/" + loginInformation1.getUserType() + "/feedbacks";
             }
-            return "redirect:/" + loginInformation.getEmail() + "/" + loginInformation1.getUserType();
+            return "redirect:/" + loginInformation1.getUserType();
         }
         else {
             return "/Login/InvalidLoginPage"; //Tested
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/{userType}/profile/change-password")
-    public String updateUserStudent(@RequestBody String password, @PathVariable String email) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/{userType}/profile/change-password")
+    public String updateUserStudent(@RequestBody String password, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         LoginInformation loginInformation = loginInformationService.getUser(email);
         loginInformation.setPassword(password);
         loginInformationService.updateUser(loginInformation);
-        return "redirect:/" + loginInformation.getEmail() + "/" + loginInformation.getUserType() + "/profile";
+        return "redirect:/" + loginInformation.getUserType() + "/profile";
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/{userType}/profile/delete")
-    public String deleteUser(@PathVariable String email) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{userType}/profile/delete")
+    public String deleteUser(HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         loginInformationService.deleteUser(email);
         return "index";
     }

@@ -28,12 +28,12 @@ public class ApplicationsController {
     @Autowired
     private StudentProfileInformationService studentProfileInformationService;
 
-    @RequestMapping("/{email}/admin/applications")
+    @RequestMapping("/admin/applications")
     public List<Applications> getAllApplications() {
         return applicationsService.getAllApplications();
     }
 
-    @RequestMapping("/{email}/student/{status}")
+    @RequestMapping("/student/{status}")
     public String getAllApplicationsByStudentEmail(ModelMap modelMap, HttpServletRequest request, @PathVariable String status) {
         String email = (String) request.getSession().getAttribute("email");
 
@@ -55,7 +55,7 @@ public class ApplicationsController {
         return "/Student/viewJobPostings";
     }
 
-    @RequestMapping("/{email}/employer/{jobPostingId}/applications")
+    @RequestMapping("/employer/{jobPostingId}/applications")
     public String getAllApplicationsByJobPostingId(@PathVariable long jobPostingId, ModelMap modelMap, HttpServletRequest request) {
         List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(jobPostingId);
         List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
@@ -76,7 +76,7 @@ public class ApplicationsController {
         return applicationsService.getAllApplicationsByStatus(status);
     }*/
 
-    @RequestMapping("/{email}/employer/{jobPostingId}/interview/applications")
+    @RequestMapping("/employer/{jobPostingId}/interview/applications")
     public String getAllApplicationsByJobPostingIdAndStatus(@PathVariable long jobPostingId, ModelMap modelMap, HttpServletRequest request) {
         List<Applications> applications = applicationsService.getAllApplicationsByJobPostingIdAndStatus(jobPostingId, "Selected for interview");
         List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
@@ -92,17 +92,17 @@ public class ApplicationsController {
         return "/Employer/ViewStudentApplications";
     }
 
-    @RequestMapping("/{email}/student/applications/{id}")
+    @RequestMapping("/student/applications/{id}")
     public Applications getApplicationStudent(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/{email}/student/applications/{status}/{id}")
+    @RequestMapping("/student/applications/{status}/{id}")
     public Applications getApplicationStudentWithStatus(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/{email}/employer/{jobPostingId}/applications/{id}")
+    @RequestMapping("/employer/{jobPostingId}/applications/{id}")
     public String getApplicationEmployer(@PathVariable long id, ModelMap modelMap, HttpServletRequest request, @PathVariable long jobPostingId) {
         Applications application = applicationsService.getApplication(id);
         String email = (String) request.getSession().getAttribute("email");
@@ -115,7 +115,7 @@ public class ApplicationsController {
         return "/Employer/ViewAStudentInformation";
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/{email}/employer/{jobPostingId}/applications/{id}")
+    @RequestMapping(method=RequestMethod.POST, value="/employer/{jobPostingId}/applications/{id}")
     public String selectStudentForInterview(@PathVariable long id, ModelMap modelMap, HttpServletRequest request, @PathVariable long jobPostingId) {
         Applications application1 = applicationsService.getApplication(id);
         application1.setStatus("Selected for interview");
@@ -135,17 +135,17 @@ public class ApplicationsController {
         return "/Employer/ViewStudentApplications";
     }
 
-    @RequestMapping("/{email}/employer/{jobPostingId}/applications/selected-for-interview/{id}")
+    @RequestMapping("/employer/{jobPostingId}/applications/selected-for-interview/{id}")
     public Applications getApplicationEmployerWithStatus(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/{email}/admin/applications/{id}")
+    @RequestMapping("/admin/applications/{id}")
     public Applications getApplicationForAdmin(@PathVariable long id) {
         return applicationsService.getApplication(id);
     }
 
-    @RequestMapping("/{email}/student/{id}/apply")
+    @RequestMapping("/student/{id}/apply")
     public String applyForJobPostingForm(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
         JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
         modelMap.addAttribute("jobPosting", jobPosting);
@@ -154,7 +154,7 @@ public class ApplicationsController {
         return "/Student/ApplyForAJobPosting";
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/{email}/student/{id}/apply")
+    @RequestMapping(method=RequestMethod.POST, value="/student/{id}/apply")
     public String applyForJobPosting(HttpServletRequest request, @PathVariable long id, ModelMap modelMap, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("default") String[] defaultInformation) {
         JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
         String email = (String) request.getSession().getAttribute("email");
@@ -207,15 +207,15 @@ public class ApplicationsController {
 
         applicationsService.addApplication(application);
 
-        return "redirect:/" + email + "/student";
+        return "redirect:/student";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/student/applications/{jobPostingId}/{id}/edit")
+    @RequestMapping(method = RequestMethod.PUT, value = "/student/applications/{jobPostingId}/{id}/edit")
     public void updateApplication(@RequestBody Applications application) {
         applicationsService.updateApplication(application);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/student/applications/{jobPostingId}/{id}/delete")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/student/applications/{jobPostingId}/{id}/delete")
     public void deleteApplication(@PathVariable long id) {
         applicationsService.deleteApplication(id);
     }

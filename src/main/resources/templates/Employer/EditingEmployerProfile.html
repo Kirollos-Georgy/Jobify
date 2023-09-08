@@ -16,21 +16,21 @@
         <h1>Jobify Website</h1>
         <nav>
             <ul>
-                <li><a th:href="@{/{email}/employer(email=${email})}">Home</a></li>
-                <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
-                <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
+                <li><a th:href="@{/employer}">Home</a></li>
+                <li><a th:href="@{/employer/profile}">Profile</a></li>
+                <li><a th:href="@{/employer/add-job-posting}">Add Jobs </a></li>
+                <li><a th:href="@{/employer/interview}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
             </ul>
         </nav>
     </div>
 </header>
 
-<form method="post" th:action="@{/{email}/employer/profile/edit(email=${email})}">
+<form method="post" th:action="@{/employer/profile/edit}">
     <h3 style="color:black;">Edit Employer Profile</h3>
     <div class="container">
         <br/>
-        <form method="post" th:action="@{/{email}/employer/profile/edit(email=${email})}">
+        <form method="post" th:action="@{/employer/profile/edit}">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
                 <input id="firstName" name="firstName" required th:value="${employerInformation.getFirstName()}"

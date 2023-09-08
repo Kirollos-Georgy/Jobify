@@ -18,7 +18,7 @@ public class FeedbackController {
     @Autowired
     private LoginInformationService loginInformationService;
 
-    @RequestMapping("/{email}/admin/feedbacks")
+    @RequestMapping("/admin/feedbacks")
     public String getAllFeedbacks(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         List<Feedback> feedbacks = feedbackService.getAllFeedbacks();
@@ -46,32 +46,34 @@ public class FeedbackController {
         return feedbackService.getFeedback(email);
     }*/
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{email}/{userType}/feedback")
+    @RequestMapping(method = RequestMethod.POST, value = "/{userType}/feedback")
     public String addFeedback(@PathVariable String userType, HttpServletRequest request, ModelMap modelMap, @RequestParam("rate") String rate, @RequestParam("subject") String subject) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
         Feedback feedback = new Feedback(email, subject, Integer.parseInt(rate));
         feedbackService.addFeedback(feedback);
-        return "redirect:/" + email + "/" + userType;
+        return "redirect:/" + userType;
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/student/feedback/edit")
+    @RequestMapping(method = RequestMethod.PUT, value = "/student/feedback/edit")
     public void updateFeedbackStudent(@RequestBody Feedback Feedback) {
         feedbackService.updateFeedback(Feedback);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/employer/feedback/edit")
+    @RequestMapping(method = RequestMethod.PUT, value = "/employer/feedback/edit")
     public void updateFeedbackEmployer(@RequestBody Feedback Feedback) {
         feedbackService.updateFeedback(Feedback);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/student/feedback/delete")
-    public void deleteFeedbackStudent(@PathVariable String email) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/student/feedback/delete")
+    public void deleteFeedbackStudent(HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         feedbackService.deleteFeedback(email);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{email}/employer/feedback/delete")
-    public void deleteFeedbackEmployer(@PathVariable String email) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/employer/feedback/delete")
+    public void deleteFeedbackEmployer(HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         feedbackService.deleteFeedback(email);
     }
 }

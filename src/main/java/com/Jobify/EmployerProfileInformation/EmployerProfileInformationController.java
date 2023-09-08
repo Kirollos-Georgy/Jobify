@@ -28,21 +28,21 @@ public class EmployerProfileInformationController {
     @Autowired
     ApplicationsService applicationsService;
 
-    @RequestMapping("/{email}/admin/view-employers")
+    @RequestMapping("/admin/view-employers")
     public List<EmployerProfileInformation> getAllEmployers() {
         return employerProfileInformationService.getAllEmployers();
     }
 
-    @RequestMapping("/{email}/employer/profile")
-    public String getEmployer(@PathVariable String email, ModelMap modelMap, HttpServletRequest request) {
+    @RequestMapping("/employer/profile")
+    public String getEmployer(ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(email);
         modelMap.addAttribute("employerInformation", employerProfileInformation);
-        String email1 = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email1);
+        modelMap.addAttribute("email", email);
         return "/Employer/EmployerHomePage";
     }
 
-    @RequestMapping("/{email}/admin/all-users/employer/{employerEmail}")
+    @RequestMapping("/admin/all-users/employer/{employerEmail}")
     public String getEmployerForAdmin(@PathVariable String employerEmail, ModelMap modelMap, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
@@ -66,11 +66,12 @@ public class EmployerProfileInformationController {
     }
 
     //Works
-    @RequestMapping(method = RequestMethod.POST, value = "/signUp/{email}/employer")
-    public String addEmployer(EmployerProfileInformation employerProfileInformation, @PathVariable String email) {
+    @RequestMapping(method = RequestMethod.POST, value = "/signUp/employer")
+    public String addEmployer(EmployerProfileInformation employerProfileInformation, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         employerProfileInformation.setEmail(email);
         employerProfileInformationService.addEmployer(employerProfileInformation);
-        return "redirect:/" + email + "/employer";
+        return "redirect:/employer";
     }
 
     @RequestMapping("/employer/profile/edit")
@@ -82,26 +83,26 @@ public class EmployerProfileInformationController {
         return "/Employer/EditingEmployerProfile";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{email}/employer/profile/edit")
-    public String updateEmployer(EmployerProfileInformation employerProfileInformation, @PathVariable String email, ModelMap modelMap, HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST, value = "/employer/profile/edit")
+    public String updateEmployer(EmployerProfileInformation employerProfileInformation, ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         employerProfileInformation.setEmail(email);
-        String email1 = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email1);
+        modelMap.addAttribute("email", email);
         employerProfileInformationService.updateEmployer(employerProfileInformation);
-        return "redirect:/" + email + "/employer/profile";
+        return "redirect:/employer/profile";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/admin/view-employers/{employerEmail}/edit")
+    @RequestMapping(method = RequestMethod.PUT, value = "/admin/view-employers/{employerEmail}/edit")
     public void updateEmployerFromAdmin(@RequestBody EmployerProfileInformation employerProfileInformation) {
         employerProfileInformationService.updateEmployer(employerProfileInformation);
     }
 
-    /*@RequestMapping(method = RequestMethod.DELETE, value = "/{email}/employer/profile/delete")
+    /*@RequestMapping(method = RequestMethod.DELETE, value = "/employer/profile/delete")
     public void deleteEmployer(@PathVariable String email) {
         employerProfileInformationService.deleteEmployer(email);
     }*/
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/all-users/employer/{employerEmail}/delete")
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/employer/{employerEmail}/delete")
     public String deleteEmployerFromAdmin(@PathVariable String employerEmail, HttpServletRequest request, ModelMap modelMap ) {
         String email = (String) request.getSession().getAttribute("email");
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(employerEmail);
@@ -116,6 +117,6 @@ public class EmployerProfileInformationController {
         employerProfileInformationService.deleteEmployer(employerEmail);
         loginInformationService.deleteUser(employerEmail);
         modelMap.addAttribute("email", email);
-        return "redirect:/" + email + "/admin/all-users";
+        return "redirect:/admin/all-users";
     }
 }

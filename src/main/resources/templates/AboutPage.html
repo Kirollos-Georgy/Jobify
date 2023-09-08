@@ -21,25 +21,25 @@
         <nav>
             <ul>
                 <li th:if="${loginInformation.getUserType().equals('student')}"><a
-                        th:href="@{/{email}/student(email=${email})}">Home</a></li>
+                        th:href="@{/student}">Home</a></li>
                 <li th:if="${loginInformation.getUserType().equals('student')}"><a
-                        th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
+                        th:href="@{/student/profile}">Profile</a></li>
                 <li th:if="${loginInformation.getUserType().equals('student')}"><a
-                        th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a>
+                        th:href="@{/student/{status}(status='applications')}">Applications</a>
                 </li>
                 <li th:if="${loginInformation.getUserType().equals('student')}"><a
-                        th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
+                        th:href="@{/student/{status}(status='interviews')}">Interviews</a></li>
                 <li th:if="${loginInformation.getUserType().equals('student')}"><a
                         th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
 
                 <li th:if="${loginInformation.getUserType().equals('employer')}"><a
-                        th:href="@{/{email}/employer(email=${email})}">Home</a></li>
+                        th:href="@{/employer}">Home</a></li>
                 <li th:if="${loginInformation.getUserType().equals('employer')}"><a
-                        th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
+                        th:href="@{/employer/profile}">Profile</a></li>
                 <li th:if="${loginInformation.getUserType().equals('employer')}"><a
-                        th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs</a></li>
+                        th:href="@{/employer/add-job-posting}">Add Jobs</a></li>
                 <li th:if="${loginInformation.getUserType().equals('employer')}"><a
-                        th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
+                        th:href="@{/employer/interview}">Interviews</a></li>
                 <li th:if="${loginInformation.getUserType().equals('employer')}"><a
                         th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
 
@@ -62,7 +62,7 @@
 </div>
 
 <form enctype="multipart/form-data"
-      method="post" th:action="@{/{email}/{userType}/feedback(email=${email}, userType=${loginInformation.getUserType()})}">
+      method="post" th:action="@{/{userType}/feedback(userType=${loginInformation.getUserType()})}">
     <h3 style="color:#f09819;">About </h3>
     <link href="/css/AboutPage.css" rel="stylesheet" type="text/css">
     <div class="form-group">

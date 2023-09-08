@@ -19,10 +19,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul>
-                <li><a th:href="@{/{email}/employer(email=${email})}">Home</a></li>
-                <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
-                <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
+                <li><a th:href="@{/employer}">Home</a></li>
+                <li><a th:href="@{/employer/profile}">Profile</a></li>
+                <li><a th:href="@{/employer/add-job-posting}">Add Jobs </a></li>
+                <li><a th:href="@{/employer/interview}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
             </ul>
         </nav>
@@ -49,14 +49,14 @@
     </div>
     <!-- button for View student applications  -->
     <button><a style="color:white;"
-               th:href="@{/{email}/employer/{id}/applications(email=${email}, id=${jobPosting.getId()})}">View student
+               th:href="@{/employer/{id}/applications(id=${jobPosting.getId()})}">View student
         applications<br></a></button>
     <!-- button for editing job posting  -->
     <button><a style="color:white;" th:href="@{/employer/{id}/edit(id=${jobPosting.getId()})}">Edit Job Posting<br></a>
     </button>
     <!-- button for removing job posting  -->
     <button><a style="color:white;"
-               th:href="@{/{email}/employer/{id}/delete(email=${email}, id=${jobPosting.getId()})}">Remove Job
+               th:href="@{/employer/{id}/delete(id=${jobPosting.getId()})}">Remove Job
         Posting<br></a></button>
 </form>
 </body>
