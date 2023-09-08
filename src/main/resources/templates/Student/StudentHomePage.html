@@ -40,7 +40,8 @@
         <form method="get" th:action="@{/student/profile}">
             <div class="form-group">
                 <img alt="Student profile picture"
-                     height="180" th:src="'data:image/jpeg;base64,' + ${studentInformation.getProfilePictureBase64()}" width="180"><br>
+                     height="180" th:src="'data:image/jpeg;base64,' + ${studentInformation.getProfilePictureBase64()}"
+                     width="180"><br>
                 <h4>First Name: <span th:text="${studentInformation.getFirstName()}"></span></h4>
                 <h4>Last Name: <span th:text="${studentInformation.getLastName()}"></span></h4>
                 <h4>Email: <span th:text="${studentInformation.getEmail()}"></span></h4>
@@ -50,11 +51,14 @@
                    th:href="'data:application/pdf;base64,' + ${studentInformation.getResumeBase64()}">Resume</a><br>
                 <a style="color:blue;"
                    target="_blank"
-                   th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}">Cover Letter</a><br>
+                   th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}">Cover
+                    Letter</a><br>
                 <a style="color:blue;"
                    target="_blank"
                    th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}">Transcript</a><br>
                 <button><a style="color:white;" th:href="@{/student/profile/edit}">Edit Profile Information<br></a>
+                </button>
+                <button><a style="color:white;" th:href="@{/student/profile/change-password}">Change Password<br></a>
                 </button>
             </div>
         </form>
