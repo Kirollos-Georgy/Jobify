@@ -9,6 +9,7 @@ import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,13 +108,36 @@ public class LoginInformationController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{userType}/profile/change-password")
-    public String updateUserStudent(@RequestBody String password, HttpServletRequest request) {
+    @GetMapping("/{userType}/profile/change-password")
+    public String changePasswordFrom(@PathVariable String userType, ModelMap modelMap) {
+        modelMap.addAttribute("userType", userType);
+        return "changePasswordForm";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{userType}/profile/change-password")
+    public String updateUserStudent(ModelMap modelMap, @RequestParam("oldPassword") String oldPassword, @PathVariable String userType, @RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword, @RequestParam("email") String confirmEmail, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
-        LoginInformation loginInformation = loginInformationService.getUser(email);
-        loginInformation.setPassword(password);
-        loginInformationService.updateUser(loginInformation);
-        return "redirect:/" + loginInformation.getUserType() + "/profile";
+        LoginInformation oldLoginInformation = loginInformationService.getUser(email);
+        if (oldLoginInformation.getPassword().equals(oldPassword)) {
+            if (email.equals(confirmEmail)) {
+                if (password.equals(confirmPassword)) {
+                    LoginInformation loginInformation = new LoginInformation(email, password, userType);
+                    loginInformationService.updateUser(loginInformation);
+                    return "redirect:/" + userType + "/profile";
+                }
+                else {
+                    modelMap.addAttribute("error", "passwordNotMatching");
+                }
+            }
+            else {
+                modelMap.addAttribute("error", "incorrectEmail");
+            }
+        }
+        else {
+            modelMap.addAttribute("error", "incorrectOldPassword");
+        }
+        modelMap.addAttribute("userType", userType);
+        return "invalidChangePasswordForm";
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{userType}/profile/delete")

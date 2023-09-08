@@ -37,11 +37,16 @@
     <h3 style="color:#f09819;">Welcome </h3>
     <link href="/css/Index.css" rel="stylesheet" type="text/css">
     <div class="form-group">
-        <label style="color:black;"><strong>First Name: </strong><span th:text="${adminInformation.getFirstName()}"></span></label>
-        <label style="color:black;"><strong>Last Name: </strong><span th:text="${adminInformation.getLastName()}"></span></label>
-        <label style="color:black;"><strong>Email: </strong><span th:text="${adminInformation.getEmail()}"></span></label>
-        <label style="color:black;"><strong>Role: </strong><span th:text="${adminInformation.getAdminRole()}"></span></label>
-        <label><a style="color:blue;" th:href="@{/admin/profile/edit}">Edit Profile Information<br></a></label>
+        <label style="color:black;"><strong>First Name: </strong><span
+                th:text="${adminInformation.getFirstName()}"></span></label>
+        <label style="color:black;"><strong>Last Name: </strong><span
+                th:text="${adminInformation.getLastName()}"></span></label>
+        <label style="color:black;"><strong>Email: </strong><span
+                th:text="${adminInformation.getEmail()}"></span></label>
+        <label style="color:black;"><strong>Role: </strong><span
+                th:text="${adminInformation.getAdminRole()}"></span></label>
+        <button><a style="color:white;" th:href="@{/admin/profile/edit}">Edit Profile Information<br></a></button>
+        <button><a style="color:white;" th:href="@{/admin/profile/change-password}">Change Password<br></a></button>
     </div>
 </form>
 </body>

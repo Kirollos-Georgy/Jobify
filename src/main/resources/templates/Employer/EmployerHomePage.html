@@ -37,11 +37,16 @@
     <h3 style="color:#f09819;">Welcome </h3>
     <link href="/css/Index.css" rel="stylesheet" type="text/css">
     <div class="form-group">
-        <label style="color:black;"><strong>First Name: </strong><span th:text="${employerInformation.getFirstName()}"></span></label>
-        <label style="color:black;"><strong>Last Name: </strong><span th:text="${employerInformation.getLastName()}"></span></label>
-        <label style="color:black;"><strong>Email: </strong><span th:text="${employerInformation.getEmail()}"></span></label>
-        <label style="color:black;"><strong>Company: </strong><span th:text="${employerInformation.getCompany()}"></span></label>
+        <label style="color:black;"><strong>First Name: </strong><span
+                th:text="${employerInformation.getFirstName()}"></span></label>
+        <label style="color:black;"><strong>Last Name: </strong><span
+                th:text="${employerInformation.getLastName()}"></span></label>
+        <label style="color:black;"><strong>Email: </strong><span
+                th:text="${employerInformation.getEmail()}"></span></label>
+        <label style="color:black;"><strong>Company: </strong><span
+                th:text="${employerInformation.getCompany()}"></span></label>
         <button><a style="color:white;" th:href="@{/employer/profile/edit}">Edit Profile Information<br></a></button>
+        <button><a style="color:white;" th:href="@{/employer/profile/change-password}">Change Password<br></a></button>
     </div>
 </form>
 </body>
