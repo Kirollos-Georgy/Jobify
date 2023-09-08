@@ -19,12 +19,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul>
-                <!-- Adding a blue bar on top in our website page that will include Home, Profile, Add jobs, Interviews and About buttons -->
-                <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
-                <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a>
-                </li>
-                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
+                <li><a th:href="@{/student}">Home</a></li>
+                <li><a th:href="@{/student/profile}">Profile</a></li>
+                <li><a th:href="@{/student/{status}(status='applications')}">Applications</a></li>
+                <li><a th:href="@{/student/{status}(status='interviews')}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
             </ul>
         </nav>
@@ -37,12 +35,12 @@
     <div class="shape"></div>
 </div>
 <form enctype="multipart/form-data" method="post"
-      th:action="@{/{email}/student/{id}/apply(email=${email}, id=${jobPosting.getId()})}">
+      th:action="@{/student/{id}/apply(id=${jobPosting.getId()})}">
     <div class="container">
         <br/>
         <h3 style="color:orange;">Apply for the job</h3>
         <form enctype="multipart/form-data" method="post"
-              th:action="@{/{email}/student/{id}/apply(email=${email}, id=${jobPosting.getId()})}">
+              th:action="@{/student/{id}/apply(id=${jobPosting.getId()})}">
             <table>
                 <!-- add checkbox if user want to choose the Default resume, Default cover letter, Default transcript -->
                 <label>

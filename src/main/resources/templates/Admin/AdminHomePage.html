@@ -19,10 +19,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul> <!-- Change the pages -->
-                <li><a th:href="@{/{email}/admin/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
-                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
-                <li><a th:href="@{/{email}/admin/job-postings(email=${email})}">Job Postings</a></li>
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
             </ul>
         </nav>
     </div>
@@ -33,7 +33,7 @@
     <div class="shape"></div>
 </div>
 
-<form method="post" th:action="@{/{email}/admin/profile(email=${email})}">
+<form method="post" th:action="@{/admin/profile}">
     <h3 style="color:#f09819;">Welcome </h3>
     <link href="/css/Index.css" rel="stylesheet" type="text/css">
     <div class="form-group">

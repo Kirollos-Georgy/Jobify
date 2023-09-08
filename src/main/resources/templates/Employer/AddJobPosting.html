@@ -19,11 +19,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul>
-                <!-- Adding a blue bar on top in our website page that will include Home, Profile, Add jobs, Interviews and About buttons -->
-                <li><a th:href="@{/{email}/employer(email=${email})}">Home</a></li>
-                <li><a th:href="@{/{email}/employer/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/employer/add-job-posting(email=${email})}">Add Jobs </a></li>
-                <li><a th:href="@{/{email}/employer/interview(email=${email})}">Interviews</a></li>
+                <li><a th:href="@{/employer}">Home</a></li>
+                <li><a th:href="@{/employer/profile}">Profile</a></li>
+                <li><a th:href="@{/employer/add-job-posting}">Add Jobs </a></li>
+                <li><a th:href="@{/employer/interview}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='employer')}">About</a></li>
             </ul>
         </nav>
@@ -37,7 +36,7 @@
 </div>
 
 <!-- Include what will be in the body of the page and let the employer fill them out   -->
-<form enctype="multipart/form-data" method="post" th:action="@{/{email}/employer/add-job-posting(email=${email})}">
+<form enctype="multipart/form-data" method="post" th:action="@{/employer/add-job-posting}">
     <table>
         <h3 style="color:black"> Add Job Posting </h3>
         <tr>

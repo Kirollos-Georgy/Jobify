@@ -29,24 +29,24 @@ public class StudentProfileInformationController {
     @Autowired
     FeedbackService feedbackService;
 
-    @RequestMapping("/{email}/admin/students")
+    @RequestMapping("/admin/students")
     public String getAllStudents(ModelMap modelMap) {
         List<StudentProfileInformation> students = studentProfileInformationService.getAllStudents();
         modelMap.addAttribute("students", students);
         return "/Admin/ViewAllStudents";
     }
 
-    @GetMapping("/{email}/student/profile")
-    public String getStudent(@PathVariable String email, ModelMap modelMap, HttpServletRequest request) {
+    @GetMapping("/student/profile")
+    public String getStudent(ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         StudentProfileInformation student = studentProfileInformationService.getStudent(email);
         modelMap.addAttribute("studentInformation", student);
-        String email1 = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email1);
+        modelMap.addAttribute("email", email);
         return "/Student/StudentHomePage";
     }
 
 
-    @RequestMapping("/{email}/admin/all-users/student/{studentEmail}")
+    @RequestMapping("/admin/all-users/student/{studentEmail}")
     public String getStudentForAdmin(@PathVariable String studentEmail, ModelMap modelMap, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
@@ -64,8 +64,9 @@ public class StudentProfileInformationController {
     }
 
     //Works
-    @RequestMapping(method = RequestMethod.POST, value = "/signUp/{email}/student")
-    public String addStudent(StudentProfileInformation studentProfileInformation, @PathVariable String email, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
+    @RequestMapping(method = RequestMethod.POST, value = "/signUp/student")
+    public String addStudent(StudentProfileInformation studentProfileInformation, HttpServletRequest request, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
+        String email = (String) request.getSession().getAttribute("email");
         studentProfileInformation.setEmail(email);
 
         try {
@@ -88,7 +89,7 @@ public class StudentProfileInformationController {
         }
 
         studentProfileInformationService.addStudent(studentProfileInformation);
-        return "redirect:/" + email + "/student";
+        return "redirect:/student";
     }
 
     @GetMapping("/student/profile/edit")
@@ -100,7 +101,7 @@ public class StudentProfileInformationController {
         return "/Student/EditingUserProfile";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{email}/student/profile/edit")
+    @RequestMapping(method = RequestMethod.POST, value = "/student/profile/edit")
     public String updateStudent(HttpServletRequest request, StudentProfileInformation studentProfileInformation, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
         String email = (String) request.getSession().getAttribute("email");
         studentProfileInformation.setEmail(email);
@@ -143,22 +144,24 @@ public class StudentProfileInformationController {
         }
 
         studentProfileInformationService.updateStudent(studentProfileInformation);
-        return "redirect:/" + email + "/student/profile";
+        return "redirect:/student/profile";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{email}/admin/students/{studentEmail}/edit")
-    public String updateStudentFromAdmin(@RequestBody StudentProfileInformation studentProfileInformation, @PathVariable String studentEmail, @PathVariable String email) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/admin/students/{studentEmail}/edit")
+    public String updateStudentFromAdmin(HttpServletRequest request, @RequestBody StudentProfileInformation studentProfileInformation, @PathVariable String studentEmail) {
         studentProfileInformation.setEmail(studentEmail);
+        String email = (String) request.getSession().getAttribute("email");
         studentProfileInformationService.updateStudent(studentProfileInformation);
-        return "redirect:/" + email + "/admin/student/" + studentEmail;
+        return "redirect:/admin/student/" + studentEmail;
     }
 
-    /*@RequestMapping(method = RequestMethod.DELETE, value = "/{email}/student/profile/delete")
-    public void deleteStudent(@PathVariable String email) {
+    /*@RequestMapping(method = RequestMethod.DELETE, value = "/student/profile/delete")
+    public void deleteStudent(@PathVariable String email, HttpServletRequest request) {
         studentProfileInformationService.deleteStudent(email);
+        String email = (String) request.getSession().getAttribute("email");
     }*/
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{email}/admin/all-users/student/{studentEmail}/delete")
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/student/{studentEmail}/delete")
     public String deleteStudentFromAdmin(@PathVariable String studentEmail, HttpServletRequest request, ModelMap modelMap ) {
         String email = (String) request.getSession().getAttribute("email");
         List<Applications> applications = applicationsService.getAllApplicationsByStudentEmail(studentEmail);
@@ -169,6 +172,6 @@ public class StudentProfileInformationController {
         studentProfileInformationService.deleteStudent(studentEmail);
         loginInformationService.deleteUser(studentEmail);
         modelMap.addAttribute("email", email);
-        return "redirect:/" + email + "/admin/all-users";
+        return "redirect:/admin/all-users";
     }
 }

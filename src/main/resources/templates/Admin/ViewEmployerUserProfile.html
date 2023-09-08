@@ -14,11 +14,11 @@
     <div class="container">
         <h1>Jobify</h1>
         <nav>
-            <ul>
-                <li><a th:href="@{/{email}/admin/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
-                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
-                <li><a th:href="@{/{email}/admin/job-postings(email=${email})}">Job Postings</a></li>
+            <ul> <!-- Change the pages -->
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
             </ul>
         </nav>
     </div>
@@ -36,7 +36,7 @@
             <p><strong>Company:</strong> <span th:text="${employerInformation.getCompany()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${employerInformation.getEmail()}"></span></p>
             <form method="post"
-                  th:action="@{/{email}/admin/all-users/employer/{employerEmail}/delete(email=${email}, employerEmail=${employerInformation.getEmail()})}">
+                  th:action="@{/admin/all-users/employer/{employerEmail}/delete(employerEmail=${employerInformation.getEmail()})}">
                 <input type="submit" value="Delete User">
             </form>
         </div>

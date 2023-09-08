@@ -12,11 +12,10 @@
         <h1>Jobify</h1>
         <nav>
             <ul>
-                <li><a th:href="@{/{email}/student(email=${email})}">Home</a></li>
-                <li><a th:href="@{/{email}/student/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='applications')}">Applications</a>
-                </li>
-                <li><a th:href="@{/{email}/student/{status}(email=${email}, status='interviews')}">Interviews</a></li>
+                <li><a th:href="@{/student}">Home</a></li>
+                <li><a th:href="@{/student/profile}">Profile</a></li>
+                <li><a th:href="@{/student/{status}(status='applications')}">Applications</a></li>
+                <li><a th:href="@{/student/{status}(status='interviews')}">Interviews</a></li>
                 <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
             </ul>
         </nav>
@@ -26,7 +25,7 @@
 <section id="search">
     <div class="container">
         <h2>Find your dream job today</h2>
-        <form method="post" th:action="@{/{email}/admin/students}">
+        <form method="post" th:action="@{/admin/students}">
             <input id="search1" name="search" placeholder="Search by job title" type="text">
             <label for="search1">
                 <button type="submit">Search</button>
@@ -42,7 +41,7 @@
 </section>
 
 <div class="job-box" th:each="jobPosting : ${jobPostings}">
-    <h2><a th:href="@{/{email}/student/job-postings/{id}(email=${email}, id=${jobPosting.getId()})}"
+    <h2><a th:href="@{/student/job-postings/{id}(id=${jobPosting.getId()})}"
            th:text="${jobPosting.getTitle()}"></a></h2>
     <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span></p>
     <p><strong>Status:</strong> <span th:text="${jobPosting.getStatus()}"></span></p>

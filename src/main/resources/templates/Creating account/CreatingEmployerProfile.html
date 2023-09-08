@@ -19,12 +19,12 @@
     <div class="shape"></div>
 </div>
 
-<form method="post" th:action="@{/signUp/{email}/employer(email=${email})}">
+<form method="post" th:action="@{/signUp/employer}">
     <h3 style="color:black;">Employer Profile</h3>
     <p style="color:#FF8C00;">Please fill out the form below</p>
     <div class="container">
         <br/>
-        <form method="post" th:action="@{/signUp/{email}/employer(email=${email})}">
+        <form method="post" th:action="@{/signUp/employer}">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
                 <input id="firstName" name="firstName" required type="text">

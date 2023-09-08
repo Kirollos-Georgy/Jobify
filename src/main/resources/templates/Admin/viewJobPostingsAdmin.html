@@ -12,11 +12,11 @@
     <div class="container">
         <h1>Jobify</h1>
         <nav>
-            <ul>
-                <li><a th:href="@{/{email}/admin/profile(email=${email})}">Profile</a></li>
-                <li><a th:href="@{/{email}/admin/all-users(email=${email})}">Current Users </a></li>
-                <li><a th:href="@{/{email}/admin/feedbacks(email=${email})}">User Feedback</a></li>
-                <li><a th:href="@{/{email}/admin/job-postings(email=${email})}">Job Postings</a></li>
+            <ul> <!-- Change the pages -->
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
             </ul>
         </nav>
     </div>
@@ -24,7 +24,7 @@
 
 <section id="search">
     <div class="container">
-        <form method="post" th:action="@{/{email}/admin/job-postings(email=${email})}">
+        <form method="post" th:action="@{/admin/job-postings}">
             <input id="search1" name="search" placeholder="Search by job title" type="text">
             <label for="search1">
                 <button type="submit">Search</button>
@@ -48,7 +48,7 @@
 </style>
 
 <div class="job-box" th:each="jobPosting : ${jobPostings}">
-    <h2><a th:href="@{/{email}/admin/job-postings/{id}(email=${email}, id=${jobPosting.getId()})}"><span
+    <h2><a th:href="@{/admin/job-postings/{id}(id=${jobPosting.getId()})}"><span
             th:text="${jobPosting.getTitle()}"></span></a></h2>
     <p><strong>Company:</strong> <span th:text="${jobPosting.getCompany()}"></span>
     </p>
