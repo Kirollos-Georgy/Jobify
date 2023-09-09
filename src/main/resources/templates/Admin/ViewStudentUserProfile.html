@@ -35,6 +35,9 @@
             </p>
             <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
+            <button><a style="color:white;"
+                       th:href="@{/admin/all-users/{studentEmail}/edit(studentEmail=${studentInformation.getEmail()})}">Edit
+                Student Profile Information<br></a></button>
             <form method="post"
                   th:action="@{/admin/all-users/student/{studentEmail}/delete(studentEmail=${studentInformation.getEmail()})}">
                 <input type="submit" value="Delete User">
