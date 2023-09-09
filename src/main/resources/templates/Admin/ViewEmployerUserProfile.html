@@ -35,6 +35,9 @@
             </p>
             <p><strong>Company:</strong> <span th:text="${employerInformation.getCompany()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${employerInformation.getEmail()}"></span></p>
+            <button><a style="color:white;"
+                       th:href="@{/admin/all-users/employer/{employerEmail}/edit(employerEmail=${employerInformation.getEmail()})}">Edit
+                Employer Profile Information<br></a></button>
             <form method="post"
                   th:action="@{/admin/all-users/employer/{employerEmail}/delete(employerEmail=${employerInformation.getEmail()})}">
                 <input type="submit" value="Delete User">
