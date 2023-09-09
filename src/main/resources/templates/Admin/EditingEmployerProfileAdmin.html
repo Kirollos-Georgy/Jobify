@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Edit employer profile</title>
+    <link href="/css/CreatingEmployerProfile.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <h1>Jobify Website</h1>
+        <nav>
+            <ul> <!-- Change the pages -->
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<form method="post"
+      th:action="@{/admin/all-users/employer/{employerEmail}/edit(employerEmail=${employerInformation.getEmail()})}">
+    <h3 style="color:black;">Edit Employer Profile</h3>
+    <div class="container">
+        <br/>
+        <form method="post"
+              th:action="@{/admin/all-users/employer/{employerEmail}/edit(employerEmail=${employerInformation.getEmail()})}">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input id="firstName" name="firstName" required th:value="${employerInformation.getFirstName()}"
+                       type="text">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input id="lastName" name="lastName" required th:value="${employerInformation.getLastName()}"
+                       type="text">
+            </div>
+            <div class="form-group">
+                <label for="company">Company:</label>
+                <input id="company" name="company" required th:value="${employerInformation.getCompany()}" type="text">
+            </div>
+            <button class="submit-btn" type="submit">Save</button>
+        </form>
+    </div>
+</form>
+</body>
+</html>
