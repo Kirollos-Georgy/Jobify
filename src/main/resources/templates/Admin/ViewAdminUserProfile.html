@@ -34,6 +34,9 @@
                     th:text="${adminInformation.getFirstName()} + ' ' + ${adminInformation.getLastName()}"></span></p>
             <p><strong>Admin Role:</strong> <span th:text="${adminInformation.getAdminRole()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${adminInformation.getEmail()}"></span></p>
+            <button><a style="color:white;"
+                       th:href="@{/admin/all-users/admin/{adminEmail}/edit(adminEmail=${adminInformation.getEmail()})}">Edit
+                Admin Profile Information<br></a></button>
             <form method="post"
                   th:action="@{/admin/all-users/admin/{adminEmail}/delete(adminEmail=${adminInformation.getEmail()})}">
                 <input type="submit" value="Delete User">
