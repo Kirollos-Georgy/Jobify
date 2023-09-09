@@ -2,14 +2,18 @@ package com.Jobify.loginInformation;
 
 import com.Jobify.AdminProfileInformation.AdminProfileInformation;
 import com.Jobify.AdminProfileInformation.AdminProfileInformationService;
+import com.Jobify.Applications.Applications;
+import com.Jobify.Applications.ApplicationsService;
 import com.Jobify.EmployerProfileInformation.EmployerProfileInformation;
 import com.Jobify.EmployerProfileInformation.EmployerProfileInformationService;
+import com.Jobify.Feedback.FeedbackService;
+import com.Jobify.JobPostings.JobPostings;
+import com.Jobify.JobPostings.JobPostingsService;
 import com.Jobify.StudentProfileInformation.StudentProfileInformation;
 import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-//@RestController
 public class LoginInformationController {
 
     @Autowired
@@ -28,6 +31,12 @@ public class LoginInformationController {
     private EmployerProfileInformationService employerProfileInformationService;
     @Autowired
     private AdminProfileInformationService adminProfileInformationService;
+    @Autowired
+    private FeedbackService feedbackService;
+    @Autowired
+    private ApplicationsService applicationsService;
+    @Autowired
+    private JobPostingsService jobPostingsService;
 
     @RequestMapping("/admin/all-users")
     public String getAllUsers(HttpServletRequest request, ModelMap modelMap) {
@@ -36,7 +45,7 @@ public class LoginInformationController {
         List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
         List<EmployerProfileInformation> employerProfileInformation = new ArrayList<>();
         List<AdminProfileInformation> adminProfileInformation = new ArrayList<>();
-        String tempEmail = "";
+        String tempEmail;
         for (LoginInformation information : loginInformation) {
             tempEmail = information.getEmail();
             switch (information.getUserType()) {
@@ -53,30 +62,21 @@ public class LoginInformationController {
         return "/Admin/ViewCurrentUsers";
     }
 
-   /* @RequestMapping("/signUp/{email}")
-    public LoginInformation getUser(@PathVariable String email) {
-        return loginInformationService.getUser(email);
-    }*/
-
-    ///Works
     @RequestMapping("/")
     public String welcomePage()  {
         return "index";
     }
 
-    //Works
     @RequestMapping(method = RequestMethod.GET, value = "/signUp")
     public String showCreateUserForm() {
         return "/Creating account/CreateUser";
     }
 
-    //Works
     @RequestMapping(method = RequestMethod.POST, value = "/signUp")
-    public String addUser(LoginInformation loginInformation, ModelMap modelMap, HttpServletRequest request, @RequestParam String adminCode) {
+    public String addUser(LoginInformation loginInformation, HttpServletRequest request, @RequestParam String adminCode) {
         if (loginInformationService.emailUsed(loginInformation.getEmail())) {
-            return "/Creating account/InvalidCreatingUser"; //Tested
-        }
-        else {
+            return "/Creating account/InvalidCreatingUser";
+        } else {
             if (loginInformation.getUserType().equals("admin") && !adminCode.equals("QWERTY")) {
                 return "/Creating account/InvalidCreatingUser";
             }
@@ -86,13 +86,11 @@ public class LoginInformationController {
         }
     }
 
-    //Works
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String showLoginPage() {
         return "/Login/LoginPage";
     }
 
-    //Works
     @RequestMapping("/login")
     public String signIn(LoginInformation loginInformation, HttpServletRequest request) {
         if (loginInformationService.validLoginInformation(loginInformation)) {
@@ -104,7 +102,7 @@ public class LoginInformationController {
             return "redirect:/" + loginInformation1.getUserType();
         }
         else {
-            return "/Login/InvalidLoginPage"; //Tested
+            return "/Login/InvalidLoginPage";
         }
     }
 
@@ -140,9 +138,29 @@ public class LoginInformationController {
         return "invalidChangePasswordForm";
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{userType}/profile/delete")
+    @GetMapping("/delete")
     public String deleteUser(HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
+        LoginInformation loginInformation = loginInformationService.getUser(email);
+        switch (loginInformation.getUserType()) {
+            case "student" -> {
+                List<Applications> applications = applicationsService.getAllApplicationsByStudentEmail(email);
+                for (Applications application : applications) {
+                    applicationsService.deleteApplication(application.getId());
+                }
+                feedbackService.deleteFeedback(email);
+                studentProfileInformationService.deleteStudent(email);
+            }
+            case "employer" -> {
+                List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(email);
+                for (JobPostings jobPosting : jobPostings) {
+                    jobPostingsService.deleteJobPosting(jobPosting.getId());
+                }
+                feedbackService.deleteFeedback(email);
+                employerProfileInformationService.deleteEmployer(email);
+            }
+            case "admin" -> adminProfileInformationService.deleteAdmin(email);
+        }
         loginInformationService.deleteUser(email);
         return "index";
     }
