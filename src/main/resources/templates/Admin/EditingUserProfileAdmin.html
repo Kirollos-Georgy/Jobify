@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Edit student profile</title>
+    <link href="/css/EditingUserProfile.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul> <!-- Change the pages -->
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<form enctype="multipart/form-data" method="post"
+      th:action="@{/admin/all-users/{studentEmail}/edit(studentEmail=${studentInformation.getEmail()})}">
+    <h3 style="color:orange;">Edit Student Profile</h3>
+    <br/>
+    <form enctype="multipart/form-data" method="post"
+          th:action="@{/admin/all-users/{studentEmail}/edit(studentEmail=${studentInformation.getEmail()})}">
+        <table>
+            <div class="form-group">
+                <label for="profilePicture">Profile Picture:</label>
+                <input id="profilePicture" name="profilePictureFile" type="file">
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input id="firstName" name="firstName" required th:value="${studentInformation.getFirstName()}"
+                       type="text">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input id="lastName" name="lastName" required th:value="${studentInformation.getLastName()}"
+                       type="text">
+            </div>
+            <div class="form-group">
+                <label for="fieldOfStudy">Field of study:</label><select id="fieldOfStudy" name="fieldOfStudy" required>
+                <option disabled selected value="">Select Engineering Field</option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'aerospace engineering'}"
+                        value="aerospace engineering">
+                    Aerospace Engineering
+                </option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'building engineering'}"
+                        value="building engineering">Building
+                    Engineering
+                </option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'computer engineering'}"
+                        value="computer engineering">Computer
+                    Engineering
+                </option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'civil engineering'}"
+                        value="civil engineering">Civil
+                    Engineering
+                </option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'electrical engineering'}"
+                        value="electrical engineering">
+                    Electrical Engineering
+                </option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'industrial engineering'}"
+                        value="industrial engineering">
+                    Industrial Engineering
+                </option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'mechanical engineering'}"
+                        value="mechanical engineering">
+                    Mechanical Engineering
+                </option>
+                <option th:selected="${studentInformation.getFieldOfStudy() == 'software engineering'}"
+                        value="software engineering">Software
+                    Engineering
+                </option>
+            </select>
+            </div>
+            <div class="form-group">
+                <label for="resume">Resume:</label>
+                <input id="resume" name="resumeFile" type="file">
+            </div>
+            <div class="form-group">
+                <label for="coverLetter">Cover Letter:</label>
+                <input id="coverLetter" name="coverLetterFile" type="file">
+            </div>
+            <div class="form-group">
+                <label for="unofficialTranscript">Unofficial Transcript:</label>
+                <input id="unofficialTranscript" name="unofficialTranscriptFile" type="file">
+            </div>
+            <button class="submit-btn" type="submit">Save</button>
+        </table>
+    </form>
+</form>
+</body>
+</html>
