@@ -10,7 +10,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class EmployerProfileInformationController {
     @Autowired
     ApplicationsService applicationsService;
 
+    //Not currently using it
     @RequestMapping("/admin/view-employers")
     public List<EmployerProfileInformation> getAllEmployers() {
         return employerProfileInformationService.getAllEmployers();
@@ -51,13 +55,6 @@ public class EmployerProfileInformationController {
         return "/Admin/ViewEmployerUserProfile";
     }
 
-    /*@RequestMapping(method = RequestMethod.POST, value = "/signUp/employer")
-    public String addEmployer(@RequestBody EmployerProfileInformation employerProfileInformation) {
-        employerProfileInformationService.addEmployer(employerProfileInformation);
-        return "redirect:/" + employerProfileInformation.getEmail() + "/employer";
-    }*/
-
-    //Works
     @GetMapping("/signUp/employer")
     public String employerCreationForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
@@ -65,7 +62,6 @@ public class EmployerProfileInformationController {
         return "/Creating account/CreatingEmployerProfile";
     }
 
-    //Works
     @RequestMapping(method = RequestMethod.POST, value = "/signUp/employer")
     public String addEmployer(EmployerProfileInformation employerProfileInformation, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
@@ -92,18 +88,26 @@ public class EmployerProfileInformationController {
         return "redirect:/employer/profile";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/admin/view-employers/{employerEmail}/edit")
-    public void updateEmployerFromAdmin(@RequestBody EmployerProfileInformation employerProfileInformation) {
-        employerProfileInformationService.updateEmployer(employerProfileInformation);
+    @RequestMapping("/admin/all-users/employer/{employerEmail}/edit")
+    public String updateEmployerFormFromAdmin(HttpServletRequest request, ModelMap modelMap, @PathVariable String employerEmail) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        EmployerProfileInformation employer = employerProfileInformationService.getEmployer(employerEmail);
+        modelMap.addAttribute("employerInformation", employer);
+        return "/Admin/EditingEmployerProfileAdmin";
     }
 
-    /*@RequestMapping(method = RequestMethod.DELETE, value = "/employer/profile/delete")
-    public void deleteEmployer(@PathVariable String email) {
-        employerProfileInformationService.deleteEmployer(email);
-    }*/
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/employer/{employerEmail}/edit")
+    public String updateEmployerFromAdmin(@PathVariable String employerEmail, EmployerProfileInformation employerProfileInformation, ModelMap modelMap, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        employerProfileInformation.setEmail(employerEmail);
+        modelMap.addAttribute("email", email);
+        employerProfileInformationService.updateEmployer(employerProfileInformation);
+        return "redirect:/admin/all-users/employer/" + employerEmail;
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/employer/{employerEmail}/delete")
-    public String deleteEmployerFromAdmin(@PathVariable String employerEmail, HttpServletRequest request, ModelMap modelMap ) {
+    public String deleteEmployerFromAdmin(@PathVariable String employerEmail, HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(employerEmail);
         for (JobPostings jobPosting : jobPostings) {
