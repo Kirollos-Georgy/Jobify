@@ -31,11 +31,11 @@
     <div class="shape"></div>
 </div>
 <form enctype="multipart/form-data" method="post"
-      th:action="@{/admin/all-users/{studentEmail}/edit(studentEmail=${studentInformation.getEmail()})}">
+      th:action="@{/admin/all-users/student/{studentEmail}/edit(studentEmail=${studentInformation.getEmail()})}">
     <h3 style="color:orange;">Edit Student Profile</h3>
     <br/>
     <form enctype="multipart/form-data" method="post"
-          th:action="@{/admin/all-users/{studentEmail}/edit(studentEmail=${studentInformation.getEmail()})}">
+          th:action="@{/admin/all-users/student/{studentEmail}/edit(studentEmail=${studentInformation.getEmail()})}">
         <table>
             <div class="form-group">
                 <label for="profilePicture">Profile Picture:</label>

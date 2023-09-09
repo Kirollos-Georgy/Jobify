@@ -146,7 +146,7 @@ public class StudentProfileInformationController {
         return "redirect:/student/profile";
     }
 
-    @GetMapping("/admin/all-users/{studentEmail}/edit")
+    @GetMapping("/admin/all-users/student/{studentEmail}/edit")
     public String studentEditingFormFromAdmin(HttpServletRequest request, ModelMap modelMap, @PathVariable String studentEmail) {
         String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
@@ -155,7 +155,7 @@ public class StudentProfileInformationController {
         return "/Admin/EditingUserProfileAdmin";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/{studentEmail}/edit")
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/student/{studentEmail}/edit")
     public String updateStudentFromAdmin(@PathVariable String studentEmail, StudentProfileInformation studentProfileInformation, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
         studentProfileInformation.setEmail(studentEmail);
         StudentProfileInformation studentProfileInformation1 = studentProfileInformationService.getStudent(studentEmail);
