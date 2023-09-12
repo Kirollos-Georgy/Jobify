@@ -53,7 +53,14 @@
 <div class="job-box" th:each="feedback : ${feedbacks}">
     <p><strong>Feedback</strong></p><br/>
     <p><span th:text="${feedback.getSubject()}"></span></p><br/>
-    <p><strong>Rating:</strong> <span th:text="${feedback.getRating()}"></span></p>
+    <p><strong>Rating:</strong></p>
+    <div class="rating">
+        <span class="star" th:classappend="${feedback.getRating() >= 1 ? 'filled' : ''}">★</span>
+        <span class="star" th:classappend="${feedback.getRating() >= 2 ? 'filled' : ''}">★</span>
+        <span class="star" th:classappend="${feedback.getRating() >= 3 ? 'filled' : ''}">★</span>
+        <span class="star" th:classappend="${feedback.getRating() >= 4 ? 'filled' : ''}">★</span>
+        <span class="star" th:classappend="${feedback.getRating() == 5 ? 'filled' : ''}">★</span>
+    </div>
     <p><strong>Email:</strong> <span th:text="${feedback.getEmail()}"></span></p><br>
 </div>
 
