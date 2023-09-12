@@ -62,31 +62,60 @@
 </div>
 
 <form enctype="multipart/form-data"
-      method="post" th:action="@{/{userType}/feedback(userType=${loginInformation.getUserType()})}">
+      method="post" th:action="@{/{userType}/feedback(userType=${loginInformation.getUserType()})}"
+      th:if="${feedback == null}">
     <h3 style="color:#f09819;">About </h3>
     <link href="/css/AboutPage.css" rel="stylesheet" type="text/css">
     <div class="form-group">
         <!-- add the text area to let the user enter their feedback -->
-        <label for="subject"><h2> Feedback </h2></label>
-        <textarea id="subject" name="subject" placeholder="Write your feedback" style="height:100px"></textarea>
+        <label for="subjectEdit"><h2> Feedback </h2></label>
+        <textarea id="subjectEdit" name="subject" placeholder="Write your feedback" style="height:100px"></textarea>
         <!-- add 5 starts for rating -->
         <div class="rate">
             <h2> Star Rating </h2>
-            <input id="star5" name="rate" type="radio" value="5"/>
-            <label for="star5" title="text">5 stars</label>
-            <input id="star4" name="rate" type="radio" value="4"/>
-            <label for="star4" title="text">4 stars</label>
-            <input id="star3" name="rate" type="radio" value="3"/>
-            <label for="star3" title="text">3 stars</label>
-            <input id="star2" name="rate" type="radio" value="2"/>
-            <label for="star2" title="text">2 stars</label>
-            <input id="star1" name="rate" type="radio" value="1"/>
-            <label for="star1" title="text">1 star</label>
+            <input id="star5Edit" name="rate" type="radio" value="5"/>
+            <label for="star5Edit" title="text">5 stars</label>
+            <input id="star4Edit" name="rate" type="radio" value="4"/>
+            <label for="star4Edit" title="text">4 stars</label>
+            <input id="star3Edit" name="rate" type="radio" value="3"/>
+            <label for="star3Edit" title="text">3 stars</label>
+            <input id="star2Edit" name="rate" type="radio" value="2"/>
+            <label for="star2Edit" title="text">2 stars</label>
+            <input id="star1Edit" name="rate" type="radio" value="1"/>
+            <label for="star1Edit" title="text">1 star</label>
 
             <button class="submit-btn" type="submit">Submit</button>
         </div>
     </div>
 </form>
+<form enctype="multipart/form-data"
+      method="post" th:action="@{/{userType}/feedback/edit(userType=${loginInformation.getUserType()})}"
+      th:unless="${feedback == null}">
+    <h3 style="color:#f09819;">About </h3>
+    <link href="/css/AboutPage.css" rel="stylesheet" type="text/css">
+    <div class="form-group">
+        <!-- add the text area to let the user enter their feedback -->
+        <label for="subject"><h2> Feedback </h2></label>
+        <textarea id="subject" name="subject" style="height:100px" th:field="${feedback.subject}"></textarea>
+        <!-- add 5 starts for rating -->
+        <div class="rate">
+            <h2> Star Rating </h2>
+            <input id="star5" name="rate" th:checked="${feedback.getRating() == 5}" type="radio" value="5"/>
+            <label for="star5" title="text">5 stars</label>
+            <input id="star4" name="rate" th:checked="${feedback.getRating() == 4}" type="radio" value="4"/>
+            <label for="star4" title="text">4 stars</label>
+            <input id="star3" name="rate" th:checked="${feedback.getRating() == 3}" type="radio" value="3"/>
+            <label for="star3" title="text">3 stars</label>
+            <input id="star2" name="rate" th:checked="${feedback.getRating() == 2}" type="radio" value="2"/>
+            <label for="star2" title="text">2 stars</label>
+            <input id="star1" name="rate" th:checked="${feedback.getRating() == 1}" type="radio" value="1"/>
+            <label for="star1" title="text">1 star</label>
+
+            <button class="submit-btn" type="submit">Save Changes</button>
+        </div>
+    </div>
+</form>
+
 </body>
 </html>
 

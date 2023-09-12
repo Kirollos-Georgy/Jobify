@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class FeedbackController {
@@ -33,18 +34,14 @@ public class FeedbackController {
         LoginInformation loginInformation = loginInformationService.getUser(email);
         modelMap.addAttribute("email", email);
         modelMap.addAttribute("loginInformation", loginInformation);
+        Feedback feedback = null;
+        try {
+            feedback = feedbackService.getFeedback(email);
+        } catch (NoSuchElementException ignored) {
+        }
+        modelMap.addAttribute("feedback", feedback);
         return "AboutPage";
     }
-
-    /*@RequestMapping("/{email}/student/feedback")
-    public Feedback getFeedbackStudent(@PathVariable String email) {
-        return feedbackService.getFeedback(email);
-    }
-
-    @RequestMapping("/{email}/employer/feedback")
-    public Feedback getFeedbackEmployer(@PathVariable String email) {
-        return feedbackService.getFeedback(email);
-    }*/
 
     @RequestMapping(method = RequestMethod.POST, value = "/{userType}/feedback")
     public String addFeedback(@PathVariable String userType, HttpServletRequest request, ModelMap modelMap, @RequestParam("rate") String rate, @RequestParam("subject") String subject) {
@@ -55,14 +52,13 @@ public class FeedbackController {
         return "redirect:/" + userType;
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/student/feedback/edit")
-    public void updateFeedbackStudent(@RequestBody Feedback Feedback) {
-        feedbackService.updateFeedback(Feedback);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, value = "/employer/feedback/edit")
-    public void updateFeedbackEmployer(@RequestBody Feedback Feedback) {
-        feedbackService.updateFeedback(Feedback);
+    @RequestMapping(method = RequestMethod.POST, value = "/{userType}/feedback/edit")
+    public String editFeedback(@PathVariable String userType, HttpServletRequest request, ModelMap modelMap, @RequestParam("rate") String rate, @RequestParam("subject") String subject) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        Feedback feedback = new Feedback(email, subject, Integer.parseInt(rate));
+        feedbackService.updateFeedback(feedback);
+        return "redirect:/" + userType + "/feedback";
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/student/feedback/delete")
