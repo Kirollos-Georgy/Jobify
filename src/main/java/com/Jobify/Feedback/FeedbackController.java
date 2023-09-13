@@ -61,15 +61,10 @@ public class FeedbackController {
         return "redirect:/" + userType + "/feedback";
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/student/feedback/delete")
-    public void deleteFeedbackStudent(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{userType}/feedback/delete")
+    public String deleteFeedback(HttpServletRequest request, @PathVariable String userType) {
         String email = (String) request.getSession().getAttribute("email");
         feedbackService.deleteFeedback(email);
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/employer/feedback/delete")
-    public void deleteFeedbackEmployer(HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("email");
-        feedbackService.deleteFeedback(email);
+        return "redirect:/" + userType;
     }
 }
