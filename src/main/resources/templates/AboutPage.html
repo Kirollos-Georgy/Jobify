@@ -112,6 +112,9 @@
             <label for="star1" title="text">1 star</label>
 
             <button class="submit-btn" type="submit">Save Changes</button>
+            <button><a style="color:white;"
+                       th:href="@{/{userType}/feedback/delete(userType=${loginInformation.getUserType()})}">Delete
+                Feedback<br></a></button>
         </div>
     </div>
 </form>
