@@ -66,10 +66,13 @@ public class JobPostingsController {
     public String getJobPostingForStudent(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
         String status = null;
+        Applications applications = null;
         try {
-            Applications applications = applicationsService.getAllApplicationsByStudentEmailAndJobPostingId(email, id);
-            status = applications.getStatus();
+            applications = applicationsService.getAllApplicationsByStudentEmailAndJobPostingId(email, id);
         } catch (NoSuchElementException ignored) {
+        }
+        if (applications != null) {
+            status = applications.getStatus();
         }
         JobPostings jobPosting = jobPostingsService.getJobPosting(id);
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
