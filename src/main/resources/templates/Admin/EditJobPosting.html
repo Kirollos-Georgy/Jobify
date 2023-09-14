@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Edit job posting</title>
+    <link href="/css/AddJobPosting.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul> <!-- Change the pages -->
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+
+<form method="post" th:action="@{/admin/job-postings/{id}/edit(id=${jobPosting.getId()})}">
+    <table>
+        <h3 style="color:black"> Edit Job Posting </h3>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="title">Position title:</label>
+                    <input id="title" name="title" th:value="${jobPosting.getTitle()}"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="jobLocation">Job location:</label>
+                    <textarea cols="60" id="jobLocation" name="jobLocation" rows="5"
+                              th:field="${jobPosting.jobLocation}"></textarea>
+                </div>
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="salary">Salary:</label>
+                    <input id="salary" name="salary" th:value="${jobPosting.getSalary()}"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="deadline">Deadline to apply:</label>
+                    <input id="deadline" name="deadline" th:value="${jobPosting.getDeadline()}"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="description">Job posting details:</label>
+                    <textarea cols="60" id="description" name="description" rows="5"
+                              th:field="${jobPosting.description}"></textarea>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="submit-btn" type="submit">Save</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
