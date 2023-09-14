@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-//@RestController
 public class JobPostingsController {
 
     @Autowired
@@ -23,7 +22,6 @@ public class JobPostingsController {
     @Autowired
     private ApplicationsService applicationsService;
 
-    //Works - not tested with multiple job postings
     @RequestMapping("/student")
     public String getAllJobPostingsForStudent(ModelMap modelMap, HttpServletRequest request) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostings();
@@ -32,7 +30,6 @@ public class JobPostingsController {
         modelMap.addAttribute("email", email);
         return "/Student/viewJobPostings";
     }
-
 
     @RequestMapping("/admin/job-postings")
     public String getAllJobPostingsForAdmin(ModelMap modelMap, HttpServletRequest request) {
@@ -43,7 +40,6 @@ public class JobPostingsController {
         return "/Admin/viewJobPostingsAdmin";
     }
 
-    //Works - not tested with multiple job postings
     @RequestMapping("/employer")
     public String getAllJobPostingsByEmployer(ModelMap modelMap, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
@@ -58,11 +54,6 @@ public class JobPostingsController {
         modelMap.addAttribute("jobPostings", jobPostings);
         return "/Employer/viewCreatedJobPostingsInterview";
     }
-
-    /*@RequestMapping("/employer/home-page/{status}")
-    public List<JobPostings> getAllJobPostingsByStatus(@PathVariable String status) {
-        return jobPostingsService.getAllJobPostingsByStatus(status);
-    }*/
 
     @RequestMapping("/employer/{status}")
     public List<JobPostings> getAllJobPostingsByEmployerAndStatus(HttpServletRequest request, @PathVariable String status) {
@@ -91,6 +82,7 @@ public class JobPostingsController {
         modelMap.addAttribute("email", email);
         return "/Employer/ViewCreatedJobPosting";
     }
+
     @RequestMapping("/employer/job-postings/{id}/interview")
     public String getJobPostingForEmployerInterview(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
         JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
