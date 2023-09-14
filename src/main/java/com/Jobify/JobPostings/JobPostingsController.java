@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class JobPostingsController {
@@ -63,12 +64,19 @@ public class JobPostingsController {
 
     @RequestMapping("/student/job-postings/{id}")
     public String getJobPostingForStudent(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
-        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+        String email = (String) request.getSession().getAttribute("email");
+        String status = null;
+        try {
+            Applications applications = applicationsService.getAllApplicationsByStudentEmailAndJobPostingId(email, id);
+            status = applications.getStatus();
+        } catch (NoSuchElementException ignored) {
+        }
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("employer", employerProfileInformation);
-        String email = (String) request.getSession().getAttribute("email");
         modelMap.addAttribute("email", email);
+        modelMap.addAttribute("status", status);
         return "/Student/ViewAJobPosting";
     }
 
