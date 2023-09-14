@@ -154,9 +154,26 @@ public class JobPostingsController {
         return "redirect:/employer/job-postings/" + jobPosting.getId();
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/admin/job-postings/{id}/edit")
-    public void updateJobPostingFromAdmin(@RequestBody JobPostings jobPostings) {
-        jobPostingsService.updateJobPosting(jobPostings);
+    @RequestMapping("/admin/job-postings/{id}/edit")
+    public String updateJobPostingFormFromAdmin(HttpServletRequest request, ModelMap modelMap, @PathVariable int id) {
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        return "/Admin/EditJobPosting";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/job-postings/{id}/edit")
+    public String updateJobPostingFromAdmin(JobPostings jobPosting, ModelMap modelMap, HttpServletRequest request, @PathVariable long id) {
+        String email = (String) request.getSession().getAttribute("email");
+        JobPostings jobPostingOld = jobPostingsService.getJobPosting(id);
+        jobPosting.setId(id);
+        jobPosting.setEmail(jobPostingOld.getEmail());
+        jobPosting.setCompany(jobPostingOld.getCompany());
+        jobPosting.setStatus(jobPostingOld.getStatus());
+        modelMap.addAttribute("email", email);
+        jobPostingsService.updateJobPosting(jobPosting);
+        return "redirect:/admin/job-postings/" + jobPosting.getId();
     }
 
     @RequestMapping(value = "/employer/{id}/delete")
