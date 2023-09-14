@@ -32,19 +32,27 @@ public class ApplicationsService {
         applicationsRepository.findByJobPostingIdAndStatus(jobPostingId, status).forEach(applications::add);
         return applications;
     }
+
     public List<Applications> getAllApplicationsByStudentEmail(String studentEmail) {
         List<Applications> applications = new ArrayList<>();
         applicationsRepository.findByStudentEmail(studentEmail).forEach(applications::add);
         return applications;
     }
+
     public List<Applications> getAllApplicationsByStudentEmailAndStatus(String studentEmail, String status) {
         List<Applications> applications = new ArrayList<>();
         applicationsRepository.findByStudentEmailAndStatus(studentEmail, status).forEach(applications::add);
         return applications;
     }
+
+    public Applications getAllApplicationsByStudentEmailAndJobPostingId(String studentEmail, long jobPostingId) {
+        return applicationsRepository.findByStudentEmailAndJobPostingId(studentEmail, jobPostingId);
+    }
+
     public Applications getApplication(long id) {
         return applicationsRepository.findById(String.valueOf(id)).get();
     }
+
     public void addApplication(Applications application) {
         applicationsRepository.save(application);
     }
