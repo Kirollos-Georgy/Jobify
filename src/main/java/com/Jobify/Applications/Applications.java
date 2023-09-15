@@ -1,10 +1,14 @@
 package com.Jobify.Applications;
 
+import com.Jobify.BlobSerializer;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Base64;
 
 @Entity
 public class Applications {
@@ -15,10 +19,16 @@ public class Applications {
     private String studentEmail;
     private String status;
     @Lob
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonSerialize(using = BlobSerializer.class)
     private Blob resume;
     @Lob
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonSerialize(using = BlobSerializer.class)
     private Blob coverLetter;
     @Lob
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    @JsonSerialize(using = BlobSerializer.class)
     private Blob unofficialTranscript;
 
     public Applications() {
@@ -97,5 +107,32 @@ public class Applications {
 
     public void setUnofficialTranscript(Blob unofficialTranscript) {
         this.unofficialTranscript = unofficialTranscript;
+    }
+
+    public String getResumeBase64() {
+        try {
+            byte[] transcriptData = resume.getBytes(1, (int) resume.length());
+            return Base64.getEncoder().encodeToString(transcriptData);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getCoverLetterBase64() {
+        try {
+            byte[] transcriptData = coverLetter.getBytes(1, (int) coverLetter.length());
+            return Base64.getEncoder().encodeToString(transcriptData);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getTranscriptBase64() {
+        try {
+            byte[] transcriptData = unofficialTranscript.getBytes(1, (int) unofficialTranscript.length());
+            return Base64.getEncoder().encodeToString(transcriptData);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
