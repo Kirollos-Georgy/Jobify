@@ -154,9 +154,9 @@ public class ApplicationsController {
         return "/Student/ApplyForAJobPosting";
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/student/{id}/apply")
-    public String applyForJobPosting(HttpServletRequest request, @PathVariable long id, ModelMap modelMap, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("default") String[] defaultInformation) {
-        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+    @RequestMapping(method = RequestMethod.POST, value = "/student/{id}/apply")
+    public String applyForJobPosting(HttpServletRequest request, @PathVariable long id, ModelMap modelMap, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam(value = "default", required = false) String[] defaultInformation) {
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
         String email = (String) request.getSession().getAttribute("email");
         StudentProfileInformation studentProfileInformation = studentProfileInformationService.getStudent(email);
         Applications application = new Applications();
@@ -165,20 +165,21 @@ public class ApplicationsController {
         boolean defaultCoverLetter = false;
         boolean defaultTranscript = false;
 
-        for (String s : defaultInformation) {
-            switch (s) {
-                case "defaultResume" -> defaultResume = true;
-                case "defaultCoverLetter" -> defaultCoverLetter = true;
-                case "defaultTranscript" -> defaultTranscript = true;
+        if (defaultInformation != null) {
+            for (String s : defaultInformation) {
+                switch (s) {
+                    case "defaultResume" -> defaultResume = true;
+                    case "defaultCoverLetter" -> defaultCoverLetter = true;
+                    case "defaultTranscript" -> defaultTranscript = true;
+                }
             }
         }
         try {
-            if(!defaultResume) {
+            if (!defaultResume) {
                 byte[] resumeBytes = resumeFile.getBytes();
                 Blob resumeBlob = new SerialBlob(resumeBytes);
                 application.setResume(resumeBlob);
-            }
-            else {
+            } else {
                 application.setResume(studentProfileInformation.getResume());
             }
             if (!defaultCoverLetter) {

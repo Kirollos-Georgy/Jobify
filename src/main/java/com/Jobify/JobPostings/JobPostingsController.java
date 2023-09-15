@@ -80,6 +80,7 @@ public class JobPostingsController {
         modelMap.addAttribute("employer", employerProfileInformation);
         modelMap.addAttribute("email", email);
         modelMap.addAttribute("status", status);
+        modelMap.addAttribute("applications", applications);
         return "/Student/ViewAJobPosting";
     }
 
