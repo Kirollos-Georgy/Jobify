@@ -31,18 +31,19 @@
         <div class="job-box">
             <h2><span th:text="${jobPosting.getTitle()}"></span></h2>
             <p><strong>Name:</strong> <span
-                    th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span></p>
+                    th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span>
+            </p>
             <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
             <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
             <a style="color:blue;" target="_blank"
-               th:href="'data:application/pdf;base64,' + ${studentInformation.getResumeBase64()}">Resume</a><br>
+               th:href="'data:application/pdf;base64,' + ${applications.getResumeBase64()}">Resume</a><br>
             <a style="color:blue;"
                target="_blank"
-               th:href="'data:application/pdf;base64,' + ${studentInformation.getCoverLetterBase64()}">Cover
+               th:href="'data:application/pdf;base64,' + ${applications.getCoverLetterBase64()}">Cover
                 Letter</a><br>
             <a style="color:blue;"
                target="_blank"
-               th:href="'data:application/pdf;base64,' + ${studentInformation.getTranscriptBase64()}">Transcript</a><br>
+               th:href="'data:application/pdf;base64,' + ${applications.getTranscriptBase64()}">Transcript</a><br>
             <form method="post"
                   th:action="@{/employer/{id}/applications/{applicationId}(id=${jobPosting.getId()}, applicationId=${applications.getId})}">
                 <input type="submit" value="Select for an interview">
