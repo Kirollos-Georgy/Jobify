@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -211,9 +214,81 @@ public class ApplicationsController {
         return "redirect:/student";
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/student/applications/{jobPostingId}/{id}/edit")
-    public void updateApplication(@RequestBody Applications application) {
+    @RequestMapping("/student/job-postings/{jobPostingId}/edit")
+    public String editJobPostingApplicationForm(@PathVariable long jobPostingId, ModelMap modelMap, HttpServletRequest request) {
+        JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        String email = (String) request.getSession().getAttribute("email");
+        modelMap.addAttribute("email", email);
+        return "/Student/EditAJobPostingApplication";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/student/job-postings/{jobPostingId}/edit")
+    public String editJobPostingApplication(HttpServletRequest request, @PathVariable long jobPostingId, ModelMap modelMap, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam(value = "default", required = false) String[] defaultInformation) {
+        JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
+        String email = (String) request.getSession().getAttribute("email");
+        StudentProfileInformation studentProfileInformation = studentProfileInformationService.getStudent(email);
+        Applications application = new Applications();
+        Applications oldApplication = applicationsService.getAllApplicationsByStudentEmailAndJobPostingId(email, jobPostingId);
+
+        boolean defaultResume = false;
+        boolean defaultCoverLetter = false;
+        boolean defaultTranscript = false;
+
+        if (defaultInformation != null) {
+            for (String s : defaultInformation) {
+                switch (s) {
+                    case "defaultResume" -> defaultResume = true;
+                    case "defaultCoverLetter" -> defaultCoverLetter = true;
+                    case "defaultTranscript" -> defaultTranscript = true;
+                }
+            }
+        }
+        try {
+            if (defaultResume || !resumeFile.isEmpty()) {
+                if (!defaultResume) {
+                    byte[] resumeBytes = resumeFile.getBytes();
+                    Blob resumeBlob = new SerialBlob(resumeBytes);
+                    application.setResume(resumeBlob);
+                } else {
+                    application.setResume(studentProfileInformation.getResume());
+                }
+            } else {
+                application.setResume(oldApplication.getResume());
+            }
+            if (defaultCoverLetter || !coverLetterFile.isEmpty()) {
+                if (!defaultCoverLetter) {
+                    byte[] coverLetterBytes = coverLetterFile.getBytes();
+                    Blob coverLetterBlob = new SerialBlob(coverLetterBytes);
+                    application.setCoverLetter(coverLetterBlob);
+                } else {
+                    application.setCoverLetter(studentProfileInformation.getCoverLetter());
+                }
+            } else {
+                application.setCoverLetter(oldApplication.getCoverLetter());
+            }
+            if (defaultTranscript || !unofficialTranscriptFile.isEmpty()) {
+                if (!defaultTranscript) {
+                    byte[] unofficialTranscriptBytes = unofficialTranscriptFile.getBytes();
+                    Blob unofficialTranscriptBlob = new SerialBlob(unofficialTranscriptBytes);
+                    application.setUnofficialTranscript(unofficialTranscriptBlob);
+                } else {
+                    application.setUnofficialTranscript(studentProfileInformation.getUnofficialTranscript());
+                }
+            } else {
+                application.setUnofficialTranscript(oldApplication.getUnofficialTranscript());
+            }
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        application.setId(oldApplication.getId());
+        application.setJobPostingsID(jobPosting.getId());
+        application.setStatus("Applied");
+        application.setStudentEmail(email);
+
         applicationsService.updateApplication(application);
+
+        return "redirect:/student/job-postings/" + jobPostingId;
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/student/applications/{jobPostingId}/{id}/delete")
