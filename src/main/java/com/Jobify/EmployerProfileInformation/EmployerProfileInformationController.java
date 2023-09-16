@@ -7,7 +7,6 @@ import com.Jobify.JobPostings.JobPostings;
 import com.Jobify.JobPostings.JobPostingsService;
 import com.Jobify.loginInformation.LoginInformationService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,21 +19,18 @@ import java.util.List;
 @Controller
 public class EmployerProfileInformationController {
 
-    @Autowired
-    private EmployerProfileInformationService employerProfileInformationService;
-    @Autowired
-    private LoginInformationService loginInformationService;
-    @Autowired
-    FeedbackService feedbackService;
-    @Autowired
-    JobPostingsService jobPostingsService;
-    @Autowired
-    ApplicationsService applicationsService;
+    private final EmployerProfileInformationService employerProfileInformationService;
+    private final LoginInformationService loginInformationService;
+    private final FeedbackService feedbackService;
+    private final JobPostingsService jobPostingsService;
+    private final ApplicationsService applicationsService;
 
-    //Not currently using it
-    @RequestMapping("/admin/view-employers")
-    public List<EmployerProfileInformation> getAllEmployers() {
-        return employerProfileInformationService.getAllEmployers();
+    public EmployerProfileInformationController(EmployerProfileInformationService employerProfileInformationService, LoginInformationService loginInformationService, FeedbackService feedbackService, JobPostingsService jobPostingsService, ApplicationsService applicationsService) {
+        this.employerProfileInformationService = employerProfileInformationService;
+        this.loginInformationService = loginInformationService;
+        this.feedbackService = feedbackService;
+        this.jobPostingsService = jobPostingsService;
+        this.applicationsService = applicationsService;
     }
 
     @RequestMapping("/employer/profile")
@@ -42,23 +38,18 @@ public class EmployerProfileInformationController {
         String email = (String) request.getSession().getAttribute("email");
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(email);
         modelMap.addAttribute("employerInformation", employerProfileInformation);
-        modelMap.addAttribute("email", email);
         return "/Employer/EmployerHomePage";
     }
 
     @RequestMapping("/admin/all-users/employer/{employerEmail}")
-    public String getEmployerForAdmin(@PathVariable String employerEmail, ModelMap modelMap, HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
+    public String getEmployerForAdmin(@PathVariable String employerEmail, ModelMap modelMap) {
         EmployerProfileInformation employer = employerProfileInformationService.getEmployer(employerEmail);
         modelMap.addAttribute("employerInformation", employer);
         return "/Admin/ViewEmployerUserProfile";
     }
 
     @GetMapping("/signUp/employer")
-    public String employerCreationForm(HttpServletRequest request, ModelMap modelMap) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
+    public String employerCreationForm() {
         return "/Creating account/CreatingEmployerProfile";
     }
 
@@ -73,42 +64,35 @@ public class EmployerProfileInformationController {
     @RequestMapping("/employer/profile/edit")
     public String updateEmployerForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
         EmployerProfileInformation employer = employerProfileInformationService.getEmployer(email);
         modelMap.addAttribute("employerInformation", employer);
         return "/Employer/EditingEmployerProfile";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/employer/profile/edit")
-    public String updateEmployer(EmployerProfileInformation employerProfileInformation, ModelMap modelMap, HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("email");
-        employerProfileInformation.setEmail(email);
-        modelMap.addAttribute("email", email);
-        employerProfileInformationService.updateEmployer(employerProfileInformation);
-        return "redirect:/employer/profile";
-    }
-
     @RequestMapping("/admin/all-users/employer/{employerEmail}/edit")
-    public String updateEmployerFormFromAdmin(HttpServletRequest request, ModelMap modelMap, @PathVariable String employerEmail) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
+    public String updateEmployerFormFromAdmin(ModelMap modelMap, @PathVariable String employerEmail) {
         EmployerProfileInformation employer = employerProfileInformationService.getEmployer(employerEmail);
         modelMap.addAttribute("employerInformation", employer);
         return "/Admin/EditingEmployerProfileAdmin";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/employer/{employerEmail}/edit")
-    public String updateEmployerFromAdmin(@PathVariable String employerEmail, EmployerProfileInformation employerProfileInformation, ModelMap modelMap, HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST, value = "/employer/profile/edit")
+    public String updateEmployer(EmployerProfileInformation employerProfileInformation, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
+        employerProfileInformation.setEmail(email);
+        employerProfileInformationService.updateEmployer(employerProfileInformation);
+        return "redirect:/employer/profile";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/employer/{employerEmail}/edit")
+    public String updateEmployerFromAdmin(@PathVariable String employerEmail, EmployerProfileInformation employerProfileInformation) {
         employerProfileInformation.setEmail(employerEmail);
-        modelMap.addAttribute("email", email);
         employerProfileInformationService.updateEmployer(employerProfileInformation);
         return "redirect:/admin/all-users/employer/" + employerEmail;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/employer/{employerEmail}/delete")
-    public String deleteEmployerFromAdmin(@PathVariable String employerEmail, HttpServletRequest request, ModelMap modelMap) {
-        String email = (String) request.getSession().getAttribute("email");
+    public String deleteEmployerFromAdmin(@PathVariable String employerEmail) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(employerEmail);
         for (JobPostings jobPosting : jobPostings) {
             List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(jobPosting.getId());
@@ -120,7 +104,6 @@ public class EmployerProfileInformationController {
         feedbackService.deleteFeedback(employerEmail);
         employerProfileInformationService.deleteEmployer(employerEmail);
         loginInformationService.deleteUser(employerEmail);
-        modelMap.addAttribute("email", email);
         return "redirect:/admin/all-users";
     }
 }
