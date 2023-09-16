@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Apply</title>
+    <!-- add the white screen in the middle  -->
+    <link href="/css/ApplyForAJobPosting.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/student}">Home</a></li>
+                <li><a th:href="@{/student/profile}">Profile</a></li>
+                <li><a th:href="@{/student/{status}(status='applications')}">Applications</a></li>
+                <li><a th:href="@{/student/{status}(status='interviews')}">Interviews</a></li>
+                <li><a th:href="@{/{accountType}/feedback(accountType='student')}">About</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- To add the shapes which are the two circles that surround the white screen that is in the middle of the website page -->
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<form enctype="multipart/form-data" method="post"
+      th:action="@{/student/job-postings/{id}/edit(id=${jobPosting.getId()})}">
+    <div class="container">
+        <br/>
+        <h3 style="color:orange;">Edit your application</h3>
+        <h4 style="color:orange;">Only select/upload the documents you want to change</h4>
+        <form enctype="multipart/form-data" method="post"
+              th:action="@{/student/job-postings/{id}/edit(id=${jobPosting.getId()})}">
+            <table>
+                <!-- add checkbox if user want to choose the Default resume, Default cover letter, Default transcript -->
+                <label>
+                    <input name="default" type="checkbox" value="defaultResume">Default resume<br>
+                </label>
+                <label>
+                    <input name="default" type="checkbox" value="defaultCoverLetter">Default cover letter<br>
+                </label>
+                <label>
+                    <input name="default" type="checkbox" value="defaultTranscript">Default transcript<br>
+                </label>
+                <!--Let the user upload documents as resume, cover letter and unofficial transcripts  -->
+                <div class="form-group">
+                    <label for="resume">Resume:</label>
+                    <input id="resume" name="resumeFile" type="file">
+                </div>
+                <div class="form-group">
+                    <label for="coverLetter">Cover Letter:</label>
+                    <input id="coverLetter" name="coverLetterFile" type="file">
+                </div>
+                <div class="form-group">
+                    <label for="transcript">Unofficial Transcript:</label>
+                    <input id="transcript" name="unofficialTranscriptFile" type="file">
+                </div>
+                <button class="submit-btn" type="submit">Submit</button>
+            </table>
+        </form>
+    </div>
+</form>
+</body>
+</html>
