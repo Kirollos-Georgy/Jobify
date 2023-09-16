@@ -388,4 +388,10 @@ public class ApplicationsController {
         applicationsService.deleteApplication(application.getId());
         return "redirect:/student";
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/job-postings/{jobPostingId}/applications/{id}/delete")
+    public String deleteApplicationFromAdmin(@PathVariable long jobPostingId, @PathVariable long id) {
+        applicationsService.deleteApplication(id);
+        return "redirect:/admin/job-postings/" + jobPostingId + "/applications";
+    }
 }
