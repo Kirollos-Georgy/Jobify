@@ -307,19 +307,19 @@ public class ApplicationsController {
     }
 
     @RequestMapping("/admin/job-postings/{jobPostingId}/applications/{id}/edit")
-    public String editJobPostingApplicationFormFromAdmin(@PathVariable long jobPostingId, ModelMap modelMap, HttpServletRequest request) {
+    public String editJobPostingApplicationFormFromAdmin(@PathVariable long jobPostingId, ModelMap modelMap, @PathVariable long id) {
         JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
         modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("applicationId", id);
         return "/Admin/EditAJobPostingApplication";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/admin/job-postings/{jobPostingId}/applications/{id}/edit")
-    public String editJobPostingApplicationFromAdmin(HttpServletRequest request, @PathVariable long jobPostingId, ModelMap modelMap, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam(value = "default", required = false) String[] defaultInformation) {
+    public String editJobPostingApplicationFromAdmin(@PathVariable long jobPostingId, @PathVariable long id, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam(value = "default", required = false) String[] defaultInformation) {
         JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
-        String email = (String) request.getSession().getAttribute("email");
-        StudentProfileInformation studentProfileInformation = studentProfileInformationService.getStudent(email);
+        Applications oldApplication = applicationsService.getApplication(id);
+        StudentProfileInformation studentProfileInformation = studentProfileInformationService.getStudent(oldApplication.getStudentEmail());
         Applications application = new Applications();
-        Applications oldApplication = applicationsService.getAllApplicationsByStudentEmailAndJobPostingId(email, jobPostingId);
 
         boolean defaultResume = false;
         boolean defaultCoverLetter = false;
@@ -374,11 +374,11 @@ public class ApplicationsController {
         application.setId(oldApplication.getId());
         application.setJobPostingsID(jobPosting.getId());
         application.setStatus("Applied");
-        application.setStudentEmail(email);
+        application.setStudentEmail(oldApplication.getStudentEmail());
 
         applicationsService.updateApplication(application);
 
-        return "redirect:/student/job-postings/" + jobPostingId;
+        return "redirect:/admin/job-postings/" + jobPostingId + "/applications/" + id;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/student/job-postings/{jobPostingId}/delete")
