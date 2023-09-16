@@ -5,7 +5,6 @@ import com.Jobify.Applications.ApplicationsService;
 import com.Jobify.Feedback.FeedbackService;
 import com.Jobify.loginInformation.LoginInformationService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +19,16 @@ import java.util.List;
 @Controller
 public class StudentProfileInformationController {
 
-    @Autowired
-    private StudentProfileInformationService studentProfileInformationService;
-    @Autowired
-    private ApplicationsService applicationsService;
-    @Autowired
-    private LoginInformationService loginInformationService;
-    @Autowired
-    FeedbackService feedbackService;
+    private final StudentProfileInformationService studentProfileInformationService;
+    private final ApplicationsService applicationsService;
+    private final LoginInformationService loginInformationService;
+    private final FeedbackService feedbackService;
 
-    //Not currently using it
-    @RequestMapping("/admin/students")
-    public String getAllStudents(ModelMap modelMap) {
-        List<StudentProfileInformation> students = studentProfileInformationService.getAllStudents();
-        modelMap.addAttribute("students", students);
-        return "/Admin/ViewAllStudents";
+    public StudentProfileInformationController(StudentProfileInformationService studentProfileInformationService, ApplicationsService applicationsService, LoginInformationService loginInformationService, FeedbackService feedbackService) {
+        this.studentProfileInformationService = studentProfileInformationService;
+        this.applicationsService = applicationsService;
+        this.loginInformationService = loginInformationService;
+        this.feedbackService = feedbackService;
     }
 
     @GetMapping("/student/profile")
@@ -46,20 +40,15 @@ public class StudentProfileInformationController {
         return "/Student/StudentHomePage";
     }
 
-
     @RequestMapping("/admin/all-users/student/{studentEmail}")
-    public String getStudentForAdmin(@PathVariable String studentEmail, ModelMap modelMap, HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
+    public String getStudentForAdmin(@PathVariable String studentEmail, ModelMap modelMap) {
         StudentProfileInformation student = studentProfileInformationService.getStudent(studentEmail);
         modelMap.addAttribute("studentInformation", student);
         return "/Admin/ViewStudentUserProfile";
     }
 
     @GetMapping("/signUp/student")
-    public String studentCreationForm(HttpServletRequest request, ModelMap modelMap) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
+    public String studentCreationForm() {
         return "/Creating account/CreatingUserProfile";
     }
 
@@ -94,76 +83,40 @@ public class StudentProfileInformationController {
     @GetMapping("/student/profile/edit")
     public String studentEditingForm(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
         StudentProfileInformation student = studentProfileInformationService.getStudent(email);
         modelMap.addAttribute("studentInformation", student);
         return "/Student/EditingUserProfile";
+    }
+
+    @GetMapping("/admin/all-users/student/{studentEmail}/edit")
+    public String studentEditingFormFromAdmin(ModelMap modelMap, @PathVariable String studentEmail) {
+        StudentProfileInformation student = studentProfileInformationService.getStudent(studentEmail);
+        modelMap.addAttribute("studentInformation", student);
+        return "/Admin/EditingUserProfileAdmin";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/student/profile/edit")
     public String updateStudent(HttpServletRequest request, StudentProfileInformation studentProfileInformation, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
         String email = (String) request.getSession().getAttribute("email");
         studentProfileInformation.setEmail(email);
+        updateStudent(studentProfileInformation, resumeFile, coverLetterFile, unofficialTranscriptFile, profilePictureFile, email);
+        return "redirect:/student/profile";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/student/{studentEmail}/edit")
+    public String updateStudentFromAdmin(@PathVariable String studentEmail, StudentProfileInformation studentProfileInformation, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
+        studentProfileInformation.setEmail(studentEmail);
+        updateStudent(studentProfileInformation, resumeFile, coverLetterFile, unofficialTranscriptFile, profilePictureFile, studentEmail);
+        return "redirect:/admin/all-users/student/" + studentEmail;
+    }
+
+    private void updateStudent(StudentProfileInformation studentProfileInformation, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile, String email) {
         StudentProfileInformation studentProfileInformation1 = studentProfileInformationService.getStudent(email);
         try {
             if (!resumeFile.isEmpty()) {
                 byte[] resumeBytes = resumeFile.getBytes();
                 Blob resumeBlob = new SerialBlob(resumeBytes);
                 studentProfileInformation.setResume(resumeBlob);
-            }
-            else {
-                studentProfileInformation.setResume(studentProfileInformation1.getResume());
-            }
-            if (!coverLetterFile.isEmpty()) {
-                byte[] coverLetterBytes = coverLetterFile.getBytes();
-                Blob coverLetterBlob = new SerialBlob(coverLetterBytes);
-                studentProfileInformation.setCoverLetter(coverLetterBlob);
-            }
-            else {
-                studentProfileInformation.setCoverLetter(studentProfileInformation1.getCoverLetter());
-            }
-            if (!unofficialTranscriptFile.isEmpty()) {
-                byte[] unofficialTranscriptBytes = unofficialTranscriptFile.getBytes();
-                Blob unofficialTranscriptBlob = new SerialBlob(unofficialTranscriptBytes);
-                studentProfileInformation.setUnofficialTranscript(unofficialTranscriptBlob);
-            }
-            else {
-                studentProfileInformation.setUnofficialTranscript(studentProfileInformation1.getUnofficialTranscript());
-            }
-            if (!profilePictureFile.isEmpty()) {
-                byte[] profilePictureBytes = profilePictureFile.getBytes();
-                Blob profilePictureBlob = new SerialBlob(profilePictureBytes);
-                studentProfileInformation.setProfilePicture(profilePictureBlob);
-            }
-            else {
-                studentProfileInformation.setProfilePicture(studentProfileInformation1.getProfilePicture());
-            }
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        studentProfileInformationService.updateStudent(studentProfileInformation);
-        return "redirect:/student/profile";
-    }
-
-    @GetMapping("/admin/all-users/student/{studentEmail}/edit")
-    public String studentEditingFormFromAdmin(HttpServletRequest request, ModelMap modelMap, @PathVariable String studentEmail) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
-        StudentProfileInformation student = studentProfileInformationService.getStudent(studentEmail);
-        modelMap.addAttribute("studentInformation", student);
-        return "/Admin/EditingUserProfileAdmin";
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/student/{studentEmail}/edit")
-    public String updateStudentFromAdmin(@PathVariable String studentEmail, StudentProfileInformation studentProfileInformation, @RequestParam("resumeFile") MultipartFile resumeFile, @RequestParam("coverLetterFile") MultipartFile coverLetterFile, @RequestParam("unofficialTranscriptFile") MultipartFile unofficialTranscriptFile, @RequestParam("profilePictureFile") MultipartFile profilePictureFile) {
-        studentProfileInformation.setEmail(studentEmail);
-        StudentProfileInformation studentProfileInformation1 = studentProfileInformationService.getStudent(studentEmail);
-        try {
-            if (!resumeFile.isEmpty()) {
-                byte[] resumeBytes = resumeFile.getBytes();
-                Blob resumeBlob = new SerialBlob(resumeBytes);
-                studentProfileInformation.setResume(resumeBlob);
             } else {
                 studentProfileInformation.setResume(studentProfileInformation1.getResume());
             }
@@ -193,12 +146,10 @@ public class StudentProfileInformationController {
         }
 
         studentProfileInformationService.updateStudent(studentProfileInformation);
-        return "redirect:/admin/all-users/student/" + studentEmail;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/admin/all-users/student/{studentEmail}/delete")
-    public String deleteStudentFromAdmin(@PathVariable String studentEmail, HttpServletRequest request, ModelMap modelMap) {
-        String email = (String) request.getSession().getAttribute("email");
+    public String deleteStudentFromAdmin(@PathVariable String studentEmail) {
         List<Applications> applications = applicationsService.getAllApplicationsByStudentEmail(studentEmail);
         for (Applications application : applications) {
             applicationsService.deleteApplication(application.getId());
@@ -206,7 +157,6 @@ public class StudentProfileInformationController {
         feedbackService.deleteFeedback(studentEmail);
         studentProfileInformationService.deleteStudent(studentEmail);
         loginInformationService.deleteUser(studentEmail);
-        modelMap.addAttribute("email", email);
         return "redirect:/admin/all-users";
     }
 }

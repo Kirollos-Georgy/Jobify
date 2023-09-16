@@ -5,7 +5,6 @@ import com.Jobify.Applications.ApplicationsService;
 import com.Jobify.EmployerProfileInformation.EmployerProfileInformation;
 import com.Jobify.EmployerProfileInformation.EmployerProfileInformationService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -16,28 +15,27 @@ import java.util.NoSuchElementException;
 @Controller
 public class JobPostingsController {
 
-    @Autowired
-    private JobPostingsService jobPostingsService;
-    @Autowired
-    private EmployerProfileInformationService employerProfileInformationService;
-    @Autowired
-    private ApplicationsService applicationsService;
+    private final JobPostingsService jobPostingsService;
+    private final EmployerProfileInformationService employerProfileInformationService;
+    private final ApplicationsService applicationsService;
+
+    public JobPostingsController(JobPostingsService jobPostingsService, EmployerProfileInformationService employerProfileInformationService, ApplicationsService applicationsService) {
+        this.jobPostingsService = jobPostingsService;
+        this.employerProfileInformationService = employerProfileInformationService;
+        this.applicationsService = applicationsService;
+    }
 
     @RequestMapping("/student")
-    public String getAllJobPostingsForStudent(ModelMap modelMap, HttpServletRequest request) {
+    public String getAllJobPostingsForStudent(ModelMap modelMap) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostings();
         modelMap.addAttribute("jobPostings", jobPostings);
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
         return "/Student/viewJobPostings";
     }
 
     @RequestMapping("/admin/job-postings")
-    public String getAllJobPostingsForAdmin(ModelMap modelMap, HttpServletRequest request) {
+    public String getAllJobPostingsForAdmin(ModelMap modelMap) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostings();
         modelMap.addAttribute("jobPostings", jobPostings);
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
         return "/Admin/viewJobPostingsAdmin";
     }
 
@@ -48,18 +46,13 @@ public class JobPostingsController {
         modelMap.addAttribute("jobPostings", jobPostings);
         return "/Employer/viewCreatedJobPostings";
     }
+
     @RequestMapping("/employer/interview")
     public String getAllJobPostingsByEmployerInterview(HttpServletRequest request, ModelMap modelMap) {
         String email = (String) request.getSession().getAttribute("email");
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostingsByEmployer(email);
         modelMap.addAttribute("jobPostings", jobPostings);
         return "/Employer/viewCreatedJobPostingsInterview";
-    }
-
-    @RequestMapping("/employer/{status}")
-    public List<JobPostings> getAllJobPostingsByEmployerAndStatus(HttpServletRequest request, @PathVariable String status) {
-        String email = (String) request.getSession().getAttribute("email");
-        return jobPostingsService.getAllJobPostingsByEmployerAndStatus(email, status);
     }
 
     @RequestMapping("/student/job-postings/{id}")
@@ -78,49 +71,40 @@ public class JobPostingsController {
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("employer", employerProfileInformation);
-        modelMap.addAttribute("email", email);
         modelMap.addAttribute("status", status);
         modelMap.addAttribute("applications", applications);
         return "/Student/ViewAJobPosting";
     }
 
     @RequestMapping("/employer/job-postings/{id}")
-    public String getJobPostingForEmployer(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
-        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+    public String getJobPostingForEmployer(@PathVariable long id, ModelMap modelMap) {
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("employer", employerProfileInformation);
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
         return "/Employer/ViewCreatedJobPosting";
     }
 
-    @RequestMapping("/employer/job-postings/{id}/interview")
-    public String getJobPostingForEmployerInterview(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
-        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
-        EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
-        modelMap.addAttribute("jobPosting", jobPosting);
-        modelMap.addAttribute("employer", employerProfileInformation);
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
-        return "/Employer/ViewCreatedJobPostingInterview";
-    }
-
     @RequestMapping("/admin/job-postings/{id}")
-    public String getJobPostingForAdmin(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
-        JobPostings jobPosting =  jobPostingsService.getJobPosting(id);
+    public String getJobPostingForAdmin(@PathVariable long id, ModelMap modelMap) {
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
         EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
         modelMap.addAttribute("jobPosting", jobPosting);
         modelMap.addAttribute("employer", employerProfileInformation);
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
         return "/Admin/ViewAJobPostingAdmin";
     }
 
+    @RequestMapping("/employer/job-postings/{id}/interview")
+    public String getJobPostingForEmployerInterview(@PathVariable long id, ModelMap modelMap) {
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
+        EmployerProfileInformation employerProfileInformation = employerProfileInformationService.getEmployer(jobPosting.getEmail());
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("employer", employerProfileInformation);
+        return "/Employer/ViewCreatedJobPostingInterview";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/employer/add-job-posting")
-    public String showAddJobPostingForm(HttpServletRequest request, ModelMap modelMap) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
+    public String showAddJobPostingForm() {
         return "/Employer/AddJobPosting";
     }
 
@@ -137,45 +121,38 @@ public class JobPostingsController {
     }
 
     @RequestMapping("/employer/{id}/edit")
-    public String updateJobPostingForm(HttpServletRequest request, ModelMap modelMap, @PathVariable int id) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
+    public String updateJobPostingForm(ModelMap modelMap, @PathVariable int id) {
         JobPostings jobPosting = jobPostingsService.getJobPosting(id);
         modelMap.addAttribute("jobPosting", jobPosting);
         return "/Employer/EditJobPosting";
     }
 
+    @RequestMapping("/admin/job-postings/{id}/edit")
+    public String updateJobPostingFormFromAdmin(ModelMap modelMap, @PathVariable int id) {
+        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        return "/Admin/EditJobPosting";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/employer/{id}/edit")
-    public String updateJobPosting(JobPostings jobPosting, ModelMap modelMap, HttpServletRequest request, @PathVariable long id) {
+    public String updateJobPosting(JobPostings jobPosting, HttpServletRequest request, @PathVariable long id) {
         String email = (String) request.getSession().getAttribute("email");
         JobPostings jobPostingOld = jobPostingsService.getJobPosting(id);
         jobPosting.setId(id);
         jobPosting.setEmail(email);
         jobPosting.setCompany(jobPostingOld.getCompany());
         jobPosting.setStatus(jobPostingOld.getStatus());
-        modelMap.addAttribute("email", email);
         jobPostingsService.updateJobPosting(jobPosting);
         return "redirect:/employer/job-postings/" + jobPosting.getId();
     }
 
-    @RequestMapping("/admin/job-postings/{id}/edit")
-    public String updateJobPostingFormFromAdmin(HttpServletRequest request, ModelMap modelMap, @PathVariable int id) {
-        String email = (String) request.getSession().getAttribute("email");
-        modelMap.addAttribute("email", email);
-        JobPostings jobPosting = jobPostingsService.getJobPosting(id);
-        modelMap.addAttribute("jobPosting", jobPosting);
-        return "/Admin/EditJobPosting";
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/admin/job-postings/{id}/edit")
-    public String updateJobPostingFromAdmin(JobPostings jobPosting, ModelMap modelMap, HttpServletRequest request, @PathVariable long id) {
-        String email = (String) request.getSession().getAttribute("email");
+    public String updateJobPostingFromAdmin(JobPostings jobPosting, @PathVariable long id) {
         JobPostings jobPostingOld = jobPostingsService.getJobPosting(id);
         jobPosting.setId(id);
         jobPosting.setEmail(jobPostingOld.getEmail());
         jobPosting.setCompany(jobPostingOld.getCompany());
         jobPosting.setStatus(jobPostingOld.getStatus());
-        modelMap.addAttribute("email", email);
         jobPostingsService.updateJobPosting(jobPosting);
         return "redirect:/admin/job-postings/" + jobPosting.getId();
     }
@@ -194,8 +171,7 @@ public class JobPostingsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/admin/job-postings/{id}/delete")
-    public String deleteJobPostingFromAdmin(@PathVariable long id, ModelMap modelMap, HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("email");
+    public String deleteJobPostingFromAdmin(@PathVariable long id) {
         List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(id);
         for (Applications application : applications) {
             applicationsService.deleteApplication(application.getId());

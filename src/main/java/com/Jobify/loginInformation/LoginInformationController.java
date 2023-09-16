@@ -12,7 +12,6 @@ import com.Jobify.JobPostings.JobPostingsService;
 import com.Jobify.StudentProfileInformation.StudentProfileInformation;
 import com.Jobify.StudentProfileInformation.StudentProfileInformationService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,24 +22,26 @@ import java.util.List;
 @Controller
 public class LoginInformationController {
 
-    @Autowired
-    private LoginInformationService loginInformationService;
-    @Autowired
-    private StudentProfileInformationService studentProfileInformationService;
-    @Autowired
-    private EmployerProfileInformationService employerProfileInformationService;
-    @Autowired
-    private AdminProfileInformationService adminProfileInformationService;
-    @Autowired
-    private FeedbackService feedbackService;
-    @Autowired
-    private ApplicationsService applicationsService;
-    @Autowired
-    private JobPostingsService jobPostingsService;
+    private final LoginInformationService loginInformationService;
+    private final StudentProfileInformationService studentProfileInformationService;
+    private final EmployerProfileInformationService employerProfileInformationService;
+    private final AdminProfileInformationService adminProfileInformationService;
+    private final FeedbackService feedbackService;
+    private final ApplicationsService applicationsService;
+    private final JobPostingsService jobPostingsService;
+
+    public LoginInformationController(LoginInformationService loginInformationService, StudentProfileInformationService studentProfileInformationService, EmployerProfileInformationService employerProfileInformationService, AdminProfileInformationService adminProfileInformationService, FeedbackService feedbackService, ApplicationsService applicationsService, JobPostingsService jobPostingsService) {
+        this.loginInformationService = loginInformationService;
+        this.studentProfileInformationService = studentProfileInformationService;
+        this.employerProfileInformationService = employerProfileInformationService;
+        this.adminProfileInformationService = adminProfileInformationService;
+        this.feedbackService = feedbackService;
+        this.applicationsService = applicationsService;
+        this.jobPostingsService = jobPostingsService;
+    }
 
     @RequestMapping("/admin/all-users")
-    public String getAllUsers(HttpServletRequest request, ModelMap modelMap) {
-        String email = (String) request.getSession().getAttribute("email");
+    public String getAllUsers(ModelMap modelMap) {
         List<LoginInformation> loginInformation = loginInformationService.getAllUsers();
         List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
         List<EmployerProfileInformation> employerProfileInformation = new ArrayList<>();
@@ -55,7 +56,6 @@ public class LoginInformationController {
                 case "admin" -> adminProfileInformation.add(adminProfileInformationService.getAdmin(tempEmail));
             }
         }
-        modelMap.addAttribute("email", email);
         modelMap.addAttribute("studentInformation", studentProfileInformation);
         modelMap.addAttribute("employerInformation", employerProfileInformation);
         modelMap.addAttribute("adminInformation", adminProfileInformation);
