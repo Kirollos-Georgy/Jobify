@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--the title of the website and the css for styling-->
+    <title>Jobify</title>
+    <link href="/css/viewJobPostings.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <h1>Jobify</h1>
+        <nav>
+            <ul> <!-- Change the pages -->
+                <li><a th:href="@{/admin/profile}">Profile</a></li>
+                <li><a th:href="@{/admin/all-users}">Current Users </a></li>
+                <li><a th:href="@{/admin/feedbacks}">User Feedback</a></li>
+                <li><a th:href="@{/admin/job-postings}">Job Postings</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!--In job section there is applicant information which includes the name,field,email that is added and store in the backend
+ Also with submit button when the student is selected for an interview-->
+<section id="jobs">
+    <div class="container">
+        <h2>Applicant Information</h2>
+        <div class="job-box">
+            <h2><span th:text="${jobPosting.getTitle()}"></span></h2>
+            <p><strong>Name:</strong> <span
+                    th:text="${studentInformation.getFirstName()} + ' ' + ${studentInformation.getLastName()}"></span>
+            </p>
+            <p><strong>Field of study:</strong> <span th:text="${studentInformation.getFieldOfStudy()}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${studentInformation.getEmail()}"></span></p>
+            <a style="color:blue;" target="_blank"
+               th:href="'data:application/pdf;base64,' + ${applications.getResumeBase64()}">Resume</a><br>
+            <a style="color:blue;"
+               target="_blank"
+               th:href="'data:application/pdf;base64,' + ${applications.getCoverLetterBase64()}">Cover
+                Letter</a><br>
+            <a style="color:blue;"
+               target="_blank"
+               th:href="'data:application/pdf;base64,' + ${applications.getTranscriptBase64()}">Transcript</a><br>
+            <form th:action="@{/admin/job-postings/{id}/applications/{applicationId}/edit(id=${jobPosting.getId()}, applicationId=${applications.getId})}">
+                <input type="submit" value="Edit application">
+            </form>
+            <form method="post"
+                  th:action="@{/admin/job-postings/{id}/applications/{applicationId}/delete(id=${jobPosting.getId()}, applicationId=${applications.getId})}">
+                <input type="submit" value="Delete application">
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .job-box {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    input[type = submit] {
+        background-color: #333;
+        border: none;
+        text-decoration: none;
+        color: #fff;;
+        padding: 10px 20px;
+        margin: 20px 20px;
+        cursor: pointer;
+    }
+</style>
+</body>
+</html>
