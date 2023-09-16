@@ -76,6 +76,10 @@
        th:href="'data:application/pdf;base64,' + ${applications.getTranscriptBase64()}">Transcript</a><br>
 </div>
 
+<form th:action="@{/student/job-postings/{id}/edit(id=${jobPosting.getId()})}" th:if="${status != null}">
+    <input type="submit" value="Edit application documents">
+</form>
+
 <form th:action="@{/student/{id}/apply(id=${jobPosting.getId()})}" th:if="${status == null}">
     <input type="submit" value="Apply">
 </form>
