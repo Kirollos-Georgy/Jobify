@@ -31,9 +31,18 @@ public class ApplicationsController {
     @Autowired
     private StudentProfileInformationService studentProfileInformationService;
 
-    @RequestMapping("/admin/applications")
-    public List<Applications> getAllApplications() {
-        return applicationsService.getAllApplications();
+    @RequestMapping("/admin/job-postings/{jobPostingId}/applications")
+    public String getAllApplicationsByJobPostingIdForAdmin(@PathVariable long jobPostingId, ModelMap modelMap, HttpServletRequest request) {
+        List<Applications> applications = applicationsService.getAllApplicationsByJobPostingId(jobPostingId);
+        List<StudentProfileInformation> studentProfileInformation = new ArrayList<>();
+        JobPostings jobPosting = jobPostingsService.getJobPosting(jobPostingId);
+        for (Applications application : applications) {
+            studentProfileInformation.add(studentProfileInformationService.getStudent(application.getStudentEmail()));
+        }
+        modelMap.addAttribute("studentInformation", studentProfileInformation);
+        modelMap.addAttribute("jobPosting", jobPosting);
+        modelMap.addAttribute("applications", applications);
+        return "/Admin/ViewStudentApplications";
     }
 
     @RequestMapping("/student/{status}")
