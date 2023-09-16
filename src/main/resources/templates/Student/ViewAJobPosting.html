@@ -80,6 +80,11 @@
     <input type="submit" value="Edit application documents">
 </form>
 
+<form method="post" th:action="@{/student/job-postings/{id}/delete(id=${jobPosting.getId()})}"
+      th:if="${status != null}">
+    <input type="submit" value="Delete application">
+</form>
+
 <form th:action="@{/student/{id}/apply(id=${jobPosting.getId()})}" th:if="${status == null}">
     <input type="submit" value="Apply">
 </form>
