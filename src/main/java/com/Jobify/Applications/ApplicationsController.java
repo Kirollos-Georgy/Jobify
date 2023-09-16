@@ -291,8 +291,11 @@ public class ApplicationsController {
         return "redirect:/student/job-postings/" + jobPostingId;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/student/applications/{jobPostingId}/{id}/delete")
-    public void deleteApplication(@PathVariable long id) {
-        applicationsService.deleteApplication(id);
+    @RequestMapping(method = RequestMethod.POST, value = "/student/job-postings/{jobPostingId}/delete")
+    public String deleteApplication(@PathVariable long jobPostingId, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        Applications application = applicationsService.getAllApplicationsByStudentEmailAndJobPostingId(email, jobPostingId);
+        applicationsService.deleteApplication(application.getId());
+        return "redirect:/student";
     }
 }
