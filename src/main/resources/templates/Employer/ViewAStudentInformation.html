@@ -44,7 +44,9 @@
             <a style="color:blue;"
                target="_blank"
                th:href="'data:application/pdf;base64,' + ${applications.getTranscriptBase64()}">Transcript</a><br>
-            <form method="post"
+            <p th:if="${applications.getStatus().equals('Selected for interview')}"><strong>Student selected for an
+                interview</strong></p>
+            <form method="post" th:if="${!applications.getStatus().equals('Selected for interview')}"
                   th:action="@{/employer/{id}/applications/{applicationId}(id=${jobPosting.getId()}, applicationId=${applications.getId})}">
                 <input type="submit" value="Select for an interview">
             </form>
