@@ -32,6 +32,13 @@ public class JobPostingsController {
         return "/Student/viewJobPostings";
     }
 
+    @RequestMapping("/student/search-job-postings")
+    public String getJobPostingsBySearchForStudent(ModelMap modelMap, @RequestParam("search") String search) {
+        List<JobPostings> jobPostings = jobPostingsService.getJobPostingsByTitleSearch(search);
+        modelMap.addAttribute("jobPostings", jobPostings);
+        return "/Student/viewJobPostings";
+    }
+
     @RequestMapping("/admin/job-postings")
     public String getAllJobPostingsForAdmin(ModelMap modelMap) {
         List<JobPostings> jobPostings = jobPostingsService.getAllJobPostings();
