@@ -5,7 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface JobPostingsRepository extends CrudRepository<JobPostings, String> {
-    public List<JobPostings> findByEmail(String email);
-    public List<JobPostings> findByStatus(String status);
-    public List<JobPostings> findByEmailAndStatus(String email, String status);
+    List<JobPostings> findByEmail(String email);
+    List<JobPostings> findByStatus(String status);
+    List<JobPostings> findByEmailAndStatus(String email, String status);
+
+    List<JobPostings> findByTitleContaining(String search);
 }

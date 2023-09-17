@@ -22,19 +22,29 @@ public class JobPostingsService {
         jobPostingsRepository.findByEmail(email).forEach(jobPostings::add);
         return jobPostings;
     }
+
     public List<JobPostings> getAllJobPostingsByStatus(String status) {
         List<JobPostings> jobPostings = new ArrayList<>();
         jobPostingsRepository.findByStatus(status).forEach(jobPostings::add);
         return jobPostings;
     }
+
     public List<JobPostings> getAllJobPostingsByEmployerAndStatus(String email, String status) {
         List<JobPostings> jobPostings = new ArrayList<>();
         jobPostingsRepository.findByEmailAndStatus(email, status).forEach(jobPostings::add);
         return jobPostings;
     }
+
+    public List<JobPostings> getJobPostingsByTitleSearch(String search) {
+        List<JobPostings> jobPostings = new ArrayList<>();
+        jobPostingsRepository.findByTitleContaining(search).forEach(jobPostings::add);
+        return jobPostings;
+    }
+
     public JobPostings getJobPosting(long id) {
         return jobPostingsRepository.findById(String.valueOf(id)).get();
     }
+
     public void addJobPosting(JobPostings jobPosting) {
         jobPostingsRepository.save(jobPosting);
     }
